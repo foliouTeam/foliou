@@ -1,12 +1,12 @@
 {
-  "name": "foliou-popup",
-  "version": "0.0.5",
-  "description": "popup",
+  "name": "glogin",
+  "version": "1.0.0",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "gitHead": "1a956993a0daef9d5690e7555438b97df86ac2ec"
+  "description": ""
 }
