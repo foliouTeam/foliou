@@ -1,12 +1,12 @@
 {
   "name": "downloadway",
   "version": "0.0.6",
-  "description": "",
+  "description": "分区到下载前端插件",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "roc",
   "license": "ISC"
 }

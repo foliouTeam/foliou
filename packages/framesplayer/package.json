@@ -1,12 +1,12 @@
 {
   "name": "framesplayer",
   "version": "0.0.6",
-  "description": "",
+  "description": "一款序列帧播放器",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "roc",
   "license": "ISC"
 }

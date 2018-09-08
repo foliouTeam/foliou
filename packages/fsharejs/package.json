@@ -1,12 +1,12 @@
 {
   "name": "fsharejs",
   "version": "0.0.6",
-  "description": "",
+  "description": "一款移动端的分享组件",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "roc",
   "license": "ISC"
 }

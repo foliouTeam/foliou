@@ -1,12 +1,12 @@
 {
   "name": "fprefix",
   "version": "0.0.6",
-  "description": "",
+  "description": "获取css3属性的当前浏览器前缀",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "roc",
   "license": "ISC"
 }
