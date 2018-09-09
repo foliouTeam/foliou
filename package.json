@@ -2,6 +2,8 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@tarojs/taro": "^1.0.0-beta.25",
+    "flv.js": "^1.4.2",
     "lerna": "^3.3.0"
   }
 }
