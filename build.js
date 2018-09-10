@@ -4,8 +4,6 @@ var postcss = require('rollup-plugin-postcss');
 var postimage = require('@timdp/rollup-plugin-image');
 var posthtml = require('rollup-plugin-posthtml-template');
 
-
-
 async function build(input) {
     const bundle = await rollup.rollup({
         input: input,
