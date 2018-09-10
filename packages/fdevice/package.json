@@ -1,6 +1,6 @@
 {
   "name": "fdevice",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "设备类型判断",
   "main": "index.js",
   "scripts": {

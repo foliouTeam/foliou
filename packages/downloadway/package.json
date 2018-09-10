@@ -1,6 +1,6 @@
 {
   "name": "downloadway",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "分区到下载前端插件",
   "main": "index.js",
   "scripts": {

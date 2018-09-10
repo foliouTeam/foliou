@@ -1,6 +1,6 @@
 {
   "name": "fpopup",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "一款通用的弹窗位置，现实，隐藏控制组件",
   "main": "index.js",
   "scripts": {

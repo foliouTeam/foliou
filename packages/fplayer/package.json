@@ -1,6 +1,6 @@
 {
   "name": "fplayer",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "一款提供flash 和 html5播放的视频播放器，支持弹窗播放",
   "main": "index.js",
   "scripts": {

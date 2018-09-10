@@ -1,6 +1,6 @@
 {
   "name": "fsharejs",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "一款移动端的分享组件",
   "main": "index.js",
   "scripts": {

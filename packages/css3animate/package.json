@@ -1,6 +1,6 @@
 {
   "name": "css3animate",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "description": "jquery zepto css3动画操作扩展",
   "main": "index.js",
   "scripts": {
