@@ -1,3 +1,6 @@
+var fs = require('fs');
+var stat = fs.stat;
+var path = require("path");
 class Files{
     static copy(src,dst){
         var _self = this;
@@ -10,7 +13,7 @@ class Files{
                 var _dst=dst+'/'+path;
                 var readable;
                 var writable;
-                stat(_src,function(err,st){
+                fs.stat(_src,function(err,st){
                     if(err){
                         throw err;
                     }
@@ -33,7 +36,7 @@ class Files{
                 var _src=src+'/'+path;
                 var readable;
                 var writable;
-                stat(_src,function(err,st){
+                fs.stat(_src,function(err,st){
                     if(err){
                         throw err;
                     }
@@ -46,27 +49,43 @@ class Files{
         });
         // return filestlist;
     }
+    
     static async getFiles(src){
-        fs.readdir(src,function(err,paths){
-            var filestlist = new Array();
-            paths.forEach(function(path){
-                var _src=src+'/'+path;
-                var readable;
-                var writable;
-                stat(_src,function(err,st){
-                    if(err){
-                        throw err;
-                    }
-                    if(st.isFile()){
-                        
-                        readable.pipe(writable);
-                    }else if(st.isDirectory()){
-                        Files.exists(_src,_dst,Files.copy);
-                    }
+        var pool = new Map();
+        var files = [];
+        async function travelSync(dir){
+            
+            await fs.readdir(dir,function(err,paths){
+                paths.forEach(function(path){
+                    var _src=dir+'/'+path;
+                    var i = 0;
+                    fs.stat(_src,function(err,st){
+                        i++;
+                        if(err){
+                            throw err;
+                        }
+                        if(st.isFile()){
+                            files.push(_src);
+                        }else if(st.isDirectory()){
+                            pool.set(_src,1);
+                            travelSync(_src);
+                        }
+                        if(i>=paths.length){
+                            pool.delete(dir);
+                            console.log(pool);
+                        }
+                    });
                 });
+                console.log(paths.length);
+                if(paths.length==0){
+                    pool.delete(dir);
+                }
             });
-            callback(filestlist);
-        });
+            //
+            
+        }
+        await travelSync(src);
+        await console.log(files);
     }
     static exists(src,dst,callback){
         fs.exists(dst,function(exists){
