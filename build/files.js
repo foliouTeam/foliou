@@ -14,6 +14,7 @@ class Files{
                     if(err){
                         throw err;
                     }
+            
                     
                     if(st.isFile()){
                         readable=fs.createReadStream(_src);//创建读取流
