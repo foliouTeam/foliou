@@ -3,6 +3,38 @@ var json = require('rollup-plugin-json');
 var postcss = require('rollup-plugin-postcss');
 var postimage = require('@timdp/rollup-plugin-image');
 var posthtml = require('rollup-plugin-posthtml-template');
+var fs = require('fs');
+var path = require('path');
+var Files = require('files');
+class Build {
+    constructor() {
+        this.packageDir = "packages"
+    }
+    async getAssets(){
+        
+    }
+    async build() {
+        const bundle = await rollup.rollup({
+            input: input,
+            plugins: [
+                postimage(),
+                json(),
+                postcss(),
+                posthtml()
+            ]
+        });
+        var outputOptions = {
+            file: 'dist/' + input,
+            format: 'cjs'
+        };
+        const {
+            code,
+            map
+        } = await bundle.generate(outputOptions);
+        // or write the bundle to disk
+        await bundle.write(outputOptions);
+    }
+}
 
 async function build(input) {
     const bundle = await rollup.rollup({
