@@ -1,46 +1,46 @@
 var fs = require('fs');
 var stat = fs.stat;
 var path = require("path");
-class Files{
-    static copy(src,dst){
+class Files {
+    static copy(src, dst) {
         var _self = this;
-        fs.readdir(src,function(err,paths){
-            if(err){
+        fs.readdir(src, function (err, paths) {
+            if (err) {
                 throw err;
             }
-            paths.forEach(function(path){
-                var _src=src+'/'+path;
-                var _dst=dst+'/'+path;
+            paths.forEach(function (path) {
+                var _src = src + '/' + path;
+                var _dst = dst + '/' + path;
                 var readable;
                 var writable;
-                fs.stat(_src,function(err,st){
-                    if(err){
+                fs.stat(_src, function (err, st) {
+                    if (err) {
                         throw err;
                     }
-        
-                    if(st.isFile()){
-                        readable=fs.createReadStream(_src);//创建读取流
-                        writable=fs.createWriteStream(_dst);//创建写入流
+
+                    if (st.isFile()) {
+                        readable = fs.createReadStream(_src);//创建读取流
+                        writable = fs.createWriteStream(_dst);//创建写入流
                         readable.pipe(writable);
-                    }else if(st.isDirectory()){
-                        Files.exists(_src,_dst,Files.copy);
+                    } else if (st.isDirectory()) {
+                        Files.exists(_src, _dst, Files.copy);
                     }
                 });
             });
         });
     }
-    static getDirs(src,callback){
-        fs.readdir(src,function(err,paths){
+    static getDirs(src, callback) {
+        fs.readdir(src, function (err, paths) {
             var filestlist = new Array();
-            paths.forEach(function(path){
-                var _src=src+'/'+path;
+            paths.forEach(function (path) {
+                var _src = src + '/' + path;
                 var readable;
                 var writable;
-                fs.stat(_src,function(err,st){
-                    if(err){
+                fs.stat(_src, function (err, st) {
+                    if (err) {
                         throw err;
                     }
-                    if(st.isDirectory()){
+                    if (st.isDirectory()) {
                         filestlist.push(_src);
                     }
                 });
@@ -49,51 +49,77 @@ class Files{
         });
         // return filestlist;
     }
-    
-    static async getFiles(src){
+    static travelSync(dir) {
         var pool = new Map();
         var files = [];
-        async function travelSync(dir){
-            
-            await fs.readdir(dir,function(err,paths){
-                paths.forEach(function(path){
-                    var _src=dir+'/'+path;
+        function travel(dir, finish) {
+            pool.set(dir, 1);
+            try {
+                fs.readdir(dir, function (err, paths) {
                     var i = 0;
-                    fs.stat(_src,function(err,st){
-                        i++;
-                        if(err){
-                            throw err;
-                        }
-                        if(st.isFile()){
-                            files.push(_src);
-                        }else if(st.isDirectory()){
-                            pool.set(_src,1);
-                            travelSync(_src);
-                        }
-                        if(i>=paths.length){
-                            pool.delete(dir);
-                            console.log(pool);
-                        }
+                    paths.forEach(function (path) {
+                        var _src = dir + '/' + path;
+                        fs.stat(_src, function (err, st) {
+                            i++;
+                            if (err) {
+                                //throw err;
+                                return;
+                            }
+                            if (st.isFile()) {
+                                files.push(_src);
+                            } else if (st.isDirectory()) {
+                                travel(_src, finish);
+                            }
+                            if (i >= paths.length) {
+                                pool.delete(dir);
+                                if (pool.size == 0) {
+                                    finish(files);
+                                }
+                            }
+                        });
                     });
+
+                    if (paths.length == 0) {
+                        pool.delete(dir);
+                        if (pool.size == 0) {
+                            console.log('finish2');
+                            finish(files);
+                        }
+                        //resolve(files);
+                    }
                 });
-                console.log(paths.length);
-                if(paths.length==0){
-                    pool.delete(dir);
+            } catch (error) {
+                pool.delete(dir);
+                if (pool.size == 0) {
+                    console.log('finish3');
+                    finish(files);
                 }
-            });
-            //
-            
+            }
+
         }
-        await travelSync(src);
-        await console.log(files);
+        return new Promise(function (resolve, reject) {
+            try {
+                travel(dir, function (files) {
+                    resolve(files);
+                })
+            } catch (error) {
+                reject(error);
+            }
+        });
     }
-    static exists(src,dst,callback){
-        fs.exists(dst,function(exists){
-            if(exists){//不存在
-                callback(src,dst);
-            }else{//存在
-                fs.mkdir(dst,function(){//创建目录
-                    callback(src,dst)
+    static async getFiles(src) {
+        var files = await this.travelSync(src);
+        console.log(files);
+        return files;
+        //return files;
+    }
+    static exists(src, dst, callback) {
+        fs.exists(dst, function (exists) {
+            if (exists) {//不存在
+                callback(src, dst);
+            } else {//存在
+                fs.mkdir(dst, function () {//创建目录
+                    callback(src, dst)
                 })
             }
         })

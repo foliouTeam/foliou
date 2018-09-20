@@ -1,6 +1,8 @@
 import Files from './files';
 
-async function main(){
-    await Files.getFiles('../packages');
+function main(){
+    Files.getFiles('../packages').then(function(files){
+        console.log(files);
+    });
 } 
 main();
