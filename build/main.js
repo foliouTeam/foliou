@@ -9,7 +9,7 @@ import Files from './files';
 class Build {
     constructor() {
         this.packageDir = "packages";
-        this.assetsType = ['css','scss','html','json','gif','png','jpg','jpeg','svg','js']
+        this.assetsType = ['css','scss','html','json','gif','png','jpg','jpeg','svg']
     }
     async getAssets() {
         var _self = this;
@@ -20,19 +20,20 @@ class Build {
                         if (st.isDirectory()) {
                             console.log(element + '有资源');
                             Files.getFiles(element + '/assets/').then(function (filelist) {
-                                var tempfileData = 'var Assets = {};\n';
+                                var tempfileData = '';
                                 console.log(filelist);
                                 var extname;
                                 var relname;
                                 for(var fileIndex in filelist){
                                     extname = path.extname(filelist[fileIndex]).replace('.','');
-                                    console.log(extname);
+                                    
                                     relname = path.relative(element + '/assets/',filelist[fileIndex]);
-                                    if(_self.assetsType.indexOf(extname)>-1){
-                                        tempfileData+='Assets["'+relname+'"]= require("./'+path.relative(element + '/assets/',filelist[fileIndex]) +'");\n'                                     
+                                    if(relname!='rullup_temp.js'&& _self.assetsType.indexOf(extname)>-1){
+                                        //tempfileData+='Assets["'+relname+'"]= require("./'+path.relative(element + '/assets/',filelist[fileIndex]) +'");\nconsole.log(Assets["'+relname+'"])\n'                                     
+                                        tempfileData+='import '+relname.replace('.','_')+' from "./'+relname+'";\nconsole.log('+relname.replace('.','_')+');\n';
                                     }
                                 }
-                                tempfileData+='export default Assets;';
+                                tempfileData+='';
                                 console.log(tempfileData);
                                 try {
                                     fs.writeFile(element + '/assets/rullup_temp.js', tempfileData, function (err) {
