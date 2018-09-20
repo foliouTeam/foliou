@@ -32,20 +32,27 @@ class Files {
     static getDirs(src, callback) {
         fs.readdir(src, function (err, paths) {
             var filestlist = new Array();
-            paths.forEach(function (path) {
+            var i = 0;
+            paths.forEach(function (path,j) {
                 var _src = src + '/' + path;
                 var readable;
                 var writable;
                 fs.stat(_src, function (err, st) {
                     if (err) {
-                        throw err;
+                        return;
                     }
                     if (st.isDirectory()) {
+
                         filestlist.push(_src);
+                    }
+                    if(j==paths.length-1){
+                        callback(filestlist);
                     }
                 });
             });
-            callback(filestlist);
+            if(paths.length==0){
+                callback(filestlist);
+            }
         });
         // return filestlist;
     }
@@ -109,15 +116,15 @@ class Files {
     }
     static async getFiles(src) {
         var files = await this.travelSync(src);
-        console.log(files);
+        //console.log(files);
         return files;
         //return files;
     }
     static exists(src, dst, callback) {
         fs.exists(dst, function (exists) {
-            if (exists) {//不存在
+            if (exists) {//存在
                 callback(src, dst);
-            } else {//存在
+            } else {//bu存在
                 fs.mkdir(dst, function () {//创建目录
                     callback(src, dst)
                 })
