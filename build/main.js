@@ -65,7 +65,7 @@ class Build {
         console.log(input);
         console.log(output);
         //return;
-        console.log(path.dirname(input) + '/**/*.{html,sgr}');
+        console.log('../**/*.{html,sgr}');
         const bundle = await rollup.rollup({
             input: input,
             plugins: [
@@ -73,7 +73,7 @@ class Build {
                 json(),
                 postcss(),
                 posthtml({
-                    include: path.dirname(input) + '/**/*.{html,sgr}'
+                    include: '../**/*.{html,sgr}'
                 })
             ]
         });
