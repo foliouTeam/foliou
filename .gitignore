@@ -10,5 +10,5 @@ _book
 temp
 website/build
 website/package.json
-
+.temp/
 assets/index.js
