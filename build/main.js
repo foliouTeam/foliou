@@ -5,7 +5,7 @@ var postimage = require('@timdp/rollup-plugin-image');
 var posthtml = require('rollup-plugin-posthtml-template');
 var fs = require('fs');
 var path = require('path');
-import Files from './files';
+import Files from './lib/files';
 class Build {
     constructor() {
         this.packageDir = "packages";
