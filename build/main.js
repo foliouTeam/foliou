@@ -24,13 +24,15 @@ class Build {
                                 console.log(filelist);
                                 var extname;
                                 var relname;
+                                var valname;
                                 for (var fileIndex in filelist) {
                                     extname = path.extname(filelist[fileIndex]).replace('.', '');
 
                                     relname = path.relative(element + '/assets/', filelist[fileIndex]);
+                                    valname = relname.replace('.', '_').replace('\\', '_').replace('/', '_');
                                     if (relname != 'rullup_temp.js' && _self.assetsType.indexOf(extname) > -1) {
                                         //tempfileData+='Assets["'+relname+'"]= require("./'+path.relative(element + '/assets/',filelist[fileIndex]) +'");\nconsole.log(Assets["'+relname+'"])\n'                                     
-                                        tempfileData += 'import ' + relname.replace('.', '_').replace('\\', '_') + ' from "../' + relname.replace('\\','/') + '";\nassets["' + relname.replace('\\','/') + '"]=' + relname.replace('.', '_').replace('\\', '_') + ';\n';
+                                        tempfileData += 'import ' + valname + ' from "../' + relname.replace('\\','/') + '";\nassets["' + relname.replace('\\','/') + '"]=' + valname + ';\n';
                                     }
                                 }
                                 tempfileData += 'export default assets;';
