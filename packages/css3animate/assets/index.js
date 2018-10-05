@@ -27,7 +27,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css = "body {\n  background: red; }\n  body a {\n    background: url(require(\"./icon.png\")); }\n";
+var css = "body {\n  background: red; }\n  body a {\n    background: #fff; }\n";
 styleInject(css);
 
 var html_test_html = "<p>Hello</p>\n<p><%= text=\"\" %=\"\"></%=></p>";

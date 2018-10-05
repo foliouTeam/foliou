@@ -3,8 +3,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "gulp serve",
-    "build": "node build.js",
+    "dev": "node build/index.js",
+    "build": "node build/index.js",
     "test": "ng test",
     "lint": "ng lint"
   },
