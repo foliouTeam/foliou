@@ -4,4 +4,6 @@
 * 3、生成 assets/tmp.js文件,
 * 4、打包产生assets/index.js;
 * 5、监听资源文件变化
-* 阶段性完成
+
+## 阶段2
+* 1、多demo 导出
