@@ -4,12 +4,9 @@ function fPack(options) {
         enter: 'js/main.js',
         output: 'all.js',
         src: './src/',
-        moduleJs: true,
         dist: './dist/',
-        htmlmin: true,
         imagemin: true,
         spriteDir: 'images/icons',
-        copy: true,
         server: {
             proxyTable: []
         },
@@ -44,7 +41,8 @@ function fPack(options) {
     var cache = require('gulp-cache');
     var imagemin = require('gulp-imagemin');
     var spritesmith = require('gulp.spritesmith');
-
+    var htmlmin = require('gulp-htmlmin');
+    var path = require('path');
     function getFolder(){
         
     }
@@ -194,6 +192,6 @@ function fPack(options) {
         return merge(imgStream, cssStream);
     })
 
-    gulp.task('default', ['dev']);
+    gulp.task('default', taskArray);
 }
 module.exports = fPack;
