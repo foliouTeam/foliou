@@ -7,8 +7,12 @@ function fPack(options) {
         dist: './dist/',
         imagemin: true,
         spriteDir: 'images/icons',
+        iconScale:1,
         server: {
-            proxyTable: []
+            proxyTable: [{
+                key:[],
+                target:''
+            }]
         },
         publish: {
             "svnpath": "",
@@ -29,6 +33,7 @@ function fPack(options) {
         taskArray.push(name);
         gulp.task(name, fun);
     }
+    
 
     var through = require('through2');
     var browserSync = require('browser-sync').create();
@@ -43,6 +48,8 @@ function fPack(options) {
     var spritesmith = require('gulp.spritesmith');
     var htmlmin = require('gulp-htmlmin');
     var path = require('path');
+    var clean = require('gulp-clean');
+    var proxyMiddleware = require('http-proxy-middleware');
     function getFolder(){
         
     }
@@ -167,7 +174,7 @@ function fPack(options) {
                 // Convert sprites from an array into an object
                 var spriteObj = {};
                 var styleString = '';
-                var scale = CONFIG.iconScale;
+                var scale = options.iconScale;
                 data.sprites.forEach(function (sprite) {
                     styleString += '.icon_' + sprite.name + '{display:inline-block;width:' + Math.round(sprite.width * scale) + 'px;height:' + Math.round(sprite.height * scale) + 'px;background:url(../images/icons/' + sprite.image + ') no-repeat ' + Math.round(sprite.offset_x * scale) + 'px ' + Math.round(sprite.offset_y * scale) + 'px/ ' + Math.round(sprite.total_width * scale) + 'px ' + Math.round(sprite.total_height * scale) + 'px;}\n';
                     // Grab the name and store the sprite under it
@@ -191,6 +198,70 @@ function fPack(options) {
             .pipe(gulp.dest(options.dist + '/css/'));
         return merge(imgStream, cssStream);
     })
+    this.addTask('copy',function(){
+        var filen = "";
+            /////拷贝当前目录下的
+            let task1 = gulp.src(src + "/*.!(html|shtml)")
+                .pipe(gulp.dest(outpath));
+            ///二级目录以上的
+            let task2 = gulp.src(src + "/!(lib|modules|node_modules|js|css|images|icons)/**/*.*")
+                .pipe(through.obj(function (file, enc, cb) {
+                    filen = file.relative.split(path.sep);
+                    filen.pop();
+                    filen = '/' + filen.join("/");
+                    cb(null, file);
+                }))
+                .pipe(gulp.dest(outpath + filen));
+
+            return merge([task1, task2])
+    })
+    this.addTask('clean',function(done){
+        var task1 = gulp.src(outpath, {
+                    read: false
+                })
+                .pipe(clean());
+        var task2 = cache.clearAll(done);
+        return merge([task1, task2])
+    });
+
+    this.addTask('server',function(){
+
+        var middlewares = [];
+        var curproxyTable;
+        for(var i in options.server.proxyTable){
+            curproxyTable = options.server.proxyTable[i];
+            middleware.push(proxyMiddleware(curproxyTable['keys'], {
+                target: curproxyTable['target'],
+                changeOrigin: true
+            }));
+        }
+        // // 代理配置, 实现环境切换
+        // var middleware = proxyMiddleware(proxyTargetKey, {
+        //     target: proxyTarget,
+        //     changeOrigin: true
+        // });
+        browserSync.init({
+            server: {
+                baseDir: outpath,
+                index: "index.html",
+                middleware: middlewares
+            }
+        });
+    });
+    this.addTask('watch',function(){
+        //监听排除文件夹外的第一级目录，和二级以上的文件
+        gulp.watch([src + '/*.!(html|shtml)', src + '/!(lib|modules|node_modules|js|css|images)/**'], ['copy']);
+        //只监听html文件
+        gulp.watch(src + '/**/*.{html,shtml}', ['htmlmin']);
+        //监听二级目录下的样式文件,一级以上只执行copy
+        gulp.watch(src + '/!(lib|modules|node_modules)/**/*.{css,scss,sass,less}', ['buildcss']);
+        //监听二级目录下的js文件,执行打包（只会打包成一个文件）。一级以上只执行copy
+        gulp.watch(src + '/!(lib|modules|node_modules)/**/*.js', ['modulepack']);
+        //监听二级目录下的img文件,执行优化。一级以上只执行copy
+        gulp.watch(src + '/!(lib|modules|node_modules)/**/*.{png,jpg,gif,ico}', ['imagemin']);
+        gulp.watch(src + '/images/icons/*.png', ['sprite']);
+    });
+
 
     gulp.task('default', taskArray);
 }
