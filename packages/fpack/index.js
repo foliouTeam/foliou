@@ -58,9 +58,14 @@ function fPack(options) {
     var path = require('path');
     var clean = require('gulp-clean');
     var proxyMiddleware = require('http-proxy-middleware');
+    var runSequence = require('run-sequence');
     function getFolder(){
         
     }
+    // this.addTask('test',function(){
+    //     return gulp.scr('./*.*')
+    // });
+    
     //添加html压缩
     this.addTask('htmlmin', function () {
         var options = {
@@ -271,6 +276,14 @@ function fPack(options) {
     });
 
     console.log(taskArray);
-    gulp.task('default', ['cssmin']);
+    gulp.task('test',function(){
+        return gulp.src('./*.*')
+    });
+    gulp.task('dev');
+    gulp.task('default' , function (done) {
+        return runSequence(
+            ['test'],
+            done);
+    });
 }
 module.exports = fPack;
