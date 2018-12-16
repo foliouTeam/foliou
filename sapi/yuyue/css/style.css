@@ -1,0 +1,176 @@
+
+.GYuYue_form {
+    border-top: 1px solid #ccc;
+}
+.GYuYue_form * {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    border: none;
+    font-size: 12px;
+}
+.GYuYue_os {
+    /* display: none; */
+    position: relative;
+    /* z-index: 300; */
+}
+.GYuYue_input_wrap {
+    line-height: 40px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-top: none;
+    position: relative;
+}
+
+.GYuYue_input_wrap .ztvcode_tips {
+    height: 100%;
+    border: none;
+}
+
+.GYuYue_err_tip {
+    position: absolute;
+    z-index: 10;
+    left: 0px;
+    top: 0px;
+    *top:1px;
+    text-align: left;
+    text-indent: 1em;
+    background: #fff;
+    color: red;
+    border: 1px solid red;
+    bottom: 0;
+    *bottom: -1px;
+    right: 0px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.GYuYue_input_wrap label {
+    display: inline-block;
+    width: 80px;
+    text-align: right;
+    float: left;
+    /* padding-right: 10px; */
+    display: none;
+}
+
+.GYuYue_sms_code a {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    display: inline-block;
+    height: 100%;
+    background: #e1e1e1;
+    color: #000;
+    text-align: center;
+    width: 103px;
+    text-decoration: none;
+    font-size: 12px;
+    top: 0;
+}
+.GYuYue_input_wrap_error {
+    /* border: 1px solid red; */
+}
+.GYuYue_input_wrap input {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    text-indent: 10px;
+    background: none;
+    display: block;
+}
+
+.GYuYue_input_container {
+    width: auto;
+    overflow: hidden;
+    position: relative;
+}
+.GYuYue_input_container_show{
+    overflow: visible;
+}
+.GYuYue_input_wrap,.GYuYue_input_container,.GYuYue_input_wrap input,.GYuYue_input_wrap .select{
+    height: 40px;
+    line-height: 40px;
+}
+.GYuYue_input_wrap .select {
+    overflow: visible;
+    position: relative;
+    z-index: 100;
+    background: url('arrow.png') right center no-repeat; 
+}
+.GYuYue_input_wrap .select cite{
+    width: block;
+    height: 100%;
+    width: 100%;
+    margin-left: 10px;
+    display: inline-block;
+    font-style: normal;
+    /* margin-left: 10px; */
+    padding: 0;
+
+    
+}
+.GYuYue_input_wrap .select ul{
+    position: absolute;
+    background:#fff;
+    width: 100%;
+    color: #000;
+    top: 100%;
+    left: 0;
+    z-index: 100;
+    border-bottom:1px solid #ccc;
+    box-shadow: 0px 0px 1px #ccc;
+}
+.GYuYue_input_wrap .select ul li{
+    list-style: none;
+    text-indent: 10px;
+    border-top:1px solid #ccc;
+}
+.GYuYue_input_wrap .select ul li:hover{
+    background: #ccc;
+}
+.GYuYue_input_wrap .select ul li a{
+    color: #000;
+    text-decoration: none;
+    display: block;
+}
+
+.GYuYue_submit {
+    display: block;
+    height: 45px;
+    margin: 20px auto 0;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 20px;
+    background: #6574ab;
+    color: #fff;
+}
+.GYuYue_img_code img {
+    position: absolute;
+    width: 103px;
+    right: 0;
+    top: 0px;
+    height: 99%;
+    width: auto;
+    border: none;
+    background: none;
+    left: auto;
+    outline: none;
+    z-index: 10;
+    background: #ccc;
+    display: none;
+    cursor: pointer;
+}
+.GYuYue_sms_code .GYuYue_err_tip,
+.GYuYue_img_code .GYuYue_err_tip {
+    right: 103px;
+}
+.GYuYue_hidden{
+    display: none;
+  }

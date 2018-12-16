@@ -1,0 +1,42 @@
+.gLoginPopup{
+    width: 489px;
+    height: 390px;
+}
+.gLoginPopup iframe{
+    position: relative;
+    overflow: hidden;
+}
+.gLoginPopup .close{
+    display: inline-block;
+}
+.gPopupLogin_inner{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+.gLogin_mobile{
+    width: 280px;
+    height: 258px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 320px) { 
+    .gLogin_mobile{
+        width: 270px;
+        height: 250px;
+        padding: 15px;
+    }
+} 
+@media screen and (max-width: 300px) { 
+    .gLogin_mobile{
+        width: 260px;
+        height: 239px;
+        padding: 10px;
+        border-radius: 3px;
+    }
+} 
+

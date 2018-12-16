@@ -1,0 +1,297 @@
+
+.gplayer_container
+{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+.gplayer_container *
+{
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    outline: 0;
+}
+.gplayer_video
+{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+.gplayer_video video
+{
+    position: relative;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+}
+.gplayer_controls{
+    position: absolute;
+    display: table;
+    z-index: 6;
+    bottom: -40px;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(23,23,23,.9);
+    -webkit-transform: translateZ(0);
+    -webkit-transition: bottom .3s ease;
+    transition: bottom .3s ease;
+}
+.gplayer_controls button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0 none;
+    background: none;
+    text-align: center;
+    font-size: 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-appearance:none;
+}
+.gplayer_overlay_poster{
+    position: absolute;
+    z-index: 2;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    text-align: center;
+    background-color: #0000;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    display: box;
+    box-pack: center;
+    box-align: center;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+.gplayer_poster_img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    background: #000 center no-repeat;
+    background-size: cover;
+}
+.gplayer_overlay_option{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+    z-index: 3;
+
+}
+.gplayer_button_play{
+    display: block;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url(../icons/btn_play.png) center no-repeat;
+    background-size: 50px;
+    border: none;
+    position: absolute;
+    cursor: pointer;
+    z-index: 10;
+    
+}
+.gplayer_loading
+{
+    position: absolute;
+    z-index: 5;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    background: rgba(0,0,0,.65) url(../icons/loading_small.gif) center center no-repeat;
+    -webkit-background-size: 25px 25px;
+    background-size: 25px 25px;
+    border-radius: 2px;
+    z-index: 10;
+}
+.gplayer_controls button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0 none;
+    background: none;
+    text-align: center;
+    font-size: 0;
+    cursor: pointer;
+}
+.gplayer_controls .gplayer_button
+{
+    display: table-cell;
+    width: 46px;
+    height: 100%;
+    vertical-align: top;
+}
+.gplayer_fullscreen_button {
+    display: table-cell;
+    width: 50px;
+    height: 100%;
+    background-position: left 0;
+}
+.gplayer_fullscreen_button button {
+    position: relative;
+}
+
+.gplayer_play_button .gplayer_btn_value {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 16px;
+    vertical-align: middle;
+    background: none;
+    border: 15px solid transparent;
+    border-width: 10px 15px;
+    border-left-color: #fff;
+    font-size: 0;
+    color: transparent;
+    background: none;
+}
+.gplayer_time_rail {
+    position: relative;
+    display: table-cell;
+    height: 100%;
+    padding: 0;
+    vertical-align: top;
+}
+.gplayer_time_total {
+    position: relative;
+    display: block;
+    top: 18px;
+    width: 100%;
+    height: 4px;
+    background: rgba(34,34,34,.9);
+    cursor: pointer;
+}
+
+.gplayer_time_loaded, .gplayer_time_current {
+    position: absolute;
+    left: 0;
+    top: 1px;
+    z-index: 2;
+    display: block;
+    max-width: 100%!important;
+    height: 2px;
+    background: #FF9000;
+}
+.gplayer_time_panel {
+    position: absolute;
+    right: 0;
+    bottom: 3px;
+    z-index: 2;
+    font-size: 10px;
+    color: #888;
+    font-family: PingFangSC-Light,HelveticaNeue-Light,arial;
+}
+.gplayer_time_handle {
+    position: absolute;
+    z-index: 3;
+    top: -11px;
+    right: -9px;
+    display: block;
+    width: 27px;
+    height: 27px;
+    overflow: hidden;
+    cursor: pointer;
+    /* display: none; */
+}
+.gplayer_time_loaded {
+    z-index: 1;
+    background: rgba(255,255,255,.2);
+}
+.gplayer_time_handle:after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    background: #F3F5F7;
+    background-image: -webkit-radial-gradient(50% 50%,circle closest-side,#F7F9FB 31%,#D2D4D5 100%);
+    -webkit-background-clip: content-box;
+    background-clip: content-box;
+    border-radius: 100%;
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+    border-bottom-left-radius: 100%;
+    border-bottom-right-radius: 100%;
+}
+.gplayer_fullscreen_button button:after {
+    content: '';
+    position: absolute;
+    top: 11px;
+    right: 18px;
+    width: 8px;
+    height: 2px;
+    background-color: #fff;
+    -webkit-transform: rotate(-45deg);
+    -webkit-transform-origin: right center;
+}
+.gplayer_fullscreen_button .gplayer_btn_value:after {
+    content: '';
+    position: absolute;
+    bottom: 14px;
+    left: 18px;
+    width: 8px;
+    height: 2px;
+    background-color: #fff;
+    -webkit-transform: rotate(-45deg);
+    -webkit-transform-origin: left center;
+}
+.gplayer_fullscreen_button .gplayer_btn_value:before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    bottom: 14px;
+    width: 4px;
+    height: 4px;
+    border-left: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.gplayer_fullscreen_button button:before {
+    content: '';
+    position: absolute;
+    right: 17px;
+    top: 11px;
+    width: 4px;
+    height: 4px;
+    border-right: 2px solid #fff;
+    border-top: 2px solid #fff;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+}
+.gplayer_pause .gplayer_btn_value {
+    width: 10px;
+    height: 15px;
+    border: 0 none;
+    margin-left: 0;
+    border-left: 2px solid #fff;
+    border-right: 2px solid #fff;
+}
+.gplayer_none{
+    display: none;
+}

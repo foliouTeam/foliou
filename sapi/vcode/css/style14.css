@@ -1,0 +1,116 @@
+body,html{  margin:0; padding:0; -webkit-box-sizing:border-box; box-sizing:border-box; }
+ul,li,p,strong,h3,table,form,tr,td,ol,dl,dd,dt,map,area,input,textarea{ margin:0; padding:0; list-style:none;}
+*{ margin:0px; padding:0px;/* box-sizing:border-box;  -webkit-box-sizing:border-box; -ms-box-sizing:border-box;*/ text-size-adjust:none; 
+-webkit-text-size-adjust:none; -moz-text-size-adjust:none; -ms-text-size-adjust:none; }
+
+img{ border:0; touch-callout:none; -webkit-touch-callout:none; }
+.ztvcode_panel{box-sizing: inherit; -webkit-box-sizing:inherit; -ms-box-sizing:inherit; }
+.guest_trn,.guest_fade{  transition: opacity 0.5s ease 0s; -webkit-transition: opacity 0.5s ease 0s; }
+.ztvcode_tips{ width:100%; height:30px; text-align:center; color: #45494c; font-size:12px; border: solid 1px #ccc; background: #fff; }
+.ztvcode_tips.on0{ color:#0C0; }
+.ztvcode_tips.on{ background:#ccc; }
+.ztvcode_tips.on1{ color:#ff0000; }
+.ztvcode_panel{ position:absolute; left:0; }
+
+.ztvcode{ position:absolute !important; width:26px !important; height:33px !important; text-align:center !important; line-height:26px !important; color:#fff; font-size:14px !important; font-weight:bold !important;  background:url(../images/btns_02.png) no-repeat !important; }
+.ztvcode_light{ position:relative; height:auto; }
+
+.ztreg_float .ztvcode_panel{ display: none;  }
+.ztreg_embed{   }
+.ztreg_popup{   }
+
+.ztvcode_loadbox {
+    background-color: #f7f9fa;
+    background-image: url(../images/load.png);
+    background-position: 50% center;
+    background-size: cover;
+    display: none;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    top: 0;
+    width: 100%;
+	z-index:2;
+}
+.loadbox_inner {
+    margin: -25px 0 0;
+    position: relative;
+    top: 50%;
+}
+.ztvcode_loadicon {
+	background-image: url(../images/btns.png);
+	background-position: 0 -145px;
+    background-size: 34px 431px;
+    background-repeat: no-repeat;
+    height: 32px;
+    width: 32px;
+	margin:0 auto;
+	-webkit-animation:0.8s linear 0s normal none infinite running loading;
+	animation:0.8s linear 0s normal none infinite running loading;
+}
+.ztvcode_loadtext {
+    color: #45494c;
+    display: block;
+    line-height: 20px;
+	text-align:center;
+}
+
+.ztvcode_refresh{ position:absolute; width:34px; height:28px; right:0; top:0; background:url(../images/btns.png) no-repeat 0 -363px; z-index:2; }
+.ztvcode_refresh:hover{ background-position:0 -400px;  }
+#vcode_loadding{ position:absolute; width:100%; height:100%; left:0; top:0; }
+.ztvcode_panel img{ width:100%; height:100%; }
+
+
+@keyframes loading{
+	0%{ transform:rotate(0deg); }
+	100%{ transform:rotate(360deg) }
+}
+@-webkit-keyframes loading{
+	0%{ -webkit-transform:rotate(0deg); }
+	100%{ -webkit-transform:rotate(360deg) }
+}
+
+
+
+.loadings[_ngcontent-c1] {
+        /*width: 260px;
+        height: 44px;*/
+		width: 100%;
+        height: 100%;
+        display: flex;
+		position:absolute; left:0; top:0;
+        justify-content: center;
+        align-items: center;
+        background-color: #f4f4f4;
+		text-align:center;
+        }
+       .loadings[_ngcontent-c1] div[_ngcontent-c1]{
+            width: 10px;
+            height: 10px;
+            background-color: #347EFF;
+            border-radius: 50%;
+            display: inline-block;
+            animation: bounceDelay 1s infinite ease-in-out;
+            animation-fill-mode: both;
+            margin-left: 4px;
+			}
+            .bounce1[_ngcontent-c1]{
+                animation-delay: -0.32s !important;
+            }
+            .bounce2[_ngcontent-c1]{
+                animation-delay: -0.16s !important;
+            }
+        
+        @keyframes bounceDelay {
+            0%, 80%, 100% {
+                transform: scale(0);
+            }
+            40% {
+                transform: scale(1.0);
+            }
+        }
+    }
+
+
+

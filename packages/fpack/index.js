@@ -25,12 +25,20 @@ function fPack(options) {
     }
     var isdev = false;
     options = Object.assign(defaultOptions, options);
-    var gulp = require('gulp');
+    var gulp = options.gulp;
     var self = this;
     var taskArray = [];
-
+    // gulp.task('dev',function(){
+    //     console.log(111);
+    // });
+    // gulp.task('default',function(){
+    //     return gulp.src('./**');
+    // });
+    // return;
     this.addTask = function (name, fun) {
         taskArray.push(name);
+        console.log(name);
+        console.log(fun);
         gulp.task(name, fun);
     }
     
@@ -262,7 +270,7 @@ function fPack(options) {
         gulp.watch(src + '/images/icons/*.png', ['sprite']);
     });
 
-
-    gulp.task('default', taskArray);
+    console.log(taskArray);
+    gulp.task('default', ['cssmin']);
 }
 module.exports = fPack;

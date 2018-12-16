@@ -1,0 +1,58 @@
+body,html{
+	background:transparent;
+	
+}
+.wrap {
+	width: 100%;
+	position: relative;
+	top:0; 
+	left:0;
+	transform:none;
+	margin: 0 auto;
+	height: auto;
+}
+.hd{
+	background: #e5e4e4;
+}
+.hd li.active{
+	background: #f87841;
+	color: #fff;
+}
+.bd,.form-item{
+	width: 100%;
+	padding: 0 0;
+	/* box-sizing: border-box; */
+	position: relative;
+}
+.form-item{
+	
+	box-sizing: border-box;
+	height: auto;
+}
+.form-item input{
+	height: 1.6rem;
+	line-height: 1.6rem;
+	text-indent: 1em;
+}
+.form-item input.get-pin{
+	height: 100%;
+	top: 0;
+	right: 0;
+	width: 3rem;
+}
+.form-links span,.form-links a{
+	color: #2966aa;
+}
+.btn-common{
+	padding: 0;
+	margin-top: 0.5rem;
+}
+.btn-common input{
+	height:1.6rem;
+}
+.bd{
+	margin-top: 0.7rem;
+}
+.zt-tips{
+	top: 6.7rem;
+}

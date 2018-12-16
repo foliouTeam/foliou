@@ -1,0 +1,80 @@
+#fast,.box{
+	height: 100%;
+}
+.row-drag-captcha{
+	height: 40px!important;
+	line-height: 40px!important;
+}
+.button-wrap a{
+	height: 100%;
+}
+/**拖动验证码**/
+.captcha-wrap{
+	background: #e8e8e8;
+}
+._ga_captcha_drag, ._ga_captcha_click{
+	height: 40px;
+	line-height: 40px;
+}
+._ga_captcha_drag ._ga_captcha_drag_bg, ._ga_captcha_click ._ga_captcha_drag_bg{
+	height: 40px;
+}
+._ga_captcha_drag ._ga_captcha_handler, ._ga_captcha_click ._ga_captcha_handler{
+	height: 40px;
+	top: 0
+}
+
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+	background:red;
+	background-image: none;
+
+}
+input:-webkit-autofill:hover {
+	background:red!important;
+	background-image: none;
+}
+input:-webkit-autofill:focus {
+	background: red!important;
+	background-image: none;
+}
+
+/**垂直剧中**/
+/*.row-agree,.row-captcha{
+	margin-bottom: 0;
+}
+#fast{
+	height: 100%;
+}
+.reg-body{
+	position: absolute;
+	bottom: 40px;
+	top: 0;
+	right: 0;
+	left: 0;
+	vertical-align: middle;
+	white-space: nowrap;
+	font-size: 0px;
+}
+#reg_form{
+	vertical-align: middle;
+	display: inline-block;
+	width: 100%;
+	position: relative;
+	left: -1px;
+	font-size: 12px;
+}
+.ver-mid{
+	position: relative;
+	vertical-align: middle;
+	overflow: hidden;
+	width: 1px;
+	height: 100%;
+	margin-left: 0px;
+	display: inline-block;
+}
+.row-reg{
+	position: fixed;
+	width: 100%;
+	bottom: 0;
+}
+*/

@@ -5,7 +5,7 @@
   "scripts": {
     "demos": "gulp",
     "start": "gulp server",
-    "build": "node build.js",
+    "build": "node build/index.js",
     "test": "ng test",
     "lint": "ng lint"
   },
