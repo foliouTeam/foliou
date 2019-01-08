@@ -23,7 +23,7 @@ class Build {
             console.log('文件发生变化');
             console.log(eventType);
             console.log(filename);
-            if(filename.indexOf('.temp/')>-1||filename=='index.js'){
+            if(!filename||filename.indexOf('_temp')>-1||filename=='index.js'){
                 return;
             }
             _self.createTempFile(dirname);
