@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>视频播放器——测试</title>
+</head>
+
+<body>
+    <div id="player1">
+
+    </div>
+    <script src="../../require.js"></script>
+    <script>
+        requirejs(['jquery', 'gplayer/main'], function ($, gplayer) {
+            var myplayer = $("#player1").gplayer({
+                file: "//videogame.ztgame.com.cn/xx2/20160727/settitle0727.mp4",
+                auto: true,
+                loop: false,
+                toolbar:true,
+                volume: 1,
+                muted:false,
+                pc: {
+                    width: 600,
+                    height: 300
+                },
+                mobile: {
+                    width: '100%',
+                    height: 'auto'
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

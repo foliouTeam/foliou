@@ -65,14 +65,13 @@ var ztGulp = {
     tasks: {
         htmlmin: function () {
             var options = {
-                removeComments: !!argv.m, //清除HTML注释
-                //collapseWhitespace: true,//压缩HTML
+                removeComments: false, //清除HTML注释
                 collapseBooleanAttributes: true, //省略布尔属性的值 <input checked="true"/> ==> <input />
                 removeEmptyAttributes: true, //删除所有空格作属性值 <input id="" /> ==> <input />
                 removeScriptTypeAttributes: true, //删除<script>的type="text/javascript"
                 removeStyleLinkTypeAttributes: true, //删除<style>和<link>的type="text/css"
-                minifyJS: !!argv.m, //压缩页面JS
-                minifyCSS: !!argv.m //压缩页面CSS
+                minifyJS: false, //压缩页面JS
+                minifyCSS: false //压缩页面CSS
             };
             var filen = "";
             return gulp.src(src + '/**/*.{html,shtml}')
@@ -82,12 +81,6 @@ var ztGulp = {
                     filen = '/' + filen.join("/");
                     cb(null, file);
                 }))
-                //.pipe(htmlmin(options))
-                ///通过参数判断是否压缩，并修改html的minjs标记处的src
-                // .pipe(htmlreplace({
-                //     'minjs': !!argv.m ? ('js/all.min.js?ver=' + new Date().getTime()) : ('js/all.js?ver=' + new Date().getTime()),
-                //     'cssversions': !!argv.m ? ('css/index.min.css?ver=' + new Date().getTime()) : ('css/index.css?ver=' + new Date().getTime())
-                // }))
                 .pipe(gulp.dest(outpath + filen))
                 .pipe(reload({
                     stream: true
@@ -96,20 +89,17 @@ var ztGulp = {
         modulepack: function (done) {
             glob(src+'/**/main.js', function (err, files) {
                 if (err) done(err);
-
                 var tasks = files.map(function (entry) {
-                    console.log(entry);
+                    //console.log(outpath+entry.replace(src,'').replace('main.js',''));
+                    var curout = outpath+entry.replace(src,'').replace('main.js','');
                     return browserify({
                             entries: [entry]
                         })
                         .bundle()
-                        .pipe(source(entry))
-                        .pipe(rename({
-                            extname: '.js'
-                        }))
+                        .pipe(source('all.js'))
                         .pipe(buffer()) //将vinyl对象内容中的Stream转换为Buffer
                         .pipe(es3ify())
-                        .pipe(gulp.dest(outpath+entry.replace(src,'')))
+                        .pipe(gulp.dest(curout))
                         .pipe(reload({
                             stream: true
                         }));
@@ -266,7 +256,7 @@ var ztGulp = {
             let task1 = gulp.src(src + "/*.!(html|shtml)")
                 .pipe(gulp.dest(outpath));
             ///二级目录以上的
-            let task2 = gulp.src(src + "/!(lib|modules|node_modules|js|css|images|icons|api)/**/*.*")
+            let task2 = gulp.src(src + "/**/!(lib|modules|node_modules|js|css|images|icons|api)/*.*")
                 .pipe(through.obj(function (file, enc, cb) {
                     filen = file.relative.split(path.sep);
                     filen.pop();
@@ -282,75 +272,12 @@ var ztGulp = {
             return gulp.src(outpath, {
                 read: false
             })
-            // .pipe(clean());
+            .pipe(clean());
             //清空目录
-
         },
         clear: function (done) {
             return cache.clearAll(done);
         },
-        publish: function () {
-            this.getConfig(function (config) {
-                var gameactpath = config.devpath + config.gametype + '/act/';
-                fs.exists(gameactpath, function (bool) {
-                    if (bool) {
-                        var devpath = gameactpath + config.actname + '/';
-                        gulp.src([CONFIG.output + '/**/*', '!' + CONFIG.output + 'sourcecode/**/*'])
-                            .pipe(gulp.dest(devpath))
-                        console.log('已复制到 测试环境' + devpath);
-                    } else {
-                        console.log('未找到目录' + gameactpath);
-                    }
-                });
-
-                if (!argv.dev) {
-                    var svnpath = config.svnpath + config.gametype + '/release/act/' + config.actname;
-                    fs.exists(svnpath, function (exists) {
-                        if (exists) {
-                            var svnclientpath = config.tortoiseSvn;
-                            fs.exists(svnclientpath, function (exists) {
-                                if (exists) {
-                                    var c = require('child_process');
-                                    try {
-                                        var updatepro = c.exec('"' + svnclientpath + '" /command:update /path ' + svnpath, function (e, stdout, stderr) {
-                                            if (!e) {
-                                                console.log('SVN更新成功');
-
-                                            } else {
-                                                console.log('SVN更新失败');
-                                                process.exit();
-                                            }
-                                        });
-                                    } catch (error) {
-                                        console.log('svn客户端启动失败');
-                                        console.log(error);
-                                    }
-                                    gulp.src('_dist/**/*').pipe(gulp.dest(svnpath));
-                                    console.log('已拷贝到SVN目录，请提交');
-                                    try {
-                                        c.exec('"' + svnclientpath + '" /command:commit /path ' + svnpath, function () {
-                                            process.exit();
-                                        });
-
-                                    } catch (error) {
-                                        console.log('svn客户端启动失败');
-                                        console.log(error);
-                                    }
-                                } else {
-                                    console.log(svnclientpath + '未找到');
-                                }
-                            })
-                        } else {
-                            console.error('SVN目录：' + svnpath + '不存在');
-                        }
-                    })
-                }
-            });
-
-            // 
-            return true;
-        },
-
         server: function () {
 
             //port = parseInt(9999 * Math.random());
@@ -399,27 +326,8 @@ var ztGulp = {
         gulp.task('default', ['dev']); //定义默认任务 elseTask为其他任务，该示例没有定义elseTask任务
     },
     init: function () {
-        var self = this;
-        loadJsonFile('ztconfig.json').then(json => {
-            self.ztconfig = json;
-            //=> {foo: true}
-        });
         this.setTasks();
         this.watch();
-    },
-    getConfig: function (callback) {
-        var self = this;
-        if (!!callback) {
-            if (!!self.ztconfig) {
-                callback(self.ztconfig);
-            } else {
-                loadJsonFile('ztconfig.json').then(json => {
-                    self.ztconfig = json;
-                    callback(json);
-                });
-            }
-        }
-
     }
 }
 ztGulp.init();
