@@ -12,3 +12,4 @@ website/build
 website/package.json
 .temp/
 assets/index.js
+demos/_dist
