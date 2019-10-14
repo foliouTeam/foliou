@@ -4,6 +4,7 @@
     @blog:http://blog.focusbe.com
     @github:https://github.com/focusbe
 **/
+
 define(['jquery','prefix/v1','device/main'],function($,PREFIX,DEVICE){
     var BgSound = function(option,dom){
     	var audioElement = null;
