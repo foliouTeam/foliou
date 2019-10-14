@@ -8,5 +8,8 @@
   },
   "author": "liupeng",
   "license": "ISC",
-  "gitHead": "1a956993a0daef9d5690e7555438b97df86ac2ec"
+  "gitHead": "1a956993a0daef9d5690e7555438b97df86ac2ec",
+  "dependencies": {
+    "jquery": "1"
+  }
 }

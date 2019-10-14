@@ -6,7 +6,7 @@
     "start": "gulp",
     "dev": "gulp",
     "build": "node build/index.js",
-    "publish": "learn publish"
+    "publish": "lerna publish"
   },
   "devDependencies": {
     "@timdp/rollup-plugin-image": "^1.0.3",
@@ -48,7 +48,7 @@
     "imagemin-pngquant": "^5.0.1",
     "imgurify": "^2.0.0",
     "jshint": "^2.9.5",
-    "lerna": "^3.3.0",
+    "lerna": "^3.17.0",
     "node-sass": "^4.9.3",
     "pathmodify": "^0.5.0",
     "rollup": "^0.65.2",

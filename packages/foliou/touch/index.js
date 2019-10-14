@@ -40,6 +40,7 @@
                 element.removeEventListener(_endEvent,_self._endHandle,false);
             };
             this._startHandle = function(e){
+                console.log(2);
                 _isTouched = true;
                 if(!!e.touches){
                     _temptouch = e.touches[0];
@@ -114,7 +115,7 @@
 
     if (typeof exports === "object") {
         // CommonJS
-        module.exports = definFun();
+        module.exports = definFun(require('../device/'));
     } else if (typeof define === "function" && define.amd) {
         // AMD
         define(['../device/index'],definFun);

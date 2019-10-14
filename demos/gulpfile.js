@@ -1,6 +1,7 @@
 var CONFIG = {
     src: "./src",
-    output: "./_dist"
+    output: "./_dist",
+    package:"../packages/"
 };
 var gulp = require("gulp"),
     gulpif = require("gulp-if"),
@@ -185,6 +186,8 @@ var ztGulp = {
     },
 
     watch: function() {
+        console.log(src);
+        console.log();
         //监听排除文件夹外的第一级目录，和二级以上的文件
         gulp.watch([src + "/!(lib|modules|node_modules|js|css|images)/**"], ["copy"]);
         //只监听html文件
@@ -195,6 +198,7 @@ var ztGulp = {
         gulp.watch(src + "/!(lib|modules|node_modules)/**/*.{js,ts}", ["modulepack"]);
         //监听二级目录下的img文件,执行优化。一级以上只执行copy
         gulp.watch(src + "/!(lib|modules|node_modules)/**/*.{png,jpg,gif,ico,svg}", ["imagemin"]);
+        gulp.watch(CONFIG.package + "/**/*.js", ["modulepack"]);
     },
     setTasks: function() {
         for (var i in this.tasks) {

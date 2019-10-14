@@ -178,7 +178,7 @@
                         },
                         options.time,
                         function() {
-                            $(this).animate({
+                            $(this).css({
                                 left: finishLeft
                             });
                             callback();
@@ -282,41 +282,49 @@
                         self.goto(index);
                     });
                 }
-                // self.touch = new Touch(container[0], {
-                //     start: function start(point) {
-                //         lastdelay = {
-                //             x: 0,
-                //             y: 0
-                //         };
-                //     },
-                //     move: function move(delta) {
-                //         var offset = {
-                //             x: delta.x - lastdelay.x,
-                //             y: delta.y - lastdelay.y
-                //         };
-
-                //         if (options.direction == 'vertical') {
-                //             var willY = delta.y + curY;
-                //             var bili = 1 - willY / 300;
-                //             options.item_list.css3animate({
-                //                 y: willY
-                //             }, 100, false);
-
-                //         }
-                //         else{
-                //             var willX = delta.x + curX;
-                //             options.item_list.css3animate({
-                //                 x: willX
-                //             }, 100, false);
-                //         }
-                //         lastdelay = delta;
-
-                //     },
-                //     end: function end(point) {
-                //         curY = point.y + curY;
-                //         curX = point.x+curX;
-                //     }
-                // });
+                self.touch = new Touch(container[0], {
+                    start: function start(point) {
+                        var lastdelay = {
+                            x: 0,
+                            y: 0
+                        };
+                    },
+                    move: function move(delta) {
+                        if (options.direction != "vertical") {
+                           if(Math.abs(delta.x)>20&&Math.abs(delta.y)<5){
+                               self.goto(current-delta.x/Math.abs(delta.x));
+                           }
+                           
+                        } else {
+                            if(Math.abs(delta.y)>20&&Math.abs(delta.x)<5){
+                                self.goto(current+delta.y/Math.abs(delta.y));
+                            }
+                        }
+                        // var offset = {
+                        //     x: delta.x - lastdelay.x,
+                        //     y: delta.y - lastdelay.y
+                        // };
+                        // console.log(offset);
+                        // if (options.direction == 'vertical') {
+                        //     var willY = delta.y + curY;
+                        //     var bili = 1 - willY / 300;
+                        //     options.item_list.css3animate({
+                        //         y: willY
+                        //     }, 100, false);
+                        // }
+                        // else{
+                        //     var willX = delta.x + curX;
+                        //     options.item_list.css({
+                        //         x: willX
+                        //     }, 100, false);
+                        // }
+                        //lastdelay = delta;
+                    },
+                    end: function end(point) {
+                        // curY = point.y + curY;
+                        // curX = point.x + curX;
+                    }
+                });
                 $(window).resize(function() {
                     self.resize();
                 });
@@ -332,22 +340,11 @@
             this.init();
         };
         return Swiper;
-        // $.fn.Swiper = function(params) {
-        //     var result = [];
-        //     this.each(function(index) {
-        //         result.push(new Swiper($(this), params));
-        //         // $(this).data('gplayer', new GPlayer($(this), params));
-        //     });
-        //     if (result.length <= 1) {
-        //         return result[0];
-        //     }
-        //     return result;
-        // };
     };
 
     if (typeof exports === "object") {
         // CommonJS
-        module.exports = definFun(require("jquery"), require("../device/index"), require("../touch/index"));
+        module.exports = definFun(require("jquery"), require("../device/index"), require("../touch/index"), require("./assets"));
     } else if (typeof define === "function" && define.amd) {
         // AMD
         define(["jquery", "../device/index", "../touch/index"], definFun);

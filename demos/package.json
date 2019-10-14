@@ -39,6 +39,7 @@
     "html-browserify": "^0.0.6",
     "http-proxy-middleware": "^0.17.4",
     "imgurify": "^2.0.0",
+    "jquery": "^3.4.1",
     "jshint": "^2.9.5",
     "node-sass": "^4.9.3",
     "pathmodify": "^0.5.0",
