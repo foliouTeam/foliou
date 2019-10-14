@@ -244,6 +244,9 @@
                 }
             };
             this.judgeBtn = function (index) {
+                if(options.loop){
+                    return;
+                }
                 if (options.next_btn && options.prev_btn) {
                     if (index == total - 1) {
                         options.prev_btn
