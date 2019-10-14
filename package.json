@@ -6,7 +6,8 @@
     "start": "gulp",
     "dev": "gulp",
     "build": "node build/index.js",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "demos":"npm run build && cd demos && npm run dev"
   },
   "devDependencies": {
     "@timdp/rollup-plugin-image": "^1.0.3",

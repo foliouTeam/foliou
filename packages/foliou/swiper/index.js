@@ -5,7 +5,7 @@
     @blog:https://www.pengzai.dev/
     @github:https://github.com/pengzai-dev
 **/
-(function() {
+(function () {
     var definFun = function definFun($, DEVICE, Touch) {
         if (typeof $ == "undefined") {
             console.warn("请加载jquery");
@@ -18,7 +18,13 @@
         var Swiper = function Swiper(container, options) {
             var self = this;
             var defaultoption = {
+                mode: 'auto',
+                className: {
+                    next: 'next',
+                    prev: 'prev'
+                },
                 animation: "slide",
+                start: 0,
                 item_list: container.children(".swiper-wrapper"),
                 item: container.children(".swiper-wrapper").children(".swiper-slide"),
                 next_btn: null,
@@ -33,35 +39,38 @@
                 autoPlay: true,
                 autoDelayTime: 5000,
                 loop: true,
-                
-                onStart: function onStart() {},
-                onEnd: function onEnd() {}
+                onStart: function onStart() { },
+                onEnd: function onEnd() { }
             };
+
             var options = $.extend({}, defaultoption, options);
-            var current = 0;
+            var current = -1;
             var total = 0;
             var perwidth = 0;
             var canslide = true;
             var clock = null;
             var docks;
             var perHeight;
-            this.init = function() {
-                if (options.direction == "vertical") {
-                    perHeight = container.height();
-                    options.item.css({
-                        height: perHeight
-                    });
-                } else {
-                    perwidth = options.item.outerWidth();
-                    options.item.not(options.item.eq(0)).css({
-                        position: "absolute",
-                        left: "-100%"
-                    });
-                }
+            this.init = function () {
                 total = options.item.length;
                 if (total <= 1) {
                     return;
                 }
+                if (options.mode == 'auto') {
+                    if (options.direction == "vertical") {
+                        perHeight = container.height();
+                        options.item.css({
+                            height: perHeight
+                        });
+                    } else {
+                        perwidth = options.item.outerWidth();
+                        options.item.not(options.item.eq(0)).css({
+                            position: "absolute",
+                            left: "-100%"
+                        });
+                    }
+                }
+
                 if (options.dock_wrap) {
                     options.dock_wrap.css({
                         zIndex: 200
@@ -79,9 +88,11 @@
                 }
                 self.bind();
                 self.autoPlay();
-                self.judgeBtn(0);
+                self.goto(options.start);
+                self.judgeBtn(options.start);
+
             };
-            this.resize = function() {
+            this.resize = function () {
                 if (options.direction == "vertical") {
                     perHeight = container.height();
                 } else {
@@ -97,10 +108,10 @@
                 });
                 // options.item.not(options.item.eq(current)).css({left:'-100%'})
             };
-            this.goToNext = function() {
+            this.goToNext = function () {
                 self.goto(current + 1);
             };
-            this.goto = function(index, auto, direction) {
+            this.goto = function (index, auto, direction) {
                 if (!canslide) {
                     return;
                 }
@@ -139,74 +150,90 @@
                     }
                     self.judgeBtn(index);
                 };
-                if ((options.animation = "slide")) {
-                    if (typeof direction == "undefined") {
-                        var direction;
-                        if (auto) {
-                            direction = -1;
-                        } else {
-                            if (index > current) {
+                if (options.mode == 'auto') {
+                    if ((options.animation = "slide")) {
+                        if (typeof direction == "undefined") {
+                            var direction;
+                            if (auto) {
                                 direction = -1;
                             } else {
-                                direction = 1;
+                                if (index > current) {
+                                    direction = -1;
+                                } else {
+                                    direction = 1;
+                                }
                             }
                         }
-                    }
 
-                    if (direction < 0) {
-                        options.item.eq(index).css({
-                            left: perwidth
-                        });
-                        var nextLeft = -perwidth;
-                        var finishLeft = perwidth;
-                    } else {
-                        options.item.eq(index).css({
-                            left: -perwidth
-                        });
-                        var nextLeft = perwidth;
-                        var finishLeft = -perwidth;
-                    }
+                        if (direction < 0) {
+                            options.item.eq(index).css({
+                                left: perwidth
+                            });
+                            var nextLeft = -perwidth;
+                            var finishLeft = perwidth;
+                        } else {
+                            options.item.eq(index).css({
+                                left: -perwidth
+                            });
+                            var nextLeft = perwidth;
+                            var finishLeft = -perwidth;
+                        }
 
-                    options.item.eq(index).animate(
-                        {
-                            left: 0
-                        },
-                        options.time
-                    );
-                    options.item.eq(current).animate(
-                        {
-                            left: nextLeft
-                        },
-                        options.time,
-                        function() {
-                            $(this).css({
-                                left: finishLeft
-                            });
-                            callback();
-                        }
-                    );
-                } else if (options.animation == "fade") {
-                    options.item.eq(index).css({
-                        zIndex: 10,
-                        opacity: 1
-                    });
-                    options.item.eq(current).css({
-                        zIndex: 20
-                    });
-                    options.item.eq(current).animate(
-                        {
-                            opacity: 0
-                        },
-                        options.time,
-                        function() {
-                            options.item.eq(current).css({
-                                zIndex: 0
-                            });
-                            callback();
-                        }
-                    );
+                        options.item.eq(index).animate(
+                            {
+                                left: 0
+                            },
+                            options.time
+                        );
+                        options.item.eq(current).animate(
+                            {
+                                left: nextLeft
+                            },
+                            options.time,
+                            function () {
+                                $(this).css({
+                                    left: finishLeft
+                                });
+                                callback();
+                            }
+                        );
+                    } else if (options.animation == "fade") {
+                        options.item.eq(index).css({
+                            zIndex: 10,
+                            opacity: 1
+                        });
+                        options.item.eq(current).css({
+                            zIndex: 20
+                        });
+                        options.item.eq(current).animate(
+                            {
+                                opacity: 0
+                            },
+                            options.time,
+                            function () {
+                                options.item.eq(current).css({
+                                    zIndex: 0
+                                });
+                                callback();
+                            }
+                        );
+                    }
                 }
-
+                else {
+                   
+                    options.item.removeClass(options.onClass)
+                        .removeClass(options.className.next)
+                        .removeClass(options.className.prev);
+                    options.item.eq(index).addClass(options.onClass);
+                    var next = (index + 1) % total;
+                    var prev = (index - 1) % total;
+                    if (prev < 0) {
+                        prev += total;
+                    }
+                    options.item.eq(next).addClass(options.className.next);
+                    options.item.eq(prev).addClass(options.className.prev);
+                    callback();
+                }
                 if (options.index_btn) {
                     options.index_btn.removeClass(options.onClass);
                     options.index_btn.eq(index).addClass(options.onClass);
@@ -216,7 +243,7 @@
                     docks.eq(index).addClass(options.onClass);
                 }
             };
-            this.judgeBtn = function(index) {
+            this.judgeBtn = function (index) {
                 if (options.next_btn && options.prev_btn) {
                     if (index == total - 1) {
                         options.prev_btn
@@ -260,25 +287,25 @@
                     }
                 }
             };
-            this.bind = function() {
+            this.bind = function () {
                 if (options.next_btn) {
-                    options.next_btn.bind("click", function() {
+                    options.next_btn.bind("click", function () {
                         self.goto(current + 1, false, -1);
                     });
                 }
                 if (options.prev_btn) {
-                    options.prev_btn.bind("click", function() {
+                    options.prev_btn.bind("click", function () {
                         self.goto(current - 1, false, 1);
                     });
                 }
                 if (options.index_btn) {
-                    options.index_btn.bind(options.index_trigger, function() {
+                    options.index_btn.bind(options.index_trigger, function () {
                         var index = $(this).index();
                         self.goto(index);
                     });
                 }
                 if (docks) {
-                    docks.unbind(options.dock_trigger).bind(options.dock_trigger, function() {
+                    docks.unbind(options.dock_trigger).bind(options.dock_trigger, function () {
                         var index = $(this).index();
                         self.goto(index);
                     });
@@ -292,13 +319,13 @@
                     },
                     move: function move(delta) {
                         if (options.direction != "vertical") {
-                           if(Math.abs(delta.x)>20&&Math.abs(delta.y)<5){
-                               self.goto(current-delta.x/Math.abs(delta.x));
-                           }
-                           
+                            if (Math.abs(delta.x) > 20 && Math.abs(delta.y) < 5) {
+                                self.goto(current - delta.x / Math.abs(delta.x));
+                            }
+
                         } else {
-                            if(Math.abs(delta.y)>20&&Math.abs(delta.x)<5){
-                                self.goto(current+delta.y/Math.abs(delta.y));
+                            if (Math.abs(delta.y) > 20 && Math.abs(delta.x) < 5) {
+                                self.goto(current + delta.y / Math.abs(delta.y));
                             }
                         }
                         // var offset = {
@@ -326,15 +353,15 @@
                         // curX = point.x + curX;
                     }
                 });
-                $(window).resize(function() {
-                    self.resize();
-                });
+                // $(window).resize(function() {
+                //     self.resize();
+                // });
             };
-            this.autoPlay = function() {
+            this.autoPlay = function () {
                 if (!options.autoPlay) {
                     return;
                 }
-                clock = setInterval(function() {
+                clock = setInterval(function () {
                     self.goto(current + 1, true);
                 }, options.autoDelayTime);
             };
