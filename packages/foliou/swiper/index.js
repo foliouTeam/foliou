@@ -33,6 +33,7 @@
                 autoPlay: true,
                 autoDelayTime: 5000,
                 loop: true,
+                
                 onStart: function onStart() {},
                 onEnd: function onEnd() {}
             };
