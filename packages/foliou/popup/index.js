@@ -6,7 +6,7 @@
 **/
 "use strict";
 (function () {
-    function Factory($, DEVICE, ResizeSensor, Css3Animate) {
+    function Factory($, DEVICE, ResizeSensor, Animate) {
         //弹窗
         var wh;
         var gPopup = function gPopup(coverEle, options) {
