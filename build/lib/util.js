@@ -9,9 +9,15 @@ if (platform == "darwin") {
     platform = "mac";
 }
 
-function runSh(sh, callback) {
+function runSh(sh, dir,callback) {
+    if(typeof(dir) == 'function'){
+        callback = dir;
+        dir = '';
+    }
+    var cwddir = path.resolve(process.cwd(),dir);
+    // console.log(cwddir);
     const child = exec(sh, {
-        cwd: process.cwd(),
+        cwd: cwddir,
         windowsHide: false,
         encoding: "buffer"
     });

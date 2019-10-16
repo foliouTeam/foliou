@@ -1,25 +1,13 @@
-//判断环境
+/**
+    @author:pengzai
+    @email:pengzai.dev@outlook.com
+    @blog:https://pengzai.dev
+    @github:https://github.com/focusbe/foliou
+**/
 "use strict";
 (function () {
     var apiurl = 'https://gapi.ztgame.com/sapi/';
-    var Factory = function ($,html2canvas) {
-        // function getConfig(callabck){
-        //     $.ajax({
-        //         url:apiurl,
-        //         data:{},
-        //         success:function(res){
-        //             if(!!res&&!!res.status&&res.status>-1){
-        //                 callabck(res);
-        //             }
-        //             else{
-        //                 callabck(false);
-        //             }
-        //         },
-        //         error:function(){
-        //             callabck(false);
-        //         }
-        //     });
-        // }
+    var Factory = function ($) {
         if (!window.console || !window.console.warn) {
             window.console = {};
             window.console.warn = function (str) {
@@ -39,20 +27,20 @@
             WARNING: 4,
             ERROR: 5
         };
-        var jswhitelist = ['ztgame.com', 'baidu.com', 'cnzz.com', 'google-analytics.com','googletagmanager.com','superpopgames.com'];
-        function arrIndexOf(arr,val){
-            if(typeof arr !='object'){
+        var jswhitelist = ['ztgame.com', 'baidu.com', 'cnzz.com', 'google-analytics.com', 'googletagmanager.com', 'superpopgames.com'];
+        function arrIndexOf(arr, val) {
+            if (typeof arr != 'object') {
                 return -1;
             }
-            for (var i in arr ) {
+            for (var i in arr) {
                 if (arr[i] == val)
                     return i;
             }
             return -1;
         }
         function bindGetHackScript() {
-            
-            if(!!document.readyState&&(document.readyState=='complete'||document.readyState=='loaded')){
+
+            if (!!document.readyState && (document.readyState == 'complete' || document.readyState == 'loaded')) {
                 setTimeout(function () {
                     getHackScript();
                 }, 500);
@@ -81,7 +69,7 @@
             var result = [];
             for (var i in scriptsel) {
                 curSrc = scriptsel[i].src;
-                if (!!curSrc&&curSrc.indexOf('//')>-1) {
+                if (!!curSrc && curSrc.indexOf('//') > -1) {
                     curSrc = curSrc.replace('http:', '').replace('https:', '').replace('ftp:', '').replace('file:', '').replace('//', '');
                     if (!!curSrc) {
                         temparr = curSrc.split('/');
@@ -91,7 +79,7 @@
 
                             if (!!temparr && temparr.length > 1) {
                                 curhost = temparr[temparr.length - 2] + '.' + temparr[temparr.length - 1]
-                                if (arrIndexOf(jswhitelist,curhost) < 0) {
+                                if (arrIndexOf(jswhitelist, curhost) < 0) {
                                     result.push(scriptsel[i].src);
                                 }
                             }
@@ -99,10 +87,10 @@
                     }
                 }
             }
-            if(result.length>0){
+            if (result.length > 0) {
                 var msg = result.join(',');
-                msg = 'hack_scripts:'+msg+'';
-                report('info', msg, function () {});
+                msg = 'hack_scripts:' + msg + '';
+                report('info', msg, function () { });
             }
             return result;
         }
@@ -130,7 +118,7 @@
                         'Error object: ' + JSON.stringify(error)
                     ].join(',');
                     message = '{' + message + '}';
-                    report('error', message, '', function () {});
+                    report('error', message, '', function () { });
                 } catch (err) {
                     console.warn(err);
                 }
@@ -166,6 +154,9 @@
         }
 
         function report(level, message, image, callback) {
+            if (!!window.TraceDisable) {
+                return;
+            }
             try {
                 if (!level || !message) {
                     return;
@@ -225,38 +216,6 @@
             }
         }
 
-        // function capture(ele,callback){
-        //     if(typeof(ele)=='function'){
-        //         callback = ele;
-        //         ele = null;
-        //     }
-        //     if(!ele){
-        //         ele = document.body;
-        //     }
-        //     html2canvas(ele, {
-        //         allowTaint: true,
-        //         width:ele.width(),
-        //         height:ele.height()
-        //     }).then(function (canvas) {
-        //         var base64 = canvas.toDataURL('image/jpeg', 0.6);
-        //         $.ajax({
-        //             url
-        //         });
-        //         if(!!callback){
-        //             callback(base64);
-        //         }
-        //     });
-        // }
-        // var config = null;
-        // function init(){
-        //     getConfig(function(res){
-        //         config = res.data;
-        //         if(config&&!!config.onerror){
-        //             bindOnerror();
-        //         }
-
-        //     });
-        // }
         try {
             bindOnerror();
             bindGetHackScript();
@@ -277,6 +236,9 @@
         define(["jquery"], Factory);
     } else {
         // Global Variables
-        window.Trace = Factory($);
+        if (!window.Foliou) {
+            window.Foliou = {};
+        }
+        window.Foliou.Trace = Factory($);
     }
 })();

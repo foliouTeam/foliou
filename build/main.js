@@ -89,7 +89,7 @@ class Build {
                     items.forEach((item, j) => {
                         //console.log(item);
                         var assetsDir = path.resolve(item, "assets");
-                        console.log(assetsDir);
+                        // console.log(assetsDir);
                         fs.stat(assetsDir, function(err, st) {
                             if (!err) {
                                 if (st.isDirectory()) {
@@ -99,7 +99,7 @@ class Build {
                                 }
                             }
                             else{
-                                console.log(err);
+                                //console.log(err);
                             }
                         });
                     });
