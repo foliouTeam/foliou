@@ -1,0 +1,92 @@
+<div class="Player_container">
+    <div class="Player_container_inner" style="width:100%;height:100%">
+        <div class="Player_video"><video style="background-color:#000;" playsinline="isiPhoneShowPlaysinline" webkit-playsinline="isiPhoneShowPlaysinline" x-webkit-airplay="" preload="true"></video></div>
+
+        <div class="Player_overlay_poster">
+            <div class="Player_poster_img"></div>
+        </div>
+    </div>
+</div>
+
+<div class="Player_option_wraper">
+    <div class="Player_overlay_option">
+        <span class="Player_button_play">
+            <svg class="txp_icon txp_icon_play_lg" viewBox="0 0 68 68">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_play_lg"></use>
+            </svg>
+        </span>
+        <span class="Player_loading Player_none"></span>
+    </div>
+
+    <div class="Player_controls hidden">
+        <div class="Player_controls_bg"></div>
+
+        <div class="Player_button Player_play_button">
+            <button type="button " title="播放/暂停" data-status="play">
+                <svg class="txp_icon txp_icon_play" viewBox="0 0 60 60">
+                    <use class="txp_svg_play" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_play"></use>
+
+                    <use class="txp_svg_pause" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_pause"></use>
+
+                    <use class="txp_svg_stop" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_stop"></use>
+
+                    <use class="txp_svg_replay" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_replay"></use>
+                </svg>
+            </button>
+        </div>
+
+        <div class="Player_time_rail">
+            <span class="Player_time_total">
+                <span class="Player_time_loaded" style="width: 1%;"></span>
+                <span class="Player_time_current" style="width: 0px;"
+                    ><span class="Player_time_handle"><em></em></span
+                ></span>
+            </span>
+            <span class="Player_time_panel" style="color:#fff"> <span class="Player_time_panel_current">00:00</span> <span class="Player_time_panel_split">/</span> <span class="Player_time_panel_total">00:00</span> </span>
+        </div>
+
+        <div class="tvp_button Player_fullscreen_button tvp_fullscreen">
+            <button type="button" title="切换全屏">
+                <svg class="txp_icon txp_icon_fullscreen" viewBox="0 0 24 24">
+                    <use class="txp_svg_fullscreen" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_fullscreen"></use>
+
+                    <use class="txp_svg_fullscreen_true" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_fullscreen_true"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="Player_svg">
+    <svg class="txp_svg_sprite" display="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+        <symbol id="txp_svg_play_lg" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="50" style="fill:#222;fill-opacity:0.75"></circle>
+
+            <path transform="translate(36, 33)" d="M0.6,2C0.6,2,0,3.5,0,16.9C0,30.3,0.6,32,0.6,32c0,1.5,1.6,2.5,2.9,1.8c0,0,3-0.5,15.2-6.6c12.2-6.1,14.2-8.4,14.2-8.4c1.5-0.7,1.5-2.8,0-3.6c0,0-3.3-3.1-14.2-8.6C7.9,1.1,3.5,0.2,3.5,0.2C2.1-0.5,0.6,0.5,0.6,2z" style="fill:#fff;"></path>
+        </symbol>
+
+        <symbol id="txp_svg_play" viewBox="0 0 56 56">
+            <path d="M14.569 13.867s-.563 1.42-.563 14.059.563 14.188.563 14.188a1.925 1.925 0 0 0 2.8 1.677s2.938-.442 14.763-6.211 13.8-7.914 13.8-7.914a1.859 1.859 0 0 0 0-3.352s-3.24-2.875-13.8-8.095c-10.444-5.165-14.767-6.029-14.767-6.029a1.924 1.924 0 0 0-2.796 1.677z" style="fill:#fff"></path>
+        </symbol>
+
+        <symbol id="txp_svg_fullscreen" viewBox="0 0 48 48">
+            <path d="M9.5 37h10a1.5 1.5 0 0 1 0 3h-10a1.5 1.5 0 0 1 0-3zm0-10a1.5 1.5 0 0 1 1.5 1.5v10a1.5 1.5 0 0 1-3 0v-10A1.5 1.5 0 0 1 9.5 27zM8.43 37.353L19.353 26.43a1.545 1.545 0 1 1 2.185 2.184L10.614 39.538a1.545 1.545 0 1 1-2.184-2.185zM28.5 8h10a1.5 1.5 0 0 1 0 3h-10a1.5 1.5 0 0 1 0-3zm10 0A1.5 1.5 0 0 1 40 9.5v10a1.5 1.5 0 0 1-3 0v-10A1.5 1.5 0 0 1 38.5 8zM26.43 19.354L37.353 8.43a1.545 1.545 0 0 1 2.185 2.184L28.614 21.538a1.545 1.545 0 0 1-2.184-2.184z" style="fill:#fff"></path>
+        </symbol>
+
+        <symbol id="txp_svg_fullscreen_true" viewBox="0 0 48 48">
+            <path style="fill:#fff" d="M39.538 10.615L31.153 19H37.5a1.5 1.5 0 0 1 0 3h-10a1.5 1.5 0 0 1-1.386-.937 1.52 1.52 0 0 1-.114-.735V10.5a1.5 1.5 0 0 1 3 0v6.283l8.353-8.353a1.545 1.545 0 1 1 2.185 2.185zM20.5 39a1.5 1.5 0 0 1-1.5-1.5v-6.347l-8.386 8.385a1.545 1.545 0 1 1-2.184-2.184L16.783 29H10.5a1.5 1.5 0 0 1 0-3h9.828a1.518 1.518 0 0 1 .733.113A1.5 1.5 0 0 1 22 27.5v10a1.5 1.5 0 0 1-1.5 1.5z"></path>
+        </symbol>
+
+        <symbol id="txp_svg_pause" viewBox="0 0 56 56">
+            <path style="fill:#fff" d="M39 49a4 4 0 0 1-4-4V11a4 4 0 0 1 4-4 4 4 0 0 1 4 4v34a4 4 0 0 1-4 4zm-22 0a4 4 0 0 1-4-4V11a4 4 0 0 1 4-4 4 4 0 0 1 4 4v34a4 4 0 0 1-4 4z"></path>
+        </symbol>
+
+        <symbol id="txp_svg_replay" viewBox="0 0 32 32">
+            <path style="fill:#fff" d="M18 30a13.956 13.956 0 0 1-9.9-4.1l2.121-2.121A11 11 0 1 0 7 16h4.006L5.5 22 0 16h4a14 14 0 1 1 14 14z"></path>
+        </symbol>
+
+        <symbol style="fill:#fff" id="txp_svg_download" viewBox="0 0 32 32">
+            <path d="M25 31H8a6 6 0 0 1-6-6V8a6 6 0 0 1 6-6h1v3a4 4 0 0 0-4 4v15a4 4 0 0 0 4 4h15a4 4 0 0 0 4-4V9a4 4 0 0 0-4-4V2h1a6 6 0 0 1 6 6v17a6 6 0 0 1-6 6zm-7.32-7.616A1.473 1.473 0 0 1 16.5 24a1.307 1.307 0 0 1-.227-.052 1.389 1.389 0 0 1-.352-.081 1.445 1.445 0 0 1-.239-.16 1.356 1.356 0 0 1-.209-.139c-.013-.013-.016-.03-.028-.043s-.045-.025-.061-.047L9.4 17.458a1.445 1.445 0 0 1 0-2.036 1.424 1.424 0 0 1 2.024 0L15 19.019V1.5a1.5 1.5 0 1 1 3 0v17.489l3.546-3.567a1.424 1.424 0 0 1 2.024 0 1.445 1.445 0 0 1 0 2.036z"></path>
+        </symbol>
+    </svg>
+</div>

@@ -73,8 +73,6 @@
                     console.log(str);
                 }
             },
-
-            
             setIframeHeight: function (iframe) {
 
             },
@@ -157,7 +155,7 @@
                     }
                 }
                 return params;
-            }
+            },
         }
     }
 

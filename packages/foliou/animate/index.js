@@ -47,17 +47,18 @@
         };
         var transformStyle = ["scale", "rotate", "translate", "skew", "perspective"];
 
-        function istransformstyle(style) {
-            if (style == "x" || style == "y" || style == "z") {
-                style = "translate";
-            }
-            for (var i in transformStyle) {
-                if (isSameStyle(style, transformStyle[i])) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        // function istransformstyle(style) {
+        //     if (style == "x" || style == "y" || style == "z") {
+        //         style = "translate";
+        //     }
+        //     for (var i in transformStyle) {
+        //         if (isSameStyle(style, transformStyle[i])) {
+        //             return true;
+        //         }
+        //     }
+        //     return false;
+        // }
+        
         function isSameStyle(str1, str2) {
             if (str1.toLowerCase() == str2.toLowerCase()) {
                 return true;

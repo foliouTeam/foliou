@@ -1,25 +1,24 @@
 "use strict";
-
-var _typeof =
-    typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
-        ? function(obj) {
-              return typeof obj;
-          }
-        : function(obj) {
-              return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-          };
-
-function _defineProperty(obj, key, value) {
-    if (key in obj) {
-        Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
-    } else {
-        obj[key] = value;
-    }
-    return obj;
-}
-
 (function() {
-    var definFun = function definFun($, gpopup, DEVICE, PREFIX, MobileTpl) {
+    var _typeof =
+        typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
+            ? function(obj) {
+                  return typeof obj;
+              }
+            : function(obj) {
+                  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+              };
+
+    function _defineProperty(obj, key, value) {
+        if (key in obj) {
+            Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });
+        } else {
+            obj[key] = value;
+        }
+        return obj;
+    }
+    var definFun = function definFun($, Popup, DEVICE, PREFIX, Assets) {
+        console.log(Assets);
         //Do setup work here
         //获取前缀
         if (typeof $ == "undefined") {
@@ -30,8 +29,8 @@ function _defineProperty(obj, key, value) {
             console.warn("请加载device");
             return;
         }
-        if (typeof gpopup == "undefined") {
-            console.warn("请加载gpopup");
+        if (typeof Popup == "undefined") {
+            console.warn("请加载Popup");
             return;
         }
         if (typeof PREFIX == "undefined") {
@@ -39,13 +38,13 @@ function _defineProperty(obj, key, value) {
             return;
         }
         //检测是否支持flash
-        var checkFlash = function checkFlash() {
-            if (typeof window.ActiveXObject != "undefined") {
-                return new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
-            } else {
-                return navigator.plugins["Shockwave Flash"];
-            }
-        };
+        // var checkFlash = function checkFlash() {
+        //     if (typeof window.ActiveXObject != "undefined") {
+        //         return new ActiveXObject("ShockwaveFlash.ShockwaveFlash");
+        //     } else {
+        //         return navigator.plugins["Shockwave Flash"];
+        //     }
+        // };
         //检测是否支持HTML5
         function checkVideo() {
             var ua = navigator.userAgent;
@@ -81,19 +80,16 @@ function _defineProperty(obj, key, value) {
         }
 
         var prefix = PREFIX();
-        var curentUrl = getJSPath("gplayer/v3/index.js");
-
-        function gPlayer(container, videoindex, options) {
-            var parentself = this;
-            if ((typeof videoindex === "undefined" ? "undefined" : _typeof(videoindex)) == "object") {
-                options = videoindex;
-                if (typeof window.gplayervideoIndex == "undefined") {
-                    window.gplayervideoIndex = 0;
+        function Player(container, options, videoindex) {
+            container = $(container);
+            if (!container || container.length == 0) return;
+            if (typeof videoindex == "undefined") {
+                if (typeof window.PlayervideoIndex == "undefined") {
+                    window.PlayervideoIndex = 0;
                 }
-                videoindex = window.gplayervideoIndex++;
+                videoindex = window.PlayervideoIndex++;
             }
             var ismicro = navigator.appName.indexOf("Microsoft") != -1;
-            if (!container) return;
             var self = this;
             var player;
             var defaultoption = {
@@ -110,7 +106,7 @@ function _defineProperty(obj, key, value) {
                 loop: false,
                 toolbar: true,
                 ratio: 0.6, //高宽比例
-                swf: curentUrl + "gplayer.swf",
+                swf: "//siteres.ztgame.com/site/js/gplayer/v3/gplayer.swf",
                 loadcss: true,
                 color: "#FF9000",
                 fillColor: "#fff",
@@ -129,12 +125,10 @@ function _defineProperty(obj, key, value) {
             } else {
                 options = $.extend(options, options.pc);
             }
-
             options = $.extend(defaultoption, options);
             options.width = options.width.toString();
             options.height = options.height.toString();
             var curmode;
-
             function choosemode(curfile) {
                 if (!curfile) {
                     curfile = "";
@@ -151,7 +145,6 @@ function _defineProperty(obj, key, value) {
 
             function setup() {
                 var mode = choosemode();
-
                 if (!mode) {
                     console.log("当前视频格式不支持");
                     return;
@@ -209,28 +202,6 @@ function _defineProperty(obj, key, value) {
                     hls: "hls"
                 };
             //html5视频播放器
-            function loadCss(path, id, callback) {
-                if (!document.getElementById(id)) {
-                    if (!path || path.length === 0) {
-                        throw new Error('argument "path" is myrequired !');
-                    }
-                    var head = document.getElementsByTagName("head")[0];
-                    var link = document.createElement("link");
-                    link.href = path;
-                    link.rel = "stylesheet";
-                    link.type = "text/css";
-                    link.id = id;
-                    if (typeof callback == "function") {
-                        link.onload = callback;
-                    }
-
-                    head.appendChild(link);
-                } else {
-                    if (typeof callback == "function") {
-                        callback();
-                    }
-                }
-            }
 
             function Html5Player() {
                 curmode = "html5";
@@ -241,7 +212,7 @@ function _defineProperty(obj, key, value) {
                     options.height = options.height + "px";
                 }
                 var self = this;
-                var videoplayer, videoElement, changedtime, playbtn, gplayervideowrap, timehander, controlbar, loading, gplayercontainer, optiondiv, controlbarclock, playpausbtn, totaltimepanel, currenttimepanel, loadedbar, playedbar, totaltime, timerail, fullscreen_button, gplayeroverlayposter, gplayerTimeTotal;
+                var videoplayer, videoElement, changedtime, playbtn, Playervideowrap, timehander, controlbar, loading, Playercontainer, optiondiv, controlbarclock, playpausbtn, totaltimepanel, currenttimepanel, loadedbar, playedbar, totaltime, timerail, fullscreen_button, Playeroverlayposter, PlayerTimeTotal;
                 var colorhex = hexToRGB(options.color);
                 var dockcolor1 = options.color;
                 var dockcolor2 = options.color;
@@ -253,32 +224,31 @@ function _defineProperty(obj, key, value) {
                 }
                 var controlhtml = "";
 
-                if ($("#gplayer_template").length == 0) {
+                if ($("#Player_template").length == 0) {
                     var gaplyer_template = document.createElement("script");
-                    gaplyer_template.setAttribute("id", "gplayer_template");
+                    gaplyer_template.setAttribute("id", "Player_template");
                     var body = document.getElementsByTagName("body")[0];
                     body.appendChild(gaplyer_template);
-
-                    $(gaplyer_template).append($(MobileTpl));
+                    console.log(Assets["html/html5.html"]);
+                    $(gaplyer_template).append($(Assets["html/html5.html"]));
                 }
-
-                var videocontainner = $("#gplayer_template .gplayer_container").prop("outerHTML");
+                var videocontainner = $("#Player_template .Player_container").prop("outerHTML");
                 videocontainner = $(videocontainner);
-                videocontainner.addClass("gplayer_container_" + videoindex);
+                videocontainner.addClass("Player_container_" + videoindex);
                 if (options.toolbar) {
-                    controlhtml = $("#gplayer_template .gplayer_option_wraper").prop("outerHTML");
+                    controlhtml = $("#Player_template .Player_option_wraper").prop("outerHTML");
 
-                    videocontainner.find(".gplayer_container_inner").append(controlhtml);
+                    videocontainner.find(".Player_container_inner").append(controlhtml);
                 }
                 videocontainner.css({
                     width: options.width,
                     height: options.height == "auto" ? "" : options.height
                 });
-                videocontainner.find(".gplayer_container_inner").hide();
+                videocontainner.find(".Player_container_inner").hide();
 
                 function addsvgwrap() {
-                    if ($("#gplayer_template #gplayer_svg").length > 0) {
-                        $("body").append($("#gplayer_template #gplayer_svg"));
+                    if ($("#Player_template #Player_svg").length > 0) {
+                        $("body").append($("#Player_template #Player_svg"));
                     }
                 }
 
@@ -289,55 +259,44 @@ function _defineProperty(obj, key, value) {
                     container.html("");
                     container.append(videocontainner);
 
-                    gplayercontainer = videocontainner;
-                    gplayercontainer.find(".gplayer_container_inner").show();
-                    if (curentUrl) {
-                        // loadCss(curentUrl + './css/mobile_style.css', 'mobile_style_css', function () {
-                        //     gplayercontainer.removeClass('childhidden');
-                        //     gplayercontainer.find(".gplayer_container_inner").show();
-                        // });
-                    } else {
-                        // if(options.loadcss){
-                        //     var url = './css/mobile_style.css';
-                        //     require(''+url);
-                        // }
-                    }
-                    gplayervideowrap = gplayercontainer.find(".gplayer_video");
-                    playbtn = gplayercontainer.find(".gplayer_button_play");
-                    loading = gplayercontainer.find(".gplayer_loading");
-                    controlbar = gplayercontainer.find(".gplayer_controls");
-                    optiondiv = gplayercontainer.find(".gplayer_overlay_option");
-                    playpausbtn = controlbar.find(".gplayer_play_button");
-                    currenttimepanel = controlbar.find(".gplayer_time_panel_current");
-                    totaltimepanel = controlbar.find(".gplayer_time_panel_total");
-                    loadedbar = controlbar.find(".gplayer_time_loaded");
-                    playedbar = controlbar.find(".gplayer_time_current");
+                    Playercontainer = videocontainner;
+                    Playercontainer.find(".Player_container_inner").show();
+                    Playervideowrap = Playercontainer.find(".Player_video");
+                    playbtn = Playercontainer.find(".Player_button_play");
+                    loading = Playercontainer.find(".Player_loading");
+                    controlbar = Playercontainer.find(".Player_controls");
+                    optiondiv = Playercontainer.find(".Player_overlay_option");
+                    playpausbtn = controlbar.find(".Player_play_button");
+                    currenttimepanel = controlbar.find(".Player_time_panel_current");
+                    totaltimepanel = controlbar.find(".Player_time_panel_total");
+                    loadedbar = controlbar.find(".Player_time_loaded");
+                    playedbar = controlbar.find(".Player_time_current");
                     playedbar.css({
                         background: options.color
                     });
                     if (!!options.toolbar) {
                         playedbar.find("em")[0].style.cssText = "background:" + dockcolor3 + "; background:-webkit-radial-gradient(50% 50%,circle closest-side, " + dockcolor1 + " 31%," + dockcolor2 + " 100%)";
                     }
-                    timehander = controlbar.find(".gplayer_time_handle");
-                    gplayeroverlayposter = gplayercontainer.find(".gplayer_poster_img");
+                    timehander = controlbar.find(".Player_time_handle");
+                    Playeroverlayposter = Playercontainer.find(".Player_poster_img");
                     totaltime = 0;
-                    timerail = controlbar.find(".gplayer_time_rail");
-                    fullscreen_button = controlbar.find(".gplayer_fullscreen_button ");
+                    timerail = controlbar.find(".Player_time_rail");
+                    fullscreen_button = controlbar.find(".Player_fullscreen_button ");
 
                     // videoElement.style.width = options.width;
                     // videoElement.style.height = options.height;
 
-                    gplayerTimeTotal = controlbar.find(".gplayer_time_total");
+                    PlayerTimeTotal = controlbar.find(".Player_time_total");
 
                     if (!!options.image) {
                         self.setPoster(options.image);
                     }
                     // if (options.image) {
                     // videoElement.load();
-                    // gplayervideowrap.append(videoElement);
-                    videoElement = gplayervideowrap.find("video")[0];
+                    // Playervideowrap.append(videoElement);
+                    videoElement = Playervideowrap.find("video")[0];
 
-                    var fullElement = DEVICE.isMobile ? videoElement : container.find(".gplayer_container_inner")[0];
+                    var fullElement = DEVICE.isMobile ? videoElement : container.find(".Player_container_inner")[0];
 
                     videoplayer = videoElement;
                     self.videoplayer = videoElement;
@@ -373,10 +332,10 @@ function _defineProperty(obj, key, value) {
 
                     addEvent("ended", function() {
                         options.onComplete(videoindex);
-                        gplayeroverlayposter.fadeIn(100);
+                        Playeroverlayposter.fadeIn(100);
                         playbtn.show();
-                        playpausbtn.removeClass("gplayer_pause");
-                        playpausbtn.addClass("gplayer_play");
+                        playpausbtn.removeClass("Player_pause");
+                        playpausbtn.addClass("Player_play");
                     });
                     addEvent("error", function() {
                         //console.log('error');
@@ -386,7 +345,7 @@ function _defineProperty(obj, key, value) {
                         totaltimepanel.html(getformattime(videoElement.duration));
                         // if (!!totaltimepanel && totaltimepanel.length > 0) {
                         //     timerail.css({
-                        //         paddingRight: timerail.find('.gplayer_time_panel').width() + 10
+                        //         paddingRight: timerail.find('.Player_time_panel').width() + 10
                         //     });
                         // }
                     });
@@ -399,18 +358,18 @@ function _defineProperty(obj, key, value) {
                     // });
                     addEvent("pause", function() {
                         playbtn.show();
-                        playpausbtn.removeClass("gplayer_pause");
-                        playpausbtn.addClass("gplayer_play");
+                        playpausbtn.removeClass("Player_pause");
+                        playpausbtn.addClass("Player_play");
                         loading.hide();
                         options.onPause(videoindex);
                     });
                     addEvent("play", function() {
-                        gplayeroverlayposter.stop().fadeOut();
+                        Playeroverlayposter.stop().fadeOut();
                         playbtn.hide();
                         options.onPlay(videoindex);
                         loading.hide();
-                        playpausbtn.removeClass("gplayer_play");
-                        playpausbtn.addClass("gplayer_pause");
+                        playpausbtn.removeClass("Player_play");
+                        playpausbtn.addClass("Player_pause");
 
                         if (options.fullScreen) {
                             launchFullscreen(fullElement);
@@ -419,12 +378,12 @@ function _defineProperty(obj, key, value) {
 
                     addEvent("playing", function() {
                         //console.log('playing');
-                        gplayeroverlayposter.stop().fadeOut();
+                        Playeroverlayposter.stop().fadeOut();
                         playbtn.hide();
                         options.onPlay(videoindex);
                         loading.hide();
-                        playpausbtn.removeClass("gplayer_play");
-                        playpausbtn.addClass("gplayer_pause");
+                        playpausbtn.removeClass("Player_play");
+                        playpausbtn.addClass("Player_pause");
                     });
                     addEvent("progress", function() {
                         //console.log('progress');
@@ -457,8 +416,8 @@ function _defineProperty(obj, key, value) {
                             $(".tvp_fullscreen").addClass("tvp_fullscreen_true");
                         } else {
                             $(".tvp_fullscreen").removeClass("tvp_fullscreen_true");
-                            if (!!options.fullScreen && !!options.gPopup) {
-                                options.gPopup.hide();
+                            if (!!options.fullScreen && !!options.Popup) {
+                                options.Popup.hide();
                             }
                         }
                     });
@@ -583,7 +542,7 @@ function _defineProperty(obj, key, value) {
                             }, 200);
                         });
                         if (DEVICE.isPc) {
-                            container.find(".gplayer_container").hover(
+                            container.find(".Player_container").hover(
                                 function() {
                                     showcontrolbar();
                                 },
@@ -591,9 +550,9 @@ function _defineProperty(obj, key, value) {
                                     hidecontrolbar();
                                 }
                             );
-                            container.addClass("gplayer_pc");
+                            container.addClass("Player_pc");
                         } else {
-                            container.addClass("gplayer_mobile");
+                            container.addClass("Player_mobile");
                         }
                         playpausbtn.click(function() {
                             if (videoElement.paused || videoElement.ended) {
@@ -616,8 +575,8 @@ function _defineProperty(obj, key, value) {
                             startHandle(e);
                             showcontrolbar();
                         });
-                        gplayerTimeTotal.bind("click", function(e) {
-                            var offsetx = e.pageX - gplayerTimeTotal.offset().left;
+                        PlayerTimeTotal.bind("click", function(e) {
+                            var offsetx = e.pageX - PlayerTimeTotal.offset().left;
                             offsetx = offsetx - playedbar.width();
                             if (isNaN(offsetx)) {
                                 offsetx = 0;
@@ -661,10 +620,10 @@ function _defineProperty(obj, key, value) {
                     if (changedtime < 0) {
                         changedtime = 0;
                     }
-                    if (changedtime > gplayerTimeTotal.width()) {
-                        changedtime = gplayerTimeTotal.width();
+                    if (changedtime > PlayerTimeTotal.width()) {
+                        changedtime = PlayerTimeTotal.width();
                     }
-                    changperchent = changedtime / gplayerTimeTotal.width();
+                    changperchent = changedtime / PlayerTimeTotal.width();
                     if (seek) {
                         seektime = changperchent * totaltime;
                         videoElement.currentTime = seektime;
@@ -834,9 +793,9 @@ function _defineProperty(obj, key, value) {
                     if (typeof imageurl == "undefined") {
                         imageurl = "";
                     }
-                    gplayeroverlayposter.attr("data-pic", imageurl);
+                    Playeroverlayposter.attr("data-pic", imageurl);
 
-                    gplayeroverlayposter.css({
+                    Playeroverlayposter.css({
                         backgroundImage: "url(" + imageurl + ")"
                     });
                 };
@@ -852,7 +811,7 @@ function _defineProperty(obj, key, value) {
                     addsources(videoElement, fileurl);
                     this.setPoster(imageurl);
                     // videoElement.poster = imageurl;
-                    gplayeroverlayposter.stop().show();
+                    Playeroverlayposter.stop().show();
                     playbtn.show();
                     loading.hide();
                     videoplayer.load();
@@ -861,7 +820,6 @@ function _defineProperty(obj, key, value) {
             }
             //flash播放器
             function flashPlayer() {
-                var curmode = "flash";
                 var self = this;
                 var isflashloaded = false;
                 var flashloadedCallbacks = [];
@@ -881,7 +839,7 @@ function _defineProperty(obj, key, value) {
                         options.height = options.height + "px";
                     }
                     options.file = getFilePath(options.file);
-                    self.videoid = "GPLAYER_video" + playerindex;
+                    self.videoid = "Player_video" + playerindex;
                     self.currentvideo = options.file;
                     var imghtml = "";
                     var imgshowcss = "display:none;";
@@ -897,12 +855,11 @@ function _defineProperty(obj, key, value) {
                             // var url = './play.png';
                             // playbtnbg = require(""+url)
                         }
-                        imghtml = '<div class="GPLAYER_video_popup_image" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:10;background:#000 url(' + options.image + ") no-repeat center;background-size:cover;" + imgshowcss + '"><a href="javascript:void(0)" class="GPLAYER_video_play_btn" style="outline:none;width:67px;height:67px;position:absolute;left:50%;top:50%;z-index:20;display:block;margin-left:-34px;margin-top:-34px;transition: all 0.3s;-moz-transition: all 0.3s;-webkit-transition: all 0.3s;-o-transition: all 0.3s;"></a><div class="GPLAYER_black_bg" style="width:100%;height:100%;position:absolute;background:#000;opacity:0.3;filter:alpha(opacity=30);z-index:15;"></div></div>';
+                        imghtml = '<div class="Player_video_popup_image" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:10;background:#000 url(' + options.image + ") no-repeat center;background-size:cover;" + imgshowcss + '"><a href="javascript:void(0)" class="Player_video_play_btn" style="outline:none;width:67px;height:67px;position:absolute;left:50%;top:50%;z-index:20;display:block;margin-left:-34px;margin-top:-34px;transition: all 0.3s;-moz-transition: all 0.3s;-webkit-transition: all 0.3s;-o-transition: all 0.3s;"></a><div class="Player_black_bg" style="width:100%;height:100%;position:absolute;background:#000;opacity:0.3;filter:alpha(opacity=30);z-index:15;"></div></div>';
                     }
                     var outterHeight = "";
                     var innerTop = "";
                     var objHeight = "100px";
-                    var extrecss = "";
                     if (options.height == "auto") {
                         if (DEVICE.isIe7 || DEVICE.isIe6) {
                             outterHeight = "1px";
@@ -952,7 +909,7 @@ function _defineProperty(obj, key, value) {
                             player.play();
                             options.onReplay(videoindex);
                         } else {
-                            $(".GPLAYER_video_popup_image").fadeIn();
+                            $(".Player_video_popup_image").fadeIn();
                             options.onComplete(videoindex);
                         }
                     };
@@ -994,10 +951,10 @@ function _defineProperty(obj, key, value) {
                             }
                         };
                     }
-                    container.find(".GPLAYER_video_popup_image").hover(
+                    container.find(".Player_video_popup_image").hover(
                         function() {
                             $(this)
-                                .find(".GPLAYER_black_bg")
+                                .find(".Player_black_bg")
                                 .stop()
                                 .animate(
                                     {
@@ -1006,12 +963,12 @@ function _defineProperty(obj, key, value) {
                                     300
                                 );
                             $(this)
-                                .find(".GPLAYER_video_play_btn")
+                                .find(".Player_video_play_btn")
                                 .css(prefix.css + "transform", "scale(1.1)");
                         },
                         function() {
                             $(this)
-                                .find(".GPLAYER_black_bg")
+                                .find(".Player_black_bg")
                                 .stop()
                                 .animate(
                                     {
@@ -1020,11 +977,11 @@ function _defineProperty(obj, key, value) {
                                     300
                                 );
                             $(this)
-                                .find(".GPLAYER_video_play_btn")
+                                .find(".Player_video_play_btn")
                                 .css(prefix.css + "transform", "none");
                         }
                     );
-                    container.find(".GPLAYER_video_play_btn").click(function() {
+                    container.find(".Player_video_play_btn").click(function() {
                         self.play();
                     });
 
@@ -1079,14 +1036,14 @@ function _defineProperty(obj, key, value) {
                 }
                 this.play = function() {
                     if (isflashloaded) {
-                        container.find(".GPLAYER_video_popup_image").fadeOut();
+                        container.find(".Player_video_popup_image").fadeOut();
                         setTimeout(function() {
                             getElement().resumeVideo();
                         }, 100);
                         options.onPlay(videoindex);
                     } else {
                         flashloadedCallbacks.push(function() {
-                            container.find(".GPLAYER_video_popup_image").fadeOut();
+                            container.find(".Player_video_popup_image").fadeOut();
                             setTimeout(function() {
                                 getElement().resumeVideo();
                             }, 100);
@@ -1119,13 +1076,13 @@ function _defineProperty(obj, key, value) {
                     }
                     if (image) {
                         container
-                            .find(".GPLAYER_video_popup_image")
+                            .find(".Player_video_popup_image")
                             .css({
                                 backgroundImage: "url(" + image + ")"
                             })
                             .fadeIn(300);
                     } else {
-                        container.find(".GPLAYER_video_popup_image").hide();
+                        container.find(".Player_video_popup_image").hide();
                     }
                     // }
                 };
@@ -1159,17 +1116,6 @@ function _defineProperty(obj, key, value) {
             }
         }
 
-        function getJSPath(jsname) {
-            var js = document.scripts;
-            var jsPath = "";
-            for (var i = js.length; i > 0; i--) {
-                if (js[i - 1].src.indexOf(jsname) > -1) {
-                    jsPath = js[i - 1].src.substring(0, js[i - 1].src.lastIndexOf("/") + 1);
-                }
-            }
-            return jsPath;
-        }
-
         function getCurUrl() {
             var ur = window.location.protocol + "//" + window.location.host + window.location.pathname;
             var pathArr = window.location.pathname.split("/");
@@ -1187,16 +1133,9 @@ function _defineProperty(obj, key, value) {
             return file;
         }
 
-        function thisMovie(name) {
-            var e = document.getElementById(name);
-            if (e) {
-                return e;
-            } else {
-                return false;
-            }
-        }
-
         function pcPopupVideo(options) {
+            var self = this;
+            var popupobj;
             if (!!options.pc) {
                 options = $.extend(options, options.pc);
             }
@@ -1213,44 +1152,38 @@ function _defineProperty(obj, key, value) {
                     resizeCall();
                 }
             };
-            var self = this;
-            var popupobj;
-            if ($(".POPUP-GPLAYER").length < 1) {
+
+            if ($(".POPUP-Player").length < 1) {
                 var closebtnbg;
-                if (curentUrl) {
-                    closebtnbg = myrequire("./close.jpg");
-                } else {
-                    // var closeurl = './close.jpg';
-                    // closebtnbg = require(""+closeurl)
-                }
-                popupobj = '<div class="POPUP-GPLAYER" style="display:none;background:#000;"><a style="width:50px;height:50px;background:url(' + closebtnbg + ') no-repeat center;position:absolute;top:0;right:-50px;display:block;" class="POPUP-GPLAYER-CLOSE close" href="javascript:void(0)"></a><div id="POPUP-GPLAYER-CONTAINER"></div></div>';
+                closebtnbg = Assets["icons/close.jpg"].src;
+                popupobj = '<div class="POPUP-Player" style="display:none;background:#000;"><a style="width:50px;height:50px;background:url(' + closebtnbg + ') no-repeat center;position:absolute;top:0;right:-50px;display:block;" class="POPUP-Player-CLOSE close" href="javascript:void(0)"></a><div id="POPUP-Player-CONTAINER"></div></div>';
                 popupobj = $(popupobj);
                 $("body").append(popupobj);
             } else {
-                popupobj = $(".POPUP-GPLAYER");
+                popupobj = $(".POPUP-Player");
             }
             popupoptions = $.extend(popupoptions, {
                 animation: "fade",
                 scrollObj: false
             });
-            this["popup"] = popupobj.gpopup(popupoptions);
-            videooptions.gPopup = {
+            this["popup"] = new Popup(popupobj, popupoptions);
+            videooptions.popup = {
                 hide: function() {
                     self["popup"].hide(popupobj);
                 }
             };
-            this["video"] = popupobj.find("#POPUP-GPLAYER-CONTAINER").gplayer(videooptions);
+            this["video"] = new Player(popupobj.find("#POPUP-Player-CONTAINER"), videooptions);
             this["popup"].setVideo(this["video"]);
-            this.popupobj = $(".POPUP-GPLAYER");
+            this.popupobj = $(".POPUP-Player");
             this.show = function(url, image) {
-                popupobj = $(".POPUP-GPLAYER");
+                popupobj = $(".POPUP-Player");
                 if (typeof url != "undefined") {
                     self["video"].setVideoUrl(url, image);
                 }
                 self["popup"].show(popupobj);
             };
             this.hide = function() {
-                popupobj = $(".POPUP-GPLAYER");
+                popupobj = $(".POPUP-Player");
                 self["popup"].hide(popupobj);
             };
         }
@@ -1260,15 +1193,13 @@ function _defineProperty(obj, key, value) {
             if (!!options.mobile) {
                 options = $.extend(options, options.mobile);
             }
-            
+
             var defaultOptions = {
-                backText: "完成"
+                backText: "关闭"
             };
             options = $.extend(defaultOptions, options);
-            var popupoptions = $.extend({}, options);
             var videooptions = $.extend({}, options);
             var self = this;
-
             videooptions.auto = false;
             if ($(".VIDEOBG").length == 0) {
                 var videobg = $('<div class="VIDEOBG"></div>');
@@ -1296,9 +1227,10 @@ function _defineProperty(obj, key, value) {
                 topbar.append(finish);
                 var videoWrap = $('<div id="VIDEOWRAP"></div>');
                 videobg.append(videoWrap);
+                var bili = $(window).width() >= 640 ? 2 : 1;
                 topbar.css({
                     width: "100%",
-                    height: "40px",
+                    height: 40 * bili + "px",
                     background: "rgba(200, 200, 200,0.6)",
                     position: "absolute",
                     top: 0,
@@ -1307,14 +1239,14 @@ function _defineProperty(obj, key, value) {
                 });
                 finish.css({
                     display: "inline-block",
-                    lineHeight: "30px",
-                    padding: "0 10px",
+                    lineHeight: 30 * bili + "px",
+                    padding: "0 " + 10 + bili + "px",
                     color: "#020202",
-                    borderRadius: "5px",
+                    borderRadius: 5 * bili + "px",
                     position: "absolute",
                     left: 0,
-                    top: 5,
-                    fontSize: "18px",
+                    top: 5 * bili,
+                    fontSize: 18 * bili,
                     fontWeight: "bold",
                     fontFamily: "微软雅黑"
                 });
@@ -1328,10 +1260,10 @@ function _defineProperty(obj, key, value) {
             } else {
                 var videoWrap = $("#VIDEOWRAP");
             }
-            videooptions.gPopup = {
+            videooptions.Popup = {
                 hide: playEnd
             };
-            this["video"] = videoWrap.gplayer(videooptions);
+            this["video"] = new Player(videoWrap, videooptions);
 
             this.show = function(file, img) {
                 notouch();
@@ -1390,16 +1322,16 @@ function _defineProperty(obj, key, value) {
             }
         }
 
-        function GPLAYERSET(allset) {
+        function PlayerSET(allset) {
             if (typeof allset != "undefined" && allset) {
-                $(".GPLAYER-CONTAINER").each(function() {
+                $(".Player-CONTAINER").each(function() {
                     $(this).html("");
-                    $(this).removeClass("GPLAYER-SETTED");
+                    $(this).removeClass("Player-SETTED");
                 });
             }
-            if ($(".GPLAYER-CONTAINER").not($(".GPLAYER-SETTED")).length > 0) {
-                $(".GPLAYER-CONTAINER")
-                    .not($(".GPLAYER-SETTED"))
+            if ($(".Player-CONTAINER").not($(".Player-SETTED")).length > 0) {
+                $(".Player-CONTAINER")
+                    .not($(".Player-SETTED"))
                     .each(function() {
                         var pcwidth = $(this).data("pcwidth");
                         if (!pcwidth) {
@@ -1456,50 +1388,39 @@ function _defineProperty(obj, key, value) {
                                 loop: $(this).data("loop")
                             }
                         };
-                        $(this).gplayer(options);
-                        $(this).addClass("GPLAYER-SETTED");
+                        $(this).Player(options);
+                        $(this).addClass("Player-SETTED");
                     });
             }
         }
-        if ($) {
-            (function($) {
-                $.fn.gplayer = function(params) {
-                    var result = [];
-                    if (typeof window.gplayervideoIndex == "undefined") {
-                        window.gplayervideoIndex = 0;
-                    }
-                    this.each(function(index) {
-                        result.push(new gPlayer($(this), gplayervideoIndex, params));
-                        gplayervideoIndex++;
-                        // $(this).data('gplayer', new GPlayer($(this), params));
-                    });
-                    if (result.length <= 1) {
-                        return result[0];
-                    }
-                    return result;
-                };
-            })($);
-            $(function() {
-                GPLAYERSET();
-            });
-        }
-        return {
-            gplayer: gPlayer,
-            popupVideo: popupVideo()
-        };
+        _defineProperty(Player, "popup", popupVideo());
+        _defineProperty(Player, "plugin", function(Flag) {
+            if (Flag && Flag.fn) {
+                (function(Flag) {
+                    Flag.fn.Player = function(params) {
+                        var result = [];
+                        if (typeof window.PlayervideoIndex == "undefined") {
+                            window.PlayervideoIndex = 0;
+                        }
+                        this.each(function(index) {
+                            result.push(new Player($(this), params, PlayervideoIndex));
+                            PlayervideoIndex++;
+                            // $(this).data('Player', new Player($(this), params));
+                        });
+                        if (result.length <= 1) {
+                            return result[0];
+                        }
+                        return result;
+                    };
+                })(Flag);
+            }
+            return Player;
+        });
+        $(function() {
+            PlayerSET();
+        });
+        return Player;
     };
-
-    if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === "object") {
-        // CommonJS
-        module.exports = definFun(require("jquery"), require("../../gpopup/v4"), require("../../device"), require("../../prefix"), require("./html/mobile.tpl"), require("../../plugins/css!./css/mobile_style.css"));
-    } else if (typeof define === "function" && define.amd) {
-        // AMD
-        define(["jquery", "../../gpopup/v4", "../../device/main", "../../prefix/v1", "./html/mobile.tpl", "../../plugins/css!./css/mobile_style.css"], definFun);
-    } else {
-        // Global Variables
-        window.GPlayer = definFun($, GPopup, DEVICE, PREFIX);
-    }
-
     function cutHex(h) {
         return h.charAt(0) == "#" ? h.substring(1, 7) : h;
     }
@@ -1523,5 +1444,19 @@ function _defineProperty(obj, key, value) {
             hex = hex.split(",");
         }
         return hex;
+    }
+
+    if ((typeof exports === "undefined" ? "undefined" : _typeof(exports)) === "object") {
+        // CommonJS
+        module.exports = definFun(require("jquery"), require("../popup/"), require("../device/"), require("../prefix/"), require("./assets/"));
+    } else if (typeof define === "function" && define.amd) {
+        // AMD
+        define(["jquery", "../popup/", "../device/", "../prefix/", "./assets/"], definFun);
+    } else {
+        // Global Variables
+        if (!window.Foliou) {
+            window.Foliou = {};
+        }
+        window.Foliou.Player = definFun($, window.Foliou.Popup, window.Foliou.Device, window.Foliou.Prefix);
     }
 })();
