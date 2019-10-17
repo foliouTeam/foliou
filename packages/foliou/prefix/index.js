@@ -28,9 +28,11 @@
     }
     if (typeof exports === "object") {
         // CommonJS
+        
         module.exports = Factory();
     } else if (typeof define === "function" && define.amd) {
         // AMD
+
         define(Factory);
     } else {
         // Global Variables
