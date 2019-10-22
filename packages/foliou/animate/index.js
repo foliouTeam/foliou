@@ -295,16 +295,12 @@
 			}
 			element.addEventListener(
 				PREFIX.js + "AnimationEnd",
-				function() {
-					alert("end");
-				},
+				_callback,
 				false
 			);
 			element.addEventListener(
 				"animationend",
-				function() {
-					alert("end");
-				},
+				_callback,
 				false
 			);
 		}
