@@ -9,7 +9,12 @@
     function Factory($, DEVICE, ResizeSensor, Animate) {
         //弹窗
         var wh;
-        Animate.plugin($);
+        try {
+            Animate.plugin($);
+        } catch (error) {
+            
+        }
+        
         function queryEle(str) {
             if (typeof str == "string") {
                 return $(str)[0];

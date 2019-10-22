@@ -17,6 +17,7 @@
         }
         return obj;
     }
+    console.log(require);
     var definFun = function definFun($, Popup, DEVICE, PREFIX, Assets) {
         console.log(Assets);
         //Do setup work here
@@ -848,13 +849,6 @@
                     }
 
                     if (options.toolbar) {
-                        var playbtnbg;
-                        if (curentUrl) {
-                            //playbtnbg = myrequire('./play.png');
-                        } else {
-                            // var url = './play.png';
-                            // playbtnbg = require(""+url)
-                        }
                         imghtml = '<div class="Player_video_popup_image" style="width:100%;height:100%;position:absolute;top:0;left:0;z-index:10;background:#000 url(' + options.image + ") no-repeat center;background-size:cover;" + imgshowcss + '"><a href="javascript:void(0)" class="Player_video_play_btn" style="outline:none;width:67px;height:67px;position:absolute;left:50%;top:50%;z-index:20;display:block;margin-left:-34px;margin-top:-34px;transition: all 0.3s;-moz-transition: all 0.3s;-webkit-transition: all 0.3s;-o-transition: all 0.3s;"></a><div class="Player_black_bg" style="width:100%;height:100%;position:absolute;background:#000;opacity:0.3;filter:alpha(opacity=30);z-index:15;"></div></div>';
                     }
                     var outterHeight = "";

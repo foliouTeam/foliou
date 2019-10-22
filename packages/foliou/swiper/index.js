@@ -1,11 +1,12 @@
 "use strict";
 /**
     @author:pengzai
-    @email:pengzai-dev@outlook.com
+    @email:pengzai.dev@outlook.com
     @blog:https://www.pengzai.dev/
     @github:https://github.com/pengzai-dev
 **/
 (function () {
+    
     var definFun = function definFun($, DEVICE, Touch) {
         if (typeof $ == "undefined") {
             console.warn("请加载jquery");
@@ -42,7 +43,6 @@
                 onStart: function onStart() { },
                 onEnd: function onEnd() { }
             };
-
             var options = $.extend({}, defaultoption, options);
             var current = -1;
             var total = 0;
