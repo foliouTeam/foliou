@@ -301,10 +301,9 @@
 			if (!element) {
 				return;
 			}
-			console.log(element);
-			var self = this;
-			var property = "all";
-			var k = 0;
+			// var self = this;
+			// var property = "all";
+			// var k = 0;
 			if (typeof speed == "undefined") {
 				speed = 400;
 				easing = "linear";
