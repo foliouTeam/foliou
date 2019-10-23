@@ -215,7 +215,7 @@
 				if (typeof callback == "function") {
 					callback();
 				}
-			});
+			},50);
 		}
 		function pauseanimation(element) {
 			element = queryEle(element);
