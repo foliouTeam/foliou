@@ -293,16 +293,8 @@
 					});
 				};
 			}
-			element.addEventListener(
-				PREFIX.js + "AnimationEnd",
-				_callback,
-				false
-			);
-			element.addEventListener(
-				"animationend",
-				_callback,
-				false
-			);
+			element.addEventListener(PREFIX.js + "AnimationEnd", _callback, false);
+			element.addEventListener("animationend", _callback, false);
 		}
 		function css3animate(element, styles, speed, easing, _callback2) {
 			element = queryEle(element);
@@ -349,8 +341,8 @@
 			element.addEventListener("transitionend", _callback2, false);
 		}
 		return {
-			css3: function(element, styleObj) {
-				setStyle(element, styleObj, false);
+			css3: function(element, styleObj, cb) {
+				setStyle(element, styleObj, false, cb);
 			},
 			transform: css3animate,
 			keyframe: {
@@ -360,8 +352,8 @@
 			},
 			plugin: function(flag) {
 				if (!!flag && !!flag.fn) {
-					flag.fn.css3 = function(styleObj) {
-						setStyle($(this), styleObj, false);
+					flag.fn.css3 = function(styleObj, cb) {
+						setStyle($(this), styleObj, false, cb);
 					};
 					flag.fn.transform = function(styles, speed, easing, callback) {
 						var total = $(this).length;
