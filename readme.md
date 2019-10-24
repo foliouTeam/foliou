@@ -34,3 +34,6 @@ Animate.css3(dom,cssObject,callback);
 //callback 设置完成的回调函数；
 ``` 
 
+-------
+持续更新中。。。
+
