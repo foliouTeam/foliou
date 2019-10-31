@@ -115,13 +115,52 @@ build();
 node ./build.js
 ```
 
-有了上面这部分代码我们已经可以在 main.js中 直接require html文件了，然后我们就可以把打包后的js 发布到npm，大功告成 🍻
+有了上面这部分代码我们已经可以在 main.js中 直接require html文件了，然后我们就可以把打包后的js 发布到npm
+
+ css 和 图片打包成js，无非就是增加两个插件，这样以后在开发组件的时候直接在js中require 一切，开发体验有很大的提升了。
+
+### 自动化
+
+Rollup提供了watch方法或者，你也可以在build.js中加入判断文件是否改变，然后自动打包的逻辑，这样就不用每一次修改完代码运行打包命令了。
+
+大功告成 🍻
 
 
 
+### 进一步优化
 
+事实上在实际开发中很多组件是相互依赖的比如所 "设备判断"\(device\)，在“视频播放”\(player\) 和 “轮播图”\(swiper\)中都有使用，如果按照上面的方法打包的话，device的代码同时在player和swiper中存在；
 
+为了避免这个问题，我们最初的目的仅仅是为了把资源文件打包成js文件，并不是想要把组件全部打包成一个包。
 
+ 可以让组件包含两个js文件一个是入口文件，而另外一个是资源文件asset.js   
+  
+具体的实现方案如下：  
+1. 把所有的资源文件引入到一个临时文件中
+
+{% code-tabs %}
+{% code-tabs-item title="tmp.js" %}
+```javascript
+var assets = {};
+import html from "./tpl.html";
+assets["html "]=html;
+import css from "./style.css";
+assets["css"]=css;
+export default assets;
+```
+{% endcode-tabs-item %}
+{% endcode-tabs %}
+
+ 2. 然后用rullup 打包这个临时文件，导出为 asset.js；
+
+ 3. 在组件的主要逻辑中使用asset.js
+
+```javascript
+var Assets = require("./assets.js");
+contain.append(Assets.html);
+```
+
+最后再把这个过程中从 临时文件的生成到rollup的打包用nodejs 全部自动化，具体实现就不赘述了，这个项目中具体的实现逻辑在 build/main.js下
 
 
 
