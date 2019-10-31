@@ -36,13 +36,7 @@ foliou是一个前端常用组件集合，包含了很多模块，在使用的�
   * 从当前url中获取参数
   * 在低版本浏览器实现Json.pare 和 Json.stringify
 
-## 安装 foliou
-
-Becoming a super hero is a fairly straight forward process:
-
-```
-$ npm install foliou
-```
+## 
 
 
 
