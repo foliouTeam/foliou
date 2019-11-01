@@ -162,17 +162,3 @@ contain.append(Assets.html);
 
 最后再把这个过程中从 临时文件的生成到rollup的打包用nodejs 全部自动化，具体实现就不赘述了，这个项目中具体的实现逻辑在 build/main.js下
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
