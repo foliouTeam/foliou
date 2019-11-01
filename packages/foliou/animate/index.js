@@ -10,7 +10,7 @@
 		var PREFIX = Prefix();
 		var support_css3 = (function() {
 			var div = document.createElement("div"),
-				vendors = "Ms O Moz Webkit".split(" "),
+				vendors = "ms Ms O Moz Webkit".split(" "),
 				len = vendors.length;
 			return function(prop) {
 				if (prop in div.style) return true;
@@ -18,19 +18,19 @@
 				prop = prop.replace(/^[a-z]/, function(val) {
 					return val.toUpperCase();
 				});
-
-				while (len--) {
-					if (vendors[len] + prop in div.style) {
+				for (var i in vendors) {
+					if (vendors[i] + prop in div.style) {
 						return true;
 					}
 				}
+
 				return false;
 			};
 		})();
-		if (!support_css3("transform")) {
-			console.error("当前浏览器不支持css3");
-			return function() {};
-		}
+		// if (!support_css3("transform")) {
+		// 	//console.error("当前浏览器不支持css3");
+		// 	//return function() {};
+		// }
 
 		function upFirst(str) {
 			// str = str.toLowerCase();
@@ -45,8 +45,7 @@
 			deg: ["rotate", "skew"],
 			no: ["scale", "origin", "opacity", "zIndex", "z-index"]
 		};
-		var transformStyle = ["scale", "rotate", "translate", "skew", "perspective"];
-
+		//var transformStyle = ["scale", "rotate", "translate", "skew", "perspective"];
 		// function istransformstyle(style) {
 		//     if (style == "x" || style == "y" || style == "z") {
 		//         style = "translate";
@@ -58,7 +57,6 @@
 		//     }
 		//     return false;
 		// }
-
 		function isSameStyle(str1, str2) {
 			if (str1.toLowerCase() == str2.toLowerCase()) {
 				return true;
@@ -96,6 +94,7 @@
 				// console.log(i);
 				var unit = getUnit(i);
 				if (!isNaN(curvalue)) {
+					curvalue += unit;
 				}
 				switch (i) {
 					case "translate":
@@ -169,6 +168,9 @@
 		}
 		function getCss3(element) {
 			var transformstr = element.style[PREFIX.js + "Transform"];
+			if (!transformstr) {
+				return {};
+			}
 			var temp = transformstr.split(" ");
 			var key;
 			var value;
@@ -192,7 +194,7 @@
 			element.style[style] = value;
 		}
 
-		function setStyle(element, styles, animate, callback) {
+		function setStyle(element, styles, animate, justCss3) {
 			element = queryEle(element);
 			if (!element) {
 				return;
@@ -202,20 +204,18 @@
 				callback = animate;
 				animate = false;
 			}
-			if (!animate) {
-				var transitionstr = "all 0s linear";
+			if (!animate && support_css3("transition")) {
+				var transitionstr = "all 0s linear ";
 				$(element).css("transition", transitionstr);
 				$(element).css(PREFIX.css + "transition", transitionstr);
 			}
-			var cssobj = css3format(Object.assign(getCss3(element), styles));
+			var curCss3 = getCss3(element);
+			var cssobj = css3format($.extend(curCss3, styles));
 			element.style[PREFIX.css + "transform"] = cssobj.transform;
 			$(element).css(PREFIX.css + "transform-origin", cssobj.origin);
-			$(element).css(cssobj.css2);
-			setTimeout(function() {
-				if (typeof callback == "function") {
-					callback();
-				}
-			},50);
+			if (!justCss3) {
+				$(element).css(cssobj.css2);
+			}
 		}
 		function pauseanimation(element) {
 			element = queryEle(element);
@@ -296,11 +296,32 @@
 			element.addEventListener(PREFIX.js + "AnimationEnd", _callback, false);
 			element.addEventListener("animationend", _callback, false);
 		}
+
+		function nopx(val) {
+			return val.toString().replace("px", "");
+		}
+
+		function hasSameStyle(element, styles) {
+			if (typeof styles != "object" || !element) {
+				return false;
+			}
+			var curCss3 = getCss3(element);
+			var isSame = true;
+			for (var i in styles) {
+				if (styles[i] != curCss3[i] && nopx(styles[i]) != nopx($(element).css(i))) {
+					isSame = false;
+					break;
+				}
+			}
+			return isSame;
+		}
+
 		function css3animate(element, styles, speed, easing, _callback2) {
 			element = queryEle(element);
 			if (!element) {
 				return;
 			}
+
 			// var self = this;
 			// var property = "all";
 			// var k = 0;
@@ -319,6 +340,23 @@
 				_callback2 = easing;
 				easing = "linear";
 			}
+
+			if (!support_css3("transform")) {
+				$(element).animate(styles, speed, easing, _callback2);
+				return;
+			} else if (!support_css3("transition")) {
+				setStyle(element, styles, true, true);
+				$(element).animate(styles, speed, easing, _callback2);
+				return;
+			}
+			//判断是否已经是当前的属性
+			if (hasSameStyle(element, styles)) {
+				if (typeof _callback2 == "function") {
+					_callback2();
+				}
+				return;
+			}
+
 			var thecallback = _callback2;
 			if (typeof _callback2 == "undefined") {
 				_callback2 = function callback() {};
@@ -332,6 +370,8 @@
 					});
 				};
 			}
+			//console.log(support_css3("transition"));
+
 			var duration = speed / 1000 + "s";
 			var transitionstr = "all " + duration + " " + easing;
 			$(element).css("transition", transitionstr);
@@ -340,60 +380,66 @@
 			element.addEventListener("transitionend", _callback2, false);
 		}
 		return {
-			css3: function(element, styleObj, cb) {
-				setStyle(element, styleObj, false, cb);
+			set: function(element, styleObj) {
+				setStyle(element, styleObj, false);
 			},
-			transform: css3animate,
+			to: css3animate,
 			keyframe: {
 				run: runanimation,
 				pause: pauseanimation,
+				resume: resumeanimation,
 				stop: stopanimation
-			},
-			plugin: function(flag) {
-				if (!!flag && !!flag.fn) {
-					flag.fn.css3 = function(styleObj, cb) {
-						setStyle($(this), styleObj, false, cb);
-					};
-					flag.fn.transform = function(styles, speed, easing, callback) {
-						var total = $(this).length;
-						if (total > 1) {
-							var i = 0;
-							$(this).each(function() {
-								i++;
-								var curcallback = i == total ? callback : null;
-								css3animate($(this), styles, speed, easing, curcallback);
-							});
-						} else {
-							css3animate($(this), styles, speed, easing, callback);
-						}
-						return $(this);
-					};
-					flag.fn.keyframe = function(keyframe, options, callback) {
-						var total = $(this).length;
-						if (total > 1) {
-							var i = 0;
-							$(this).each(function() {
-								i++;
-								var curcallback = i == total ? callback : null;
-								runanimation($(this), keyframe, options, curcallback);
-							});
-						} else {
-							runanimation($(this), keyframe, options, callback);
-						}
-						return $(this);
-					};
-					flag.fn.pauseKeyframe = function() {
-						pauseanimation($(this));
-						return $(this);
-					};
-					flag.fn.stopKeyframe = function() {
-						stopanimation($(this));
-						return $(this);
-					};
-				} else {
-					console.error("请传入 jquery或者zpeto的变量");
-				}
 			}
+			// plugin: function(flag) {
+			// 	if (!!flag && !!flag.fn) {
+			// 		flag.fn.css = function(styleObj) {
+			// 			setStyle($(this), styleObj, false);
+			// 		};
+			// 		var jqtransform = function(styles, speed, easing, callback) {
+			// 			var total = $(this).length;
+			// 			if (total > 1) {
+			// 				var i = 0;
+			// 				$(this).each(function() {
+			// 					i++;
+			// 					var curcallback = i == total ? callback : null;
+			// 					css3animate($(this), styles, speed, easing, curcallback);
+			// 				});
+			// 			} else {
+			// 				css3animate($(this), styles, speed, easing, callback);
+			// 			}
+			// 			return $(this);
+			// 		};
+			// 		flag.fn.transition = jqtransform;
+			// 		flag.fn.keyframe = function(keyframe, options, callback) {
+			// 			var total = $(this).length;
+			// 			if (total > 1) {
+			// 				var i = 0;
+			// 				$(this).each(function() {
+			// 					i++;
+			// 					var curcallback = i == total ? callback : null;
+			// 					runanimation($(this), keyframe, options, curcallback);
+			// 				});
+			// 			} else {
+			// 				runanimation($(this), keyframe, options, callback);
+			// 			}
+			// 			return $(this);
+			// 		};
+			// 		flag.fn.pauseKeyframe = function() {
+			// 			pauseanimation($(this));
+			// 			return $(this);
+			// 		};
+			// 		flag.fn.resumeKeyframe = function() {
+			// 			resumeanimation($(this));
+			// 			return $(this);
+			// 		};
+			// 		flag.fn.stopKeyframe = function() {
+			// 			stopanimation($(this));
+			// 			return $(this);
+			// 		};
+			// 	} else {
+			// 		console.error("请传入 jquery或者zpeto的变量");
+			// 	}
+			// }
 		};
 	};
 
