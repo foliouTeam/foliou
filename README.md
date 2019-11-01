@@ -1,6 +1,12 @@
+---
+description: foliou是一个前端常用组件集合
+---
+
 # 简介
 
-foliou是一个前端常用组件集合，包含了很多模块，在使用的过程中可以选择性加载 
+Github：[https://github.com/focusbe/foliou](https://github.com/focusbe/foliou)
+
+包含了以下模块：
 
 * **foliou/animate —— css3动画**
 
