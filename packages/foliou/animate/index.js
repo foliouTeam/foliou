@@ -6,27 +6,9 @@
 **/
 ("use strict");
 (function() {
-	var Factory = function(Prefix, $) {
+	var Factory = function(Prefix, $, Device) {
 		var PREFIX = Prefix();
-		var support_css3 = (function() {
-			var div = document.createElement("div"),
-				vendors = "ms Ms O Moz Webkit".split(" "),
-				len = vendors.length;
-			return function(prop) {
-				if (prop in div.style) return true;
-
-				prop = prop.replace(/^[a-z]/, function(val) {
-					return val.toUpperCase();
-				});
-				for (var i in vendors) {
-					if (vendors[i] + prop in div.style) {
-						return true;
-					}
-				}
-
-				return false;
-			};
-		})();
+		var support_css3 = Device.support_css3;
 		// if (!support_css3("transform")) {
 		// 	//console.error("当前浏览器不支持css3");
 		// 	//return function() {};
@@ -158,13 +140,28 @@
 				css2: css2style
 			};
 		}
-		function queryEle(str) {
+		function queryEle(str, isarr) {
 			if (typeof str == "string") {
-				return $(str)[0];
-			} else if (str instanceof $) {
-				return str[0];
+				str = $(str);
+			} else if (!(str instanceof $)) {
+				return str;
 			}
-			return str;
+			var res = [];
+			if (!isarr) {
+				if (str.len > 1) {
+					str.each(function() {
+						res.push($(this)[0]);
+					});
+				} else {
+					res = str[0];
+				}
+			} else {
+				str.each(function() {
+					res.push($(this)[0]);
+				});
+			}
+
+			return res;
 		}
 		function getCss3(element) {
 			var transformstr = element.style[PREFIX.js + "Transform"];
@@ -218,16 +215,26 @@
 			}
 		}
 		function pauseanimation(element) {
+			if (!support_css3("animation")) {
+				return;
+			}
 			element = queryEle(element);
 			if (!element) {
 				return;
 			}
+
 			setcss3(element, "animationPlayState", "paused");
 		}
 		function resumeanimation(element) {
+			if (!support_css3("animation")) {
+				return;
+			}
 			setcss3(element, "animationPlayState", "running");
 		}
 		function stopanimation(element) {
+			if (!support_css3("animation")) {
+				return;
+			}
 			element = queryEle(element);
 			if (!element) {
 				return;
@@ -255,6 +262,12 @@
 			} else if (typeof options == "function") {
 				_callback = options;
 				options = {};
+			}
+			if (!support_css3("animation")) {
+				if (typeof _callback == "function") {
+					_callback();
+				}
+				return;
 			}
 			var defaultOption = {
 				speed: 400,
@@ -318,7 +331,7 @@
 
 		function css3animate(element, styles, speed, easing, _callback2) {
 			element = queryEle(element);
-			if (!element) {
+			if (!element | !styles) {
 				return;
 			}
 
@@ -381,6 +394,7 @@
 		}
 		return {
 			set: function(element, styleObj) {
+				element = queryEle(element);
 				setStyle(element, styleObj, false);
 			},
 			to: css3animate,
@@ -445,15 +459,9 @@
 
 	if (typeof exports === "object") {
 		// CommonJS
-		module.exports = Factory(require("../prefix/"), require("jquery"));
+		module.exports = Factory(require("../prefix/"), require("jquery"), require("../device/"));
 	} else if (typeof define === "function" && define.amd) {
 		// AMD
-		define(["../prefix/", "jquery"], Factory);
-	} else {
-		// Global Variables
-		if (!window.Foliou) {
-			window.Foliou = {};
-		}
-		Foliou.Css3Animate = Factory(window.Foliou.Prefix, $);
+		define(["../prefix/", "jquery", "../device/"], Factory);
 	}
 })();
