@@ -36,7 +36,6 @@ Github：[https://github.com/focusbe/foliou](https://github.com/focusbe/foliou)
 
   * 同时支持移动端和PC端
 
-  \*\*\*\*
 
 * **foliou/utli —— 常用的一些函数集**
   * 从当前url中获取参数
