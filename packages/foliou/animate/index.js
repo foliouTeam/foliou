@@ -9,10 +9,6 @@
 	var Factory = function(Prefix, $, Device) {
 		var PREFIX = Prefix();
 		var support_css3 = Device.support_css3;
-		// if (!support_css3("transform")) {
-		// 	//console.error("当前浏览器不支持css3");
-		// 	//return function() {};
-		// }
 
 		function upFirst(str) {
 			// str = str.toLowerCase();
@@ -148,16 +144,16 @@
 			}
 			var res = [];
 			if (!isarr) {
-				if (str.len > 1) {
+				if (str.length > 1) {
 					str.each(function() {
-						res.push($(this)[0]);
+						res.push(this);
 					});
 				} else {
 					res = str[0];
 				}
 			} else {
 				str.each(function() {
-					res.push($(this)[0]);
+					res.push(this);
 				});
 			}
 
@@ -193,6 +189,13 @@
 
 		function setStyle(element, styles, animate, justCss3) {
 			element = queryEle(element);
+
+			if (element instanceof Array) {
+				for (var i in element) {
+					setStyle(element[i], styles, animate, justCss3);
+				}
+				return;
+			}
 			if (!element) {
 				return;
 			}
@@ -269,6 +272,18 @@
 				}
 				return;
 			}
+
+			if (element instanceof Array) {
+				var newcallback = null;
+				for (var i in element) {
+					if (i == element.length && !!_callback) {
+						newcallback = _callback;
+					}
+					runanimation(element[i], keyframe, options, newcallback);
+				}
+				return;
+			}
+
 			var defaultOption = {
 				speed: 400,
 				easing: "linear",
@@ -331,13 +346,9 @@
 
 		function css3animate(element, styles, speed, easing, _callback2) {
 			element = queryEle(element);
-			if (!element | !styles) {
+			if (!element || !styles) {
 				return;
 			}
-
-			// var self = this;
-			// var property = "all";
-			// var k = 0;
 			if (typeof speed == "undefined") {
 				speed = 400;
 				easing = "linear";
@@ -353,6 +364,16 @@
 				_callback2 = easing;
 				easing = "linear";
 			}
+			if (element instanceof Array) {
+				var newcallback;
+				for (var i in element) {
+					if (i == element.length - 1 && !!_callback2) {
+						newcallback = _callback2;
+					}
+					css3animate(element[i], styles, speed, easing, newcallback);
+				}
+				return;
+			}
 
 			if (!support_css3("transform")) {
 				$(element).animate(styles, speed, easing, _callback2);
@@ -362,6 +383,7 @@
 				$(element).animate(styles, speed, easing, _callback2);
 				return;
 			}
+
 			//判断是否已经是当前的属性
 			if (hasSameStyle(element, styles)) {
 				if (typeof _callback2 == "function") {
@@ -394,7 +416,6 @@
 		}
 		return {
 			set: function(element, styleObj) {
-				element = queryEle(element);
 				setStyle(element, styleObj, false);
 			},
 			to: css3animate,

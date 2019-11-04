@@ -7,7 +7,6 @@ requirejs(["jquery"], function($) {
 			x: 100
 		},
 		function() {
-			// alert('结束');
 			Animate.set(".div1", {
 				width: 100,
 				x: 0
