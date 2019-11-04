@@ -292,7 +292,7 @@
 				direction: "normal",
 				fillmode: "both"
 			};
-			options = Object.assign(defaultOption, options);
+			options = $.extend(defaultOption, options);
 			if (!isNaN(options.speed)) {
 				options.speed += "ms";
 			}
@@ -364,6 +364,17 @@
 				_callback2 = easing;
 				easing = "linear";
 			}
+			
+			if (!support_css3("transform")) {
+				
+				$(element).animate(styles, speed, easing, _callback2);
+				return;
+			} else if (!support_css3("transition")) {
+				setStyle(element, styles, true, true);
+				
+				$(element).animate(styles, speed, easing, _callback2);
+				return;
+			}
 			if (element instanceof Array) {
 				var newcallback;
 				for (var i in element) {
@@ -372,15 +383,6 @@
 					}
 					css3animate(element[i], styles, speed, easing, newcallback);
 				}
-				return;
-			}
-
-			if (!support_css3("transform")) {
-				$(element).animate(styles, speed, easing, _callback2);
-				return;
-			} else if (!support_css3("transition")) {
-				setStyle(element, styles, true, true);
-				$(element).animate(styles, speed, easing, _callback2);
 				return;
 			}
 
