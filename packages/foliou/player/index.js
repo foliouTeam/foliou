@@ -18,7 +18,7 @@
         return obj;
     }
     console.log(require);
-    var definFun = function definFun($, Popup, DEVICE, PREFIX, Assets) {
+    var definFun = function definFun($, Popup, DEVICE, prefix, Assets) {
         console.log(Assets);
         //Do setup work here
         //获取前缀
@@ -80,7 +80,7 @@
             }
         }
 
-        var prefix = PREFIX();
+        // var prefix = PREFIX;
         function Player(container, options, videoindex) {
             container = $(container);
             if (!container || container.length == 0) return;

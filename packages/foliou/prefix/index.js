@@ -24,7 +24,7 @@
 				js: pre == "ms" ? "ms" : pre[0].toUpperCase() + pre.substr(1)
 			};
 		};
-		return prefix;
+		return prefix();
 	}
 	if (typeof exports === "object") {
 		// CommonJS

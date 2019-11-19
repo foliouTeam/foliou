@@ -6,8 +6,8 @@
 **/
 ("use strict");
 (function() {
-	var Factory = function(Prefix, $, Device) {
-		var PREFIX = Prefix();
+	var Factory = function(PREFIX, $, Device) {
+		// var PREFIX = Prefix();
 		var support_css3 = Device.support_css3;
 
 		function upFirst(str) {

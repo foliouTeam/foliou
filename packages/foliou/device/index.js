@@ -57,8 +57,5 @@
 	} else if (typeof define === "function" && define.amd) {
 		// AMD
 		define(definFun);
-	} else {
-		// Global Variables
-		window.Cookie = definFun();
 	}
 })();
