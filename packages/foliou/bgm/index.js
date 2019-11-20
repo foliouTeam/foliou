@@ -1,10 +1,7 @@
 (function() {
 	function definFun($, DEVICE, PREFIX) {
-		// var supportaudio = function() {
-		// 	return !!document.getElementById("audio");
-		// };
 		var BgSound = function(option) {
-			var supportaudio = !!document.getElementById("audio");
+			var supportaudio = !!document.createElement("audio");
 			var volume = 1;
 			var self = this;
 			var cursrc = "";
@@ -15,7 +12,6 @@
 				loop: true,
 				volume: 1,
 				autoplay: true,
-				backrun: true,
 				onplay: function() {},
 				onpause: function() {}
 			};
@@ -81,34 +77,36 @@
 				if (!self.audioElement) {
 					return;
 				}
-				self.audioElement.addEventListener(
-					"playing",
-					function() {
-						if (typeof option.onplay == "function") {
-							option.onplay();
-						}
-					},
-					false
-				);
-				self.audioElement.addEventListener(
-					"pause",
-					function() {
-						if (typeof option.onpause == "function") {
-							option.onpause();
-						}
-					},
-					false
-				);
-				self.audioElement.addEventListener(
-					"ended",
-					function() {
-						if (typeof option.onpause == "function") {
-							option.onpause();
-						}
-					},
-					false
-				);
-				self.bindBackRun();
+				if (supportaudio) {
+					self.audioElement.addEventListener(
+						"playing",
+						function() {
+							if (typeof option.onplay == "function") {
+								option.onplay();
+							}
+						},
+						false
+					);
+					self.audioElement.addEventListener(
+						"pause",
+						function() {
+							if (typeof option.onpause == "function") {
+								option.onpause();
+							}
+						},
+						false
+					);
+					self.audioElement.addEventListener(
+						"ended",
+						function() {
+							if (typeof option.onpause == "function") {
+								option.onpause();
+							}
+						},
+						false
+					);
+					//self.bindBackRun();
+				}
 			};
 			self.setAudio = function(thisoption) {
 				if (typeof thisoption == "object") {
@@ -154,16 +152,22 @@
 					self.setAudio();
 				}
 				self.resume();
+				if (!supportaudio) {
+					if (typeof option.onplay == "function") {
+						option.onplay();
+					}
+				}
 				curstate = "play";
 			};
 			self.pause = function(huanchun) {
 				if (!self.audioElement) return;
-				if (DEVICE.isiOS) {
+				if (DEVICE.isiOS || !supportaudio) {
 					huanchun = false;
 				}
 				if (typeof huanchun == "undefined") {
 					huanchun = true;
 				}
+
 				if (self.volumeclock) {
 					clearInterval(self.volumeclock);
 					self.volumeclock = null;
@@ -187,6 +191,11 @@
 				} else {
 					//self.audioElement.volume = 0;
 					self.audioElement.pause();
+				}
+				if (!supportaudio) {
+					if (typeof option.onpause == "function") {
+						option.onpause();
+					}
 				}
 				curstate = "pause";
 			};

@@ -136,25 +136,20 @@
 				css2: css2style
 			};
 		}
-		function queryEle(str, isarr) {
+		function queryEle(str) {
 			if (typeof str == "string") {
 				str = $(str);
 			} else if (!(str instanceof $)) {
 				return str;
 			}
 			var res = [];
-			if (!isarr) {
-				if (str.length > 1) {
-					str.each(function() {
-						res.push(this);
-					});
-				} else {
-					res = str[0];
-				}
-			} else {
+
+			if (str.length > 1) {
 				str.each(function() {
 					res.push(this);
 				});
+			} else {
+				res = str[0];
 			}
 
 			return res;
@@ -276,7 +271,7 @@
 			if (element instanceof Array) {
 				var newcallback = null;
 				for (var i in element) {
-					if (i == element.length && !!_callback) {
+					if (i == element.length - 1 && !!_callback) {
 						newcallback = _callback;
 					}
 					runanimation(element[i], keyframe, options, newcallback);
@@ -364,17 +359,7 @@
 				_callback2 = easing;
 				easing = "linear";
 			}
-			
-			if (!support_css3("transform")) {
-				
-				$(element).animate(styles, speed, easing, _callback2);
-				return;
-			} else if (!support_css3("transition")) {
-				setStyle(element, styles, true, true);
-				
-				$(element).animate(styles, speed, easing, _callback2);
-				return;
-			}
+
 			if (element instanceof Array) {
 				var newcallback;
 				for (var i in element) {
@@ -383,6 +368,14 @@
 					}
 					css3animate(element[i], styles, speed, easing, newcallback);
 				}
+				return;
+			}
+			if (!support_css3("transform")) {
+				$(element).animate(styles, speed, easing, _callback2);
+				return;
+			} else if (!support_css3("transition")) {
+				setStyle(element, styles, true, true);
+				$(element).animate(styles, speed, easing, _callback2);
 				return;
 			}
 
@@ -407,6 +400,7 @@
 					});
 				};
 			}
+
 			//console.log(support_css3("transition"));
 
 			var duration = speed / 1000 + "s";
@@ -427,56 +421,6 @@
 				resume: resumeanimation,
 				stop: stopanimation
 			}
-			// plugin: function(flag) {
-			// 	if (!!flag && !!flag.fn) {
-			// 		flag.fn.css = function(styleObj) {
-			// 			setStyle($(this), styleObj, false);
-			// 		};
-			// 		var jqtransform = function(styles, speed, easing, callback) {
-			// 			var total = $(this).length;
-			// 			if (total > 1) {
-			// 				var i = 0;
-			// 				$(this).each(function() {
-			// 					i++;
-			// 					var curcallback = i == total ? callback : null;
-			// 					css3animate($(this), styles, speed, easing, curcallback);
-			// 				});
-			// 			} else {
-			// 				css3animate($(this), styles, speed, easing, callback);
-			// 			}
-			// 			return $(this);
-			// 		};
-			// 		flag.fn.transition = jqtransform;
-			// 		flag.fn.keyframe = function(keyframe, options, callback) {
-			// 			var total = $(this).length;
-			// 			if (total > 1) {
-			// 				var i = 0;
-			// 				$(this).each(function() {
-			// 					i++;
-			// 					var curcallback = i == total ? callback : null;
-			// 					runanimation($(this), keyframe, options, curcallback);
-			// 				});
-			// 			} else {
-			// 				runanimation($(this), keyframe, options, callback);
-			// 			}
-			// 			return $(this);
-			// 		};
-			// 		flag.fn.pauseKeyframe = function() {
-			// 			pauseanimation($(this));
-			// 			return $(this);
-			// 		};
-			// 		flag.fn.resumeKeyframe = function() {
-			// 			resumeanimation($(this));
-			// 			return $(this);
-			// 		};
-			// 		flag.fn.stopKeyframe = function() {
-			// 			stopanimation($(this));
-			// 			return $(this);
-			// 		};
-			// 	} else {
-			// 		console.error("请传入 jquery或者zpeto的变量");
-			// 	}
-			// }
 		};
 	};
 

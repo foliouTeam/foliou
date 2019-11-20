@@ -28,23 +28,20 @@
 				isIe: window.ActiveXObject ? true : false,
 				isIe7: ie7,
 				isIe8: ie8,
-				support_css3: function() {
+				support_css3: function(prop) {
 					var div = document.createElement("div"),
 						vendors = "ms Ms O Moz Webkit".split(" ");
-					return function(prop) {
-						if (prop in div.style) return true;
+					if (prop in div.style) return true;
 
-						prop = prop.replace(/^[a-z]/, function(val) {
-							return val.toUpperCase();
-						});
-						for (var i in vendors) {
-							if (vendors[i] + prop in div.style) {
-								return true;
-							}
+					prop = prop.replace(/^[a-z]/, function(val) {
+						return val.toUpperCase();
+					});
+					for (var i in vendors) {
+						if (vendors[i] + prop in div.style) {
+							return true;
 						}
-
-						return false;
-					};
+					}
+					return false;
 				}
 			};
 		})();
