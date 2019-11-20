@@ -19,8 +19,6 @@ var bgm = new BGM({
 //bgm.play() //播放背景音乐
 //bgm.pause() //暂停背景音乐
 
-
-
 ```
 
 {% hint style="info" %}
