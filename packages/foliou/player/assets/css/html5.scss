@@ -1,353 +1,397 @@
-.Player_pc {
-    .hidden {
-        display: none;
-    }
-    .childhidden * {
-        display: none;
-    }
-    .Player_container_inner {
-        position: relative;
-    }
-    .Player_container {
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        position: relative;
-        user-select: none;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-    }
-    .Player_container * {
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        outline: 0;
-    }
+// .Player_pc {
 
-    .Player_video {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .Player_video video {
-        position: relative;
-        display: block;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #000;
-    }
-
-    .Player_controls {
-        position: absolute;
-        display: block;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        justify-content: center;
-        z-index: 6;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 40px;
-        -webkit-transform: translateZ(0);
-        -webkit-transition: bottom 0.3s ease;
-        transition: bottom 0.3s ease;
-        opacity: 0;
-        overflow: visible;
-        display: flex;
-        display: -webkit-flex;
-        align-content: center;
-    }
-
-    .Player_controls > * {
-        z-index: 10;
-        position: relative;
-    }
-
-    .Player_controls .Player_controls_bg {
-        width: 100%;
-        height: 130%;
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        background: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.3)), to(rgba(0, 0, 0, 0)));
-        background: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
-        background: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
-        background: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
-        background: linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
-        z-index: 0;
-    }
-
-    .Player_overlay_poster {
-        position: absolute;
-        z-index: 2;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        text-align: center;
-        background-color: none;
-        display: -webkit-flex;
-        display: -ms-flex;
-        display: -moz-flex;
-        display: flex;
-        -webkit-align-items: center;
-        align-items: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-    }
-
-    .Player_poster_img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        max-width: 100%;
-        max-height: 100%;
-        background-color: rgba(0, 0, 0, 0);
-        background-size: cover;
-    }
-
-    .Player_overlay_option {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 3;
-    }
-
-    .Player_button_play {
-        display: block;
-        left: 0;
-        top: 0;
-        width: 68px;
-        height: 68px;
-        left: 50%;
-        margin-left: -34px;
-        top: 50%;
-        margin-top: -34px;
-        background-size: 50px;
-        border: none;
-        position: absolute;
-        cursor: pointer;
-        z-index: 10;
-    }
-
-    .Player_loading {
-        position: absolute;
-        z-index: 5;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        margin: auto;
-        width: 60px;
-        height: 60px;
-        // background: rgba(0, 0, 0, 0.5) url("../icons/loading_small.gif") center center no-repeat;
-        -webkit-background-size: 25px 25px;
-        background-size: 25px 25px;
-        border-radius: 10px;
-        z-index: 10;
-    }
-
-    .Player_controls button {
-        display: block;
-        padding: 0;
-        border: 0 none;
-        background: none;
-        text-align: center;
-        font-size: 0;
-        cursor: pointer;
-    }
-
-    .Player_controls .Player_button {
-        display: inline-block;
-        width: 46px;
-        height: 100%;
-        left: 5px;
-        vertical-align: top;
-    }
-
-    .Player_fullscreen_button {
-        display: inline-block;
-        width: 45px;
-        height: 100%;
-        background-position: left 0;
-        right: 0;
-        text-align: center;
-    }
-
-    .Player_fullscreen_button button {
-        position: relative;
-        width: 67%;
-        height: 100%;
-        display: inline-block;
-    }
-
-    .Player_play_button button {
-        width: 65%;
-        height: 100%;
-    }
-
-    .Player_play_button .Player_btn_value {
-        display: inline-block;
-        width: 0;
-        height: 0;
-        margin-left: 16px;
-        vertical-align: middle;
-        background: none;
-        border: 15px solid transparent;
-        border-width: 10px 15px;
-        border-left-color: #fff;
-        font-size: 0;
-        color: transparent;
-        background: none;
-    }
-
-    .Player_time_rail {
-        position: relative;
-        display: inline-block;
-        height: 100%;
-        padding: 0;
-        top: 2px;
-        vertical-align: top;
-        flex-direction: row;
-        /* default 0 */
-        display: flex;
-        flex-grow: 1;
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .Player_time_total {
-        position: relative;
-        display: block;
-        width: 100%;
-        height: 2px;
-        margin-left: 5px;
-        margin-right: 5px;
-        background: rgba(183, 182, 177, 0.9);
-        cursor: pointer;
-        transition: all 0.3s;
-    }
-
-    .Player_pc .Player_time_rail:hover .Player_time_total {
-        transition: all 0.3s;
-        height: 4px;
-    }
-
-    .Player_time_loaded,
-    .Player_time_current {
-        position: absolute;
-        left: 0;
-        top: 0px;
-        z-index: 2;
-        display: block;
-        max-width: 100% !important;
-        height: 100%;
-        background: #ff9000;
-    }
-
-    .Player_time_panel {
-        position: relative;
-        right: 0;
-        bottom: 0px;
-        z-index: 2;
-        font-size: 10px;
-        color: #fff;
-        height: 20px;
-        line-height: 20px;
-        display: block;
-        font-family: PingFangSC-Light, HelveticaNeue-Light, arial;
-        white-space: nowrap;
-    }
-
-    .Player_time_handle {
-        position: absolute;
-        z-index: 3;
-        top: 50%;
-        margin-top: -13px;
-        right: -9px;
-        display: block;
-        width: 27px;
-        height: 27px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: all 0.3s;
-        /* display: none; */
-    }
-
-    .Player_time_loaded {
-        z-index: 1;
-        background: rgba(255, 255, 255, 0.2);
-    }
-
-    .Player_time_handle em {
-        content: "";
-        position: absolute;
-        left: 6px;
-        top: 5px;
-        width: 15px;
-        height: 15px;
-        /*background-image: -webkit-radial-gradient(50% 50%,circle closest-side,rgba(255,144,0,1) 31%,rgba(255,144,0,0.3) 100%);*/
-        -webkit-background-clip: content-box;
-        background-clip: content-box;
-        border-radius: 100%;
-        border-top-left-radius: 100%;
-        border-top-right-radius: 100%;
-        border-bottom-left-radius: 100%;
-        border-bottom-right-radius: 100%;
-    }
-
-    .tvp_fullscreen .txp_svg_fullscreen_true {
-        display: none;
-    }
-
-    .tvp_fullscreen_true .txp_svg_fullscreen_true {
-        display: block;
-    }
-
-    .tvp_fullscreen_true .txp_svg_fullscreen {
-        display: none;
-    }
-
-    .txp_svg_pause {
-        display: none;
-    }
-
-    .Player_pause .txp_svg_pause {
-        display: block;
-    }
-
-    .Player_play .txp_svg_pause {
-        display: none;
-    }
-
-    .Player_play .txp_svg_play {
-        display: block;
-    }
-
-    .Player_pause .txp_svg_play {
-        display: none;
-    }
-
-    .txp_svg_stop {
-        display: none;
-    }
-
-    .txp_svg_replay {
-        display: none;
-    }
-
-    .Player_none {
-        display: none;
-    }
-    
+.Player_container {
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+	position: relative;
+	user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	.hidden {
+		display: none;
+	}
+	.childhidden * {
+		display: none;
+	}
+	.Player_container_inner {
+		position: relative;
+	}
 }
-.VIDEO-FINISH{
-    text-decoration: none;
+.Player_container * {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	outline: 0;
 }
+
+.Player_video {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.Player_video video {
+	position: relative;
+	display: block;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: #000;
+}
+
+.tvp_fullscreen .txp_svg_fullscreen_true {
+	display: none;
+}
+
+.tvp_fullscreen_true .txp_svg_fullscreen_true {
+	display: block;
+}
+
+.tvp_fullscreen_true .txp_svg_fullscreen {
+	display: none;
+}
+
+.txp_svg_pause {
+	display: none;
+}
+
+.Player_pause .txp_svg_pause {
+	display: block;
+}
+
+.Player_play .txp_svg_pause {
+	display: none;
+}
+
+.Player_play .txp_svg_play {
+	display: block;
+}
+
+.Player_pause .txp_svg_play {
+	display: none;
+}
+
+.txp_svg_stop {
+	display: none;
+}
+
+.txp_svg_replay {
+	display: none;
+}
+
+.Player_none {
+	display: none;
+}
+.VIDEO-FINISH {
+	text-decoration: none;
+}
+@function scale($num, $scale) {
+	@return floor($scale * $num);
+}
+@mixin controlStyle($scale) {
+	#VIDEOWRAP {
+		width: 100%;
+		position: absolute;
+		z-index: 100;
+		top: 50%;
+		transform: translate(0,-50%);
+	}
+	.VIDEOTOP {
+		width: 100%;
+		height: scale(40px, $scale);
+		background: rgba(200, 200, 200, 0.6);
+		position: absolute;
+		top: 0;
+		left: 0;
+		z-index: "9999999";
+	}
+	.VIDEO-FINISH {
+		display: inline-block;
+		line-height: scale(30px, $scale);
+		padding: 0 scale(10px, $scale);
+		color: #020202;
+		border-radius: scale(5px, $scale);
+		position: absolute;
+		left: 0;
+		top: scale(5px, $scale);
+		font-size: scale(18px, $scale);
+		font-weight: bold;
+		font-family: "微软雅黑";
+	}
+	.Player_controls {
+		position: absolute;
+		display: block;
+		flex-direction: row;
+		flex-wrap: nowrap;
+		justify-content: center;
+		z-index: 6;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: scale(40px, $scale);
+		transform: translateZ(0);
+		-webkit-transition: bottom 0.3s ease;
+		transition: bottom 0.3s ease;
+		opacity: 0;
+		overflow: visible;
+		display: flex;
+		display: -webkit-flex;
+		align-content: center;
+	}
+
+	.Player_controls > * {
+		z-index: 10;
+		position: relative;
+	}
+
+	.Player_controls .Player_controls_bg {
+		width: 100%;
+		height: 130%;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		background: -webkit-gradient(linear, left bottom, left top, from(rgba(0, 0, 0, 0.3)), to(rgba(0, 0, 0, 0)));
+		background: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+		background: -o-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+		background: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+		background: linear-gradient(bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%);
+		z-index: 0;
+	}
+
+	.Player_overlay_poster {
+		position: absolute;
+		z-index: 2;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+		text-align: center;
+		background-color: none;
+		display: -webkit-flex;
+		display: -ms-flex;
+		display: -moz-flex;
+		display: flex;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+	}
+
+	.Player_poster_img {
+		display: block;
+		width: 100%;
+		height: 100%;
+		max-width: 100%;
+		max-height: 100%;
+		background-color: rgba(0, 0, 0, 0);
+		background-size: cover;
+	}
+
+	.Player_overlay_option {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		left: 0;
+		z-index: 3;
+	}
+
+	.Player_button_play {
+		display: block;
+		left: 0;
+		top: 0;
+		width: scale(68px, $scale);
+		height: scale(68px, $scale);
+		left: 50%;
+		margin-left: scale(-34px, $scale);
+		top: 50%;
+		margin-top: scale(-34px, $scale);
+		background-size: scale(50px, $scale);
+		border: none;
+		position: absolute;
+		cursor: pointer;
+		z-index: 10;
+	}
+
+	.Player_loading {
+		position: absolute;
+		z-index: 5;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		margin: auto;
+		width: scale(60px, $scale);
+		height: scale(60px, $scale);
+		// background: rgba(0, 0, 0, 0.5) url("../icons/loading_small.gif") center center no-repeat;
+		background-size: scale(25px, $scale) scale(25px, $scale);
+		border-radius: scale(10px, $scale);
+		z-index: 10;
+	}
+
+	.Player_controls button {
+		display: block;
+		padding: 0;
+		border: 0 none;
+		background: none;
+		text-align: center;
+		font-size: 0;
+		cursor: pointer;
+	}
+
+	.Player_controls .Player_button {
+		display: inline-block;
+		width: scale(46px, $scale);
+		height: 100%;
+		left: scale(5px, $scale);
+		vertical-align: top;
+	}
+
+	.Player_fullscreen_button {
+		display: inline-block;
+		width: scale(45px, $scale);
+		height: 100%;
+		background-position: left 0;
+		right: 0;
+		text-align: center;
+	}
+
+	.Player_fullscreen_button button {
+		position: relative;
+		width: 67%;
+		height: 100%;
+		display: inline-block;
+	}
+
+	.Player_play_button button {
+		width: 65%;
+		height: 100%;
+	}
+
+	.Player_play_button .Player_btn_value {
+		display: inline-block;
+		width: 0;
+		height: 0;
+		margin-left: scale(16px, $scale);
+		vertical-align: middle;
+		background: none;
+		border: scale(15px, $scale) solid transparent;
+		border-width: scale(10px, $scale) scale(15px, $scale);
+		border-left-color: #fff;
+		font-size: 0;
+		color: transparent;
+		background: none;
+	}
+
+	.Player_time_rail {
+		position: relative;
+		display: inline-block;
+		height: 100%;
+		padding: 0;
+		top: scale(2px, $scale);
+		vertical-align: top;
+		flex-direction: row;
+		/* default 0 */
+		display: flex;
+		flex-grow: 1;
+		align-content: center;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.Player_time_total {
+		position: relative;
+		display: block;
+		width: 100%;
+		height: scale(2px, $scale);
+		margin-left: scale(5px, $scale);
+		margin-right: scale(5px, $scale);
+		background: rgba(183, 182, 177, 0.9);
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+
+	.Player_pc .Player_time_rail:hover .Player_time_total {
+		transition: all 0.3s;
+		height: scale(4px, $scale);
+	}
+
+	.Player_time_loaded,
+	.Player_time_current {
+		position: absolute;
+		left: 0;
+		top: 0px;
+		z-index: 2;
+		display: block;
+		max-width: 100% !important;
+		height: 100%;
+		background: #ff9000;
+	}
+
+	.Player_time_panel {
+		position: relative;
+		right: 0;
+		bottom: 0px;
+		z-index: 2;
+		font-size: 10px;
+		color: #fff;
+		height: scale(20px, $scale);
+		line-height: scale(20px, $scale);
+		display: block;
+		font-family: PingFangSC-Light, HelveticaNeue-Light, arial;
+		white-space: nowrap;
+	}
+
+	.Player_time_handle {
+		position: absolute;
+		z-index: 3;
+		top: 50%;
+		margin-top: scale(-13px, $scale);
+		right: scale(-9px, $scale);
+		display: block;
+		width: scale(27px, $scale);
+		height: scale(27px, $scale);
+		overflow: hidden;
+		cursor: pointer;
+		transition: all 0.3s;
+		/* display: none; */
+	}
+
+	.Player_time_loaded {
+		z-index: 1;
+		background: rgba(255, 255, 255, 0.2);
+	}
+
+	.Player_time_handle em {
+		content: "";
+		position: absolute;
+		left: scale(6px, $scale);
+		top: scale(5px, $scale);
+		width: scale(15px, $scale);
+		height: scale(15px, $scale);
+		/*background-image: -webkit-radial-gradient(50% 50%,circle closest-side,rgba(255,144,0,1) 31%,rgba(255,144,0,0.3) 100%);*/
+		-webkit-background-clip: content-box;
+		background-clip: content-box;
+		border-radius: 100%;
+		border-top-left-radius: 100%;
+		border-top-right-radius: 100%;
+		border-bottom-left-radius: 100%;
+		border-bottom-right-radius: 100%;
+	}
+}
+@include controlStyle(1);
+@media only screen and (max-device-width: 639px) and(min-width:640px) {
+	@include controlStyle(2);
+}
+@media only screen and (max-device-width: 749px) and(min-width:750px) {
+	@include controlStyle(2);
+}
+// @media only screen and (max-device-width: 1079px) and(min-width:1080px) {
+// 	@include controlStyle(2);
+// }
+// body {
+// 	background: $color;
+// }

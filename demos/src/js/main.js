@@ -4,4 +4,6 @@ switch (pathname) {
 		require("./bgm");
 	case "animate":
 		require("./animate");
+	case "player":
+		require("./player");
 }
