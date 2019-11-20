@@ -12,16 +12,13 @@ description: 用Js控制Dom的Css3属性，可以提升动画的执行效率
 
 ## 使用示例
 
-{% code-tabs %}
-{% code-tabs-item title="index.html" %}
+{% code title="index.html" %}
 ```markup
 <div id="div1"></div>
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="main.scss" %}
+{% code title="main.scss" %}
 ```css
 @keyframes slidein {
   from {
@@ -35,11 +32,9 @@ description: 用Js控制Dom的Css3属性，可以提升动画的执行效率
   }
 }
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
-{% code-tabs %}
-{% code-tabs-item title="main.js" %}
+{% code title="main.js" %}
 ```javascript
 var Animate = require("foliou/animate");
 
@@ -68,8 +63,7 @@ Animate.keyframe.pause("#div");
 Animate.keyframe.resume("#div");
 Animate.keyframe.stop("#div");
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ## API
 

@@ -31,29 +31,27 @@ new player("video_wrap",{
 
 那有没有更好的办法呢，是否能HTML写在.html中，在js中直接引入呢，如下：
 
-{% code-tabs %}
-{% code-tabs-item title="tpl.html" %}
+{% tabs %}
+{% tab title="tpl.html" %}
 ```markup
 <div class="POPUP-Player">
     ......
 </div>
 ```
-{% endcode-tabs-item %}
+{% endtab %}
 
-{% code-tabs-item title="" %}
+{% tab title="" %}
 ```
 
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endtab %}
+{% endtabs %}
 
-{% code-tabs %}
-{% code-tabs-item title="main.js" %}
+{% code title="main.js" %}
 ```javascript
 var html = require("./tpl.html");
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ### 解决方案——Rollup
 
@@ -81,8 +79,7 @@ rollup main.js --file bundle.js --format cjs
 
      2. Javascript Api
 
-{% code-tabs %}
-{% code-tabs-item title="build.js" %}
+{% code title="build.js" %}
 ```javascript
 const rollup = require('rollup');
 const posthtml = require("rollup-plugin-posthtml-template");
@@ -108,8 +105,7 @@ async function build() {
 
 build();
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
 ```bash
 node ./build.js
@@ -138,8 +134,7 @@ Rollup提供了watch方法或者，你也可以在build.js中加入判断文件�
 具体的实现方案如下：  
 1. 把所有的资源文件引入到一个临时文件中
 
-{% code-tabs %}
-{% code-tabs-item title="tmp.js" %}
+{% code title="tmp.js" %}
 ```javascript
 var assets = {};
 import html from "./tpl.html";
@@ -148,8 +143,7 @@ import css from "./style.css";
 assets["css"]=css;
 export default assets;
 ```
-{% endcode-tabs-item %}
-{% endcode-tabs %}
+{% endcode %}
 
  2. 然后用rullup 打包这个临时文件，导出为 asset.js；
 
