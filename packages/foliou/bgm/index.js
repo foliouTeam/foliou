@@ -58,9 +58,12 @@
 						}
 					} else {
 						try {
-							self.play();
-
-							$(document).bind("touchstart", touchPlayZhibo);
+							if (self.audioElement.paused) {
+								setTimeout(function() {
+									self.play();
+								}, 100);
+								$(document).bind("touchstart", touchPlayZhibo);
+							}
 						} catch (error) {}
 					}
 
@@ -224,6 +227,7 @@
 						}
 					}, 100);
 				} else {
+					self.audioElement.load();
 					self.audioElement.play();
 				}
 				curstate = "play";
