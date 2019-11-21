@@ -2,7 +2,7 @@
 description: 背景音乐
 ---
 
-# Bgm
+# 背景音乐
 
 ```javascript
 var BGM = require("foliou/bgm");
