@@ -139,20 +139,20 @@
 		function queryEle(str) {
 			if (typeof str == "string") {
 				str = $(str);
-			} else if (!(str instanceof $)) {
-				return str;
-			}
-			var res = [];
-
-			if (str.length > 1) {
-				str.each(function() {
-					res.push(this);
-				});
-			} else {
-				res = str[0];
 			}
 
-			return res;
+			if (typeof str == "object" && !!str.selector) {
+				var res = [];
+				if (str.length > 1) {
+					str.each(function() {
+						res.push(this);
+					});
+				} else {
+					res = str[0];
+				}
+				return res;
+			}
+			return str;
 		}
 		function getCss3(element) {
 			var transformstr = element.style[PREFIX.js + "Transform"];
@@ -184,7 +184,6 @@
 
 		function setStyle(element, styles, animate, justCss3) {
 			element = queryEle(element);
-
 			if (element instanceof Array) {
 				for (var i in element) {
 					setStyle(element[i], styles, animate, justCss3);
@@ -321,6 +320,9 @@
 		}
 
 		function nopx(val) {
+			if (!val) {
+				return val;
+			}
 			return val.toString().replace("px", "");
 		}
 

@@ -9,14 +9,14 @@
 	function Factory($, DEVICE, ResizeSensor, Animate) {
 		//弹窗
 		var wh;
-		try {
-			Animate.plugin($);
-		} catch (error) {}
-
+		// try {
+		// 	Animate.plugin($);
+		// } catch (error) {}
 		function queryEle(str) {
 			if (typeof str == "string") {
-				return $(str)[0];
-			} else if (str instanceof $) {
+				return $(str);
+			}
+			if (str instanceof $) {
 				if (str.length == 1) {
 					return str[0];
 				} else {
@@ -30,11 +30,12 @@
 			return str;
 		}
 
-		var Popup = function Popup(coverEle, options) {
+		var Popup = function(coverEle, options) {
 			coverEle = queryEle(coverEle);
 			if (!coverEle) {
 				return;
 			}
+			// console.log(coverEle);
 			coverEle = $(coverEle);
 			if (!window.Popup_curhtmlOverFlow) {
 				window.Popup_curhtmlOverFlow = $("html").css("overflow");
@@ -51,6 +52,7 @@
 				opacity: 0.85,
 				fixbody: true,
 				autoCenter: true,
+				closeOnClickModal: true,
 				startShow: function startShow(obj) {},
 				endShow: function endShow(obj) {},
 				startHide: function startHide(obj) {},
@@ -92,25 +94,15 @@
 					$(this).attr("data-state", "hide");
 					$(this).attr("data-gcoverid", window.Popupcoverid++);
 				});
-
-				if (DEVICE.isIe6) {
-					coverEle.css({
-						position: "absolute"
-					});
-				} else {
-					coverEle.css({
-						position: "fixed"
-					});
-				}
+				coverEle.css({
+					position: "fixed"
+				});
 			};
 			this.setVideo = function(video) {
 				//设置视频
 				options.video = video;
 			};
 			this.bind = function() {
-				if (DEVICE.isIe6) {
-					$("#overlay").height($("body").height());
-				}
 				$(window).bind("resize", function() {
 					//窗口resize 时候 重新设置 当前显示的弹窗 位置
 					setTimeout(function() {
@@ -131,30 +123,54 @@
 							self.hide($this);
 						});
 				});
+				if (!!options.closeOnClickModal) {
+					$("#overlay").click(function() {
+			
+						self.hide();
+					});
+				}
 			};
+			function isAutoHeight(obj) {
+				obj = $(obj);
+				if (!!obj.css("max-height")) {
+					return false;
+				}
+				var oldheight = obj.height();
+				var testdiv = $('<div style="position:relative;width:100%;height:10px;"></div>');
+				obj.append(testdiv);
+				var newheight = obj.height();
+				testdiv.remove();
+				var offset = newheight - oldheight;
+				return Math.abs(offset - 10) <= 5;
+			}
 			this.setScroll = function(obj, scrollobj) {
 				//设置弹窗滚动
 				wh = document.body.clientHeight;
 				scrollobj.addClass("Popup_SCROLLER");
-				scrollobj.css({
-					height: "auto",
-					maxHeight: "none"
-				});
-
-				wh = $(window).height();
-				if (scrollobj.outerHeight() > wh - options.padding * 2) {
-					var paddh = scrollobj.outerHeight() - scrollobj.height();
-					var maxheight = wh - options.padding * 2 - paddh;
-					if (maxheight < 0) {
-						maxheight = wh * 0.1;
+				// console.log(isAutoHeight(obj));
+				if (isAutoHeight(obj)) {
+					scrollobj.css({
+						height: "auto",
+						maxHeight: "none"
+					});
+					wh = $(window).height();
+					if (scrollobj.outerHeight() > wh - options.padding * 2) {
+						var paddh = scrollobj.outerHeight() - scrollobj.height();
+						var maxheight = wh - options.padding * 2 - paddh;
+						if (maxheight < 0) {
+							maxheight = wh * 0.1;
+						}
+						scrollobj.css({
+							maxHeight: maxheight
+						});
+						scrollobj.css({
+							overflow: "auto"
+						});
 					}
-					scrollobj.css({
-						maxHeight: maxheight
-					});
-					scrollobj.css({
-						overflow: "auto"
-					});
+				} else {
+					obj.css({ overflow: "auto" });
 				}
+
 				// if (typeof scrollobj.data('Popupcoverid') == 'undefined' && scrollobj.height() > obj.height()) {
 				//     scrollobj.height(obj.height());
 				// }
@@ -213,26 +229,21 @@
 						});
 					}
 					coverHeight = $(this).outerHeight();
-					if (DEVICE.isIe6) {
-						var scrollTop = $(window).scrollTop();
-						$(this).css({
-							top: $(window).height() / 2 + scrollTop + "px",
-							marginTop: -coverHeight / 2
-						});
-					} else {
-						$(this).css({
-							top: "50%",
-							left: "50%",
-							marginTop: -coverHeight / 2,
-							marginLeft: -$(this).outerWidth() / 2
-						});
-					}
+
+					$(this).css({
+						top: "50%",
+						left: "50%",
+						marginTop: -coverHeight / 2,
+						marginLeft: -$(this).outerWidth() / 2
+					});
 				});
 			};
 			this.resize = function(obj, cssobj) {
 				obj.css(cssobj);
 			};
 			this.show = function(obj, animation, time, callbFn) {
+				obj = $(queryEle(obj));
+
 				if ((typeof obj != "object" || !obj) && coverEle.length == 1) {
 					//在初始化弹窗的时候只有一个元素时，默认缺省 obj参数
 					if (typeof obj == "function") {
@@ -379,35 +390,41 @@
 							}
 						);
 				} else if (animation == "scale") {
-					obj.stop().css3(
+					obj.stop();
+					Animate.set(obj, {
+						zIndex: self.curZindex,
+						marginTop: -obj.outerHeight() / 2 + "px",
+						marginLeft: -obj.outerWidth() / 2 + "px",
+						opacity: 0,
+						top: "50%",
+						left: "50%",
+						scale: 0.5,
+						display: "block"
+					});
+					Animate.to(
+						obj,
 						{
-							zIndex: self.curZindex,
 							marginTop: -obj.outerHeight() / 2 + "px",
-							marginLeft: -obj.outerWidth() / 2 + "px",
-							opacity: 0,
-							top: "50%",
-							left: "50%",
-							scale: 0.5,
-							display: "block"
+							opacity: 1,
+							scale: 1
 						},
+						time,
+						"ease-in-out",
 						function() {
-							obj.stop().transform(
-								{
-									marginTop: -obj.outerHeight() / 2 + "px",
-									opacity: 1,
-									scale: 1
-								},
-								time,
-								"ease-in-out",
-								function() {
-									callback();
-								}
-							);
+							callback();
 						}
 					);
 				}
 			};
 			this.hide = function(obj, animation, time, callbFn) {
+				console.log(self.curCover);
+				if (!obj && self.curCover.length > 0) {
+					for (var i in self.curCover) {
+						console.log(self.curCover[i]);
+						self.hide(self.curCover[i], animation, time, callbFn);
+					}
+					return;
+				}
 				if (typeof obj == "undefined" || !obj || obj.attr("data-state") == "hide" || obj.attr("data-state") == "hiding") {
 					return;
 				}
@@ -511,23 +528,24 @@
 				} else if (animation == "scale") {
 					obj.each(function() {
 						var $this = $(this);
-						$(this)
-							.stop()
-							.transform(
-								{
-									scale: 0.5,
-									opacity: 0
-								},
-								time,
-								"ease-in-out",
-								function() {
-									$this.css({
-										top: "1000%",
-										display: "none"
-									});
-									callback();
-								}
-							);
+						$(this).stop();
+
+						Animate.to(
+							this,
+							{
+								scale: 0.5,
+								opacity: 0
+							},
+							time,
+							"ease-in-out",
+							function() {
+								$this.css({
+									top: "1000%",
+									display: "none"
+								});
+								callback();
+							}
+						);
 					});
 				}
 				self.hideoverlay(time);

@@ -1150,14 +1150,15 @@
 			this["video"] = new Player(popupobj.find("#POPUP-Player-CONTAINER"), videooptions);
 			this["popup"].setVideo(this["video"]);
 			this.popupobj = $(".POPUP-Player");
-			this.show = function(url, image) {
+			this.play = function(url, image) {
 				popupobj = $(".POPUP-Player");
 				if (typeof url != "undefined") {
 					self["video"].setVideoUrl(url, image);
 				}
 				self["popup"].show(popupobj);
 			};
-			this.hide = function() {
+			this.setVideoUrl = self["video"].setVideoUrl;
+			this.pause = function() {
 				popupobj = $(".POPUP-Player");
 				self["popup"].hide(popupobj);
 			};
@@ -1204,7 +1205,7 @@
 			};
 			this["video"] = new Player(videoWrap, videooptions);
 
-			this.show = function(file, img) {
+			this.play = function(file, img) {
 				notouch();
 				$(".VIDEOBG").show();
 				$(".VIDEOBG")[0].style.visibility = "visible";
@@ -1216,10 +1217,10 @@
 						playEnd();
 					});
 			};
-			this.hide = function() {
+			this.pause = function() {
 				playEnd();
 			};
-
+			this.setVideoUrl = self["video"].setVideoUrl;
 			function playEnd() {
 				if (typeof options.endHide == "function") {
 					options.endHide();

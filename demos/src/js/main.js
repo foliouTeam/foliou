@@ -6,4 +6,6 @@ switch (pathname) {
 		require("./animate");
 	case "player":
 		require("./player");
+	case "popup":
+		require("./popup");
 }

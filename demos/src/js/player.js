@@ -11,7 +11,8 @@ $(function() {
 		mobile: {}
 	});
 	$(".play_btn").click(function() {
-		mplayer.show();
+		mplayer.play();
 	});
+
 	//
 });
