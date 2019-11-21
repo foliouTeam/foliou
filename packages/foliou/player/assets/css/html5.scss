@@ -84,9 +84,9 @@
 .Player_none {
 	display: none;
 }
-.VIDEO-FINISH {
-	text-decoration: none;
-}
+// .VIDEO-FINISH {
+// 	text-decoration: none;
+// }
 @function scale($num, $scale) {
 	@return floor($scale * $num);
 }
@@ -96,7 +96,7 @@
 		position: absolute;
 		z-index: 100;
 		top: 50%;
-		transform: translate(0,-50%);
+		transform: translate(0, -50%);
 	}
 	.VIDEOTOP {
 		width: 100%;
@@ -109,16 +109,39 @@
 	}
 	.VIDEO-FINISH {
 		display: inline-block;
-		line-height: scale(30px, $scale);
-		padding: 0 scale(10px, $scale);
-		color: #020202;
-		border-radius: scale(5px, $scale);
+		// line-height: scale(30px, $scale);
+		// padding: 0 scale(10px, $scale);
+		// color: #020202;
+		// border-radius: scale(5px, $scale);
 		position: absolute;
-		left: 0;
-		top: scale(5px, $scale);
-		font-size: scale(18px, $scale);
-		font-weight: bold;
-		font-family: "微软雅黑";
+		right: scale(20px, $scale);
+		top: scale(20px, $scale);
+		width: scale(30px, $scale);
+		height: scale(30px, $scale);
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			width: scale(30px, $scale);
+			height: scale(2px, $scale);
+			border-radius: scale(1px, $scale);
+			background: #676767;
+			transform: translateY(scale(13px, $scale)) rotate(-45deg);
+		}
+		&:after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: block;
+			width: scale(30px, $scale);
+			height: scale(2px, $scale);
+			border-radius: scale(1px, $scale);
+			background: #ffffff;
+			transform: translateY(scale(13px, $scale)) rotate(45deg);
+		}
 	}
 	.Player_controls {
 		position: absolute;

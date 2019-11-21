@@ -106,7 +106,6 @@
 				toolbar: true,
 				ratio: 0.6, //高宽比例
 				swf: "//siteres.ztgame.com/site/js/gplayer/v3/gplayer.swf",
-				loadcss: true,
 				color: "#FF9000",
 				fillColor: "#fff",
 				fullScreen: false,
@@ -772,7 +771,6 @@
 					return result;
 				}
 				this.play = function() {
-                    
 					videoElement.load();
 					videoElement.play();
 				};
@@ -1181,27 +1179,21 @@
 			if ($(".VIDEOBG").length == 0) {
 				var videobg = $('<div class="VIDEOBG"></div>');
 				$("body").append(videobg);
-				videobg.css(
-					_defineProperty(
-						{
-							width: "100%",
-							height: "100%",
-							background: "#000",
-							position: "fixed",
-							top: 0,
-							left: 0,
-							zIndex: 999999,
-							display: "flex",
-							alignItems: "center"
-						},
-						"display",
-						"none"
-					)
-				);
-				var topbar = $('<div class="VIDEOTOP"></div>');
-				var finish = $('<a href="javascript:void(0)" class="VIDEO-FINISH">' + options.backText + "</a>");
-				videobg.append(topbar);
-				topbar.append(finish);
+				videobg.css({
+					width: "100%",
+					height: "100%",
+					background: "#000",
+					position: "fixed",
+					top: 0,
+					left: 0,
+					zIndex: 999999,
+					display: "none",
+					alignItems: "center"
+				});
+				// var topbar = $('<div class="VIDEOTOP"></div>');
+				var finish = $('<a href="javascript:void(0)" class="VIDEO-FINISH"> </a>');
+				videobg.append(finish);
+				// topbar.append(finish);
 				var videoWrap = $('<div id="VIDEOWRAP"></div>');
 				videobg.append(videoWrap);
 			} else {
