@@ -39,12 +39,6 @@ new player("video_wrap",{
 </div>
 ```
 {% endtab %}
-
-{% tab title="" %}
-```
-
-```
-{% endtab %}
 {% endtabs %}
 
 {% code title="main.js" %}
