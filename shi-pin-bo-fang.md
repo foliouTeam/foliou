@@ -1,3 +1,7 @@
+---
+description: foliou/player
+---
+
 # 视频播放
 
 ## 演示
@@ -42,12 +46,13 @@ var mplayer = new Player("#player-wrap",{
 
 ## API
 
-####  **\# new Player\(options\);**
+####  **\# new Player\(\[container\],options\);**
 
  初始化视频播放器
 
 **参数：**
 
+* container {Jquery\|String\|DomElement} 视频播放的容器，可选参数，如果参数为空，  
 * option {Object} 初始化对象包含索引：
   * file {String} 视频的url
   * width {Number\|String} 视频宽度,例：200\|”100% “,默认值 “100%”

@@ -1,5 +1,5 @@
 ---
-description: 用Js控制Dom的Css3属性，可以提升动画的执行效率
+description: foliou/animate——用Js控制Dom的Css3属性，可以提升动画的执行效率
 ---
 
 # 动画

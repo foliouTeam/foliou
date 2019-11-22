@@ -5,5 +5,6 @@
 * [动画](animate.md)
 * [背景音乐](bgm.md)
 * [视频播放](shi-pin-bo-fang.md)
-* [开发组件的思考](think.md)
+* [弹窗](tan-chuang.md)
+* [组件开发脚手架](think.md)
 
