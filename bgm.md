@@ -4,6 +4,21 @@ description: foliou/bgm
 
 # 背景音乐
 
+## 功能
+
+用于在网页中播放背景音乐
+
+* 兼容ie、chrome等主流浏览器
+* 支持微信端自动播放
+* 支持音频淡入淡出
+* 支持自动播放降级方案——触摸自动播放
+
+## 演示
+
+{% embed url="http://foliou.focusbe.com/bgm.html" %}
+
+## 示例代码
+
 ```javascript
 var BGM = require("foliou/bgm");
 var bgm = new BGM({
@@ -38,14 +53,37 @@ requirejs(('jquery'),function(){
 
 ## API
 
-####  **\# new BGM\(options\);**
+### 初始化
+
+#### **\# new BGM\(options\);**
 
  初始化音频播放
 
 **参数：**
 
-* option {Object} 初始化对象包含索引：
+* options {Object} 
   * file {String} 音频的url
+  * loop {Boolean} 是否循环
+  * auto {Boolean} 是否自动播放
   * onpause {Function} 暂停的回调函数
   * onplay {Function} 开始播放的回调函数
+
+### 方法（初始化返回的对象包含的函数）
+
+**\# playe\(\[music\]\);** 
+
+播放当前音频或者重新设置音频并播放。
+
+参数
+
+* music {String} ：
+  * 可选参数
+  * 需要播放的视频的视频地址，如果为空，继续播放上一次设置的音频
+  * 如果传入的是Object，则会替换初始化的参数options，具体说明见初始化函数
+
+**\# pause\(\);** 
+
+暂停当前音频.。
+
+
 
