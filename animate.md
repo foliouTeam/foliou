@@ -1,12 +1,16 @@
 ---
-description: foliou/animate
+description: foliou/animate——用Js控制Dom的Css3属性，可以提升动画的执行效率
 ---
 
 # 动画
 
-## 功能
+## 演示
 
-用Js控制Dom的Css3属性
+{% embed url="http://foliou.focusbe.com/animate.html" %}
+
+
+
+## 功能
 
 1. 设置css属性（包含css3属性）；
 2. 控制css属性的过度动画；
@@ -50,7 +54,7 @@ Animate.to("#div",{
     height:200,
     opacity:0
 },300,'ease-in-out',function(){
-    
+
 })
 
 //运行keyframe
@@ -58,7 +62,7 @@ Animate.keyframe.run("#div","slidein",{
     speed:3000,//动画时间
     count:10,//执行次数
 },function(){
-    
+
 });
 //控制keyframe
 Animate.keyframe.pause("#div");
@@ -69,9 +73,9 @@ Animate.keyframe.stop("#div");
 
 ## API
 
-####  **\# Animate.set\(element,styles\);**
+### **\# Animate.set\(element,styles\);**
 
- 设置元素的css属性
+设置元素的css属性
 
 **参数：**
 
@@ -82,11 +86,11 @@ Animate.keyframe.stop("#div");
 在IE8以及IE9中 css3特有的属性不会生效，但是css2属性可以正常设置，效果等同于Jquery的css方法
 {% endhint %}
 
-#### \*\*\*\*
+### \*\*\*\*
 
-#### **\# Animate.to\(element,styles,\[speed\],\[**easing**\],\[callback\]\);**
+### **\# Animate.to\(element,styles,\[speed\],\[**easing**\],\[callback\]\);**
 
- 控制元素渐变到某一个特定的css属性
+控制元素渐变到某一个特定的css属性
 
 **其他调用形式**
 
@@ -105,15 +109,13 @@ Animate.keyframe.stop("#div");
 在IE8和IE9中css3特有的属性不会执行，但是css2属性可以照常执行，效果等同于Jquery的animate方法
 {% endhint %}
 
-#### 
+### \# Animate.keyframe.run\(element,keyframe,\[options\],\[callback\]\)
 
-#### \# Animate.keyframe.run\(element,keyframe,\[options\],\[callback\]\)
-
- 让元素执行预定义的keyframe
+让元素执行预定义的keyframe
 
 **其他调用形式**
 
-* Animate.keyframe.run\(element,keyframe ****,\[callback\]\);
+* Animate.keyframe.run\(element,keyframe _\*\*_,\[callback\]\);
 
 **参数：**
 
@@ -129,12 +131,10 @@ Animate.keyframe.stop("#div");
 * 具体值可查询 Animate [文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/animation)
 
 {% hint style="info" %}
- 浏览器需支持keyframe
+浏览器需支持keyframe
 {% endhint %}
 
-#### 
-
-#### \# Animate.keyframe.pause\(element\)
+### \# Animate.keyframe.pause\(element\)
 
 暂停正在执行的keyframe
 
@@ -142,9 +142,7 @@ Animate.keyframe.stop("#div");
 
 * element {String \| $}  jquery选择器，或者jquery对象；
 
-
-
-#### \# Animate.keyframe.resume\(element\)
+### \# Animate.keyframe.resume\(element\)
 
 继续执行的keyframe
 
@@ -152,9 +150,7 @@ Animate.keyframe.stop("#div");
 
 * element {String \| $}  jquery选择器，或者jquery对象；
 
-
-
-#### \# Animate.keyframe.stop\(element\)
+### \# Animate.keyframe.stop\(element\)
 
 停止执行的keyframe
 

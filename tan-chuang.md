@@ -6,7 +6,7 @@ description: foliou/popup
 
 ## 演示
 
-{% embed url="http://foliou.focusbe.com/popup.html" %}
+{% embed url="http://foliou.focusbe.com/popup.html" caption="" %}
 
 ## 用法
 
@@ -14,10 +14,10 @@ description: foliou/popup
 {% tab title="Html" %}
 ```markup
 <div class="popup popup1">
-		<a class="close" href="javascript:void(0)">close</a>
+        <a class="close" href="javascript:void(0)">close</a>
  </div>
 <div class="popup popup2">
-		<a class="confirm" href="javascript:void(0)">confirm</a>
+        <a class="confirm" href="javascript:void(0)">confirm</a>
 </div>
 <a class="show_btn" href="javascript:void(0)">显示</a>
 ```
@@ -39,7 +39,7 @@ popup.hide(".popup1");
 
 ## API
 
-#### **\# new Player\(popupElement,options\);**
+### **\# new Player\(popupElement,options\);**
 
 初始化弹窗组件
 
@@ -55,6 +55,4 @@ popup.hide(".popup1");
   * endShow：完成显示的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
   * startHide：开始隐藏的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
   * endHide：完成隐藏的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
-
-
 

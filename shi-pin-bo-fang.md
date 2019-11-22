@@ -6,7 +6,7 @@ description: foliou/player
 
 ## 演示
 
-{% embed url="http://foliou.focusbe.com/player.html?v=1" %}
+{% embed url="http://foliou.focusbe.com/player.html?v=1" caption="" %}
 
 ## 用法
 
@@ -46,9 +46,9 @@ var mplayer = new Player("#player-wrap",{
 
 ## API
 
-####  **\# new Player\(\[container\],options\);**
+#### **\# new Player\(\[container\],options\);**
 
- 初始化视频播放器
+初始化视频播放器
 
 **参数：**
 
@@ -75,8 +75,4 @@ var mplayer = new Player("#player-wrap",{
 * play： 播放视频，例：myplayer.play\(\)
 * pause： 暂停视频，如果是弹窗形式，将会自动关闭弹窗；例：myplayer.pause\(\)
 * setVideoUrl\(videourl,image\) ：重新设置视频和图片，例：myplayer.setVideoUrl\(videourl,image\)
-
-
-
-
 
