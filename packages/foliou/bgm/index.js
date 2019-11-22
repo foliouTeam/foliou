@@ -48,21 +48,24 @@
 									"WeixinJSBridgeReady",
 									function() {
 										self.play();
-										//$("body").unbind("touchstart", touchPlayZhibo);
 									},
 									false
 								);
 							} else {
 								$(document).bind("touchstart", touchPlayZhibo);
+								$(document).bind("mousedown", touchPlayZhibo);
 							}
 						}
 					} else {
 						try {
 							if (self.audioElement.paused) {
-								setTimeout(function() {
+								self.audioElement.load();
+								
+								self.audioElement.oncanplay = function() {
 									self.play();
-								}, 100);
+								};
 								$(document).bind("touchstart", touchPlayZhibo);
+								$(document).bind("mousedown", touchPlayZhibo);
 							}
 						} catch (error) {}
 					}
@@ -71,6 +74,7 @@
 						// alert("touchplayer");
 						self.play();
 						$(document).unbind("touchstart", touchPlayZhibo);
+						$(document).unbind("mousedown", touchPlayZhibo);
 					}
 					//
 				}
@@ -214,7 +218,12 @@
 						self.volumeclock = null;
 					}
 					volume = self.audioElement.volume;
-					self.audioElement.play();
+					try {
+						self.audioElement.play();
+					} catch (error) {
+						// console.log(error);
+					}
+
 					self.volumeclock = setInterval(function() {
 						volume += 0.2;
 						if (volume >= option.volume) {
@@ -227,7 +236,7 @@
 						}
 					}, 100);
 				} else {
-					self.audioElement.load();
+					//self.audioElement.load();
 					self.audioElement.play();
 				}
 				curstate = "play";

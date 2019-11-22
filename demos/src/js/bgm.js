@@ -3,11 +3,13 @@ var $ = require("jquery");
 var bgm = new BGM({
 	file: "http://www.ztgame.com/act/30th/sound/bg.mp3",
 	onpause: function() {
-		alert("pause");
+		//alert("pause");
 	},
 	onplay: function() {
-		alert("play");
+		//alert("play");
 	}
+	
+
 });
 $(function() {
 	$(".pause_btn").click(function() {
