@@ -125,7 +125,6 @@
 				});
 				if (!!options.closeOnClickModal) {
 					$("#overlay").click(function() {
-			
 						self.hide();
 					});
 				}
@@ -417,7 +416,6 @@
 				}
 			};
 			this.hide = function(obj, animation, time, callbFn) {
-				console.log(self.curCover);
 				if (!obj && self.curCover.length > 0) {
 					for (var i in self.curCover) {
 						console.log(self.curCover[i]);
@@ -428,6 +426,7 @@
 				if (typeof obj == "undefined" || !obj || obj.attr("data-state") == "hide" || obj.attr("data-state") == "hiding") {
 					return;
 				}
+				obj = $(obj);
 				if (typeof animation == "function") {
 					callbFn = animation;
 					animation = undefined;
