@@ -321,7 +321,7 @@
 
 		function nopx(val) {
 			if (!val) {
-				return val;
+				return "";
 			}
 			return val.toString().replace("px", "");
 		}

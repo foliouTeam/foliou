@@ -597,7 +597,12 @@
 					// }
 					$("#lock").show();
 					if (!window.Popup_curhtmlOverFlow) {
-						window.Popup_curhtmlOverFlow = $("html").css("overflow");
+						var htmlover = $("html").css("overflow");
+						var bodyover = $("body").css("overflow");
+						window.Popup_curhtmlOverFlow = htmlover;
+						if (bodyover != "hidden") {
+							window.Popup_curhtmlOverFlow = bodyover;
+						}
 					}
 
 					if (!!options.fixbody) {
