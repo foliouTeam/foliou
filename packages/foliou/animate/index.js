@@ -5,8 +5,8 @@
     @github:https://github.com/focusbe/foliou
 **/
 ("use strict");
-(function() {
-	var Factory = function(PREFIX, $, Device) {
+(function () {
+	var Factory = function (PREFIX, $, Device) {
 		// var PREFIX = Prefix();
 		var support_css3 = Device.support_css3;
 
@@ -20,8 +20,8 @@
 			return result;
 		}
 		var css3unit = {
-			deg: ["rotate", "skew"],
-			no: ["scale", "origin", "opacity", "zIndex", "z-index"]
+			deg: ["rotate(.*)", "skew(.*)"],
+			px: ["width", "height", "x", "y", "translate(.+)", 'margin(.*)', 'padding(.+)']
 		};
 		//var transformStyle = ["scale", "rotate", "translate", "skew", "perspective"];
 		// function istransformstyle(style) {
@@ -35,21 +35,21 @@
 		//     }
 		//     return false;
 		// }
-		function isSameStyle(str1, str2) {
-			if (str1.toLowerCase() == str2.toLowerCase()) {
-				return true;
-			} else {
-				return false;
-			}
-		}
+		// function isSameStyle(str1, str2) {
+		// 	if (str1.toLowerCase() == str2.toLowerCase()) {
+		// 		return true;
+		// 	} else {
+		// 		return false;
+		// 	}
+		// }
 
 		function getUnit(str) {
 			var curArr;
-			var returnUnit = "px";
+			var returnUnit = "";
 			for (var i in css3unit) {
 				curArr = css3unit[i];
 				for (var j in curArr) {
-					if (isSameStyle(curArr[j], str)) {
+					if (new RegExp(curArr[j], 'ig').test(str)) {
 						if (i == "no") {
 							returnUnit = "";
 						} else {
@@ -144,7 +144,7 @@
 			if (typeof str == "object" && !!str.selector) {
 				var res = [];
 				if (str.length > 1) {
-					str.each(function() {
+					str.each(function () {
 						res.push(this);
 					});
 				} else {
@@ -155,6 +155,8 @@
 			return str;
 		}
 		function getCss3(element) {
+			// element = queryEle(element);
+
 			var transformstr = element.style[PREFIX.js + "Transform"];
 			if (!transformstr) {
 				return {};
@@ -178,21 +180,32 @@
 		}
 
 		function setcss3(element, style, value) {
+			element = queryEle(element);
+			if (!element) {
+				return;
+			}
+			if (element instanceof Array) {
+				for (var i in element) {
+					setcss3(element[i], style, value);
+				}
+				return;
+			}
 			element.style[PREFIX.js + upFirst(style)] = value;
 			element.style[style] = value;
 		}
 
 		function setStyle(element, styles, animate, justCss3) {
 			element = queryEle(element);
+			if (!element) {
+				return;
+			}
 			if (element instanceof Array) {
 				for (var i in element) {
 					setStyle(element[i], styles, animate, justCss3);
 				}
 				return;
 			}
-			if (!element) {
-				return;
-			}
+
 			if (typeof animate == "undefined") animate = false;
 			else if (typeof animate == "function") {
 				callback = animate;
@@ -219,7 +232,6 @@
 			if (!element) {
 				return;
 			}
-
 			setcss3(element, "animationPlayState", "paused");
 		}
 		function resumeanimation(element) {
@@ -245,7 +257,6 @@
 			setcss3(element, "animationDirection", "none");
 			setcss3(element, "animationFillMode", "none");
 		}
-
 		function runanimation(element, keyframe, options, _callback) {
 			element = queryEle(element);
 			if (!element) {
@@ -303,12 +314,12 @@
 			setcss3(element, "animationPlayState", "running");
 			setcss3(element, "animationFillMode", options.fillmode);
 			if (typeof _callback == "undefined") {
-				_callback = function() {};
+				_callback = function () { };
 			} else {
-				_callback = function() {
+				_callback = function () {
 					element.removeEventListener(PREFIX.js + "AnimationEnd", _callback, false);
 					element.removeEventListener("animationend", _callback, false);
-					setTimeout(function() {
+					setTimeout(function () {
 						if (typeof thecallback == "function") {
 							thecallback();
 						}
@@ -384,27 +395,25 @@
 			//判断是否已经是当前的属性
 			if (hasSameStyle(element, styles)) {
 				if (typeof _callback2 == "function") {
-					_callback2();
+					setTimeout(_callback2, speed);
 				}
 				return;
 			}
 
 			var thecallback = _callback2;
 			if (typeof _callback2 == "undefined") {
-				_callback2 = function callback() {};
+				_callback2 = function callback() { };
 			} else {
 				_callback2 = function callback() {
 					element.removeEventListener("transitionend", _callback2, false);
-					setTimeout(function() {
+					setTimeout(function () {
 						if (typeof thecallback == "function") {
 							thecallback();
 						}
 					});
 				};
 			}
-
 			//console.log(support_css3("transition"));
-
 			var duration = speed / 1000 + "s";
 			var transitionstr = "all " + duration + " " + easing;
 			$(element).css("transition", transitionstr);
@@ -413,7 +422,7 @@
 			element.addEventListener("transitionend", _callback2, false);
 		}
 		return {
-			set: function(element, styleObj) {
+			set: function (element, styleObj) {
 				setStyle(element, styleObj, false);
 			},
 			to: css3animate,
