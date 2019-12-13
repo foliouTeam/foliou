@@ -41,7 +41,7 @@
 				window.Popup_curhtmlOverFlow = $("html").css("overflow");
 			}
 			var defaultOption = {
-				animation: DEVICE.isPc ? "fade" : "scale",
+				animation: DEVICE.support_css3("transform") ? "scale" : "fade",
 				time: 300,
 				video: null, //内嵌的视频对象
 				auto: true,
@@ -242,7 +242,6 @@
 			};
 			this.show = function(obj, animation, time, callbFn) {
 				obj = $(queryEle(obj));
-
 				if ((typeof obj != "object" || !obj) && coverEle.length == 1) {
 					//在初始化弹窗的时候只有一个元素时，默认缺省 obj参数
 					if (typeof obj == "function") {
