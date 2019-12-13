@@ -1,6 +1,6 @@
-(function() {
+(function () {
 	function definFun($, DEVICE, PREFIX) {
-		var BgSound = function(option) {
+		var BgSound = function (option) {
 			var supportaudio = !!document.createElement("audio");
 			var volume = 1;
 			var self = this;
@@ -12,15 +12,15 @@
 				loop: true,
 				volume: 1,
 				autoplay: true,
-				onplay: function() {},
-				onpause: function() {}
+				onplay: function () { },
+				onpause: function () { }
 			};
 			option = $.extend(defaultOption, option);
-			self.init = function() {
+			self.init = function () {
 				var soundAudio = $("#SOUND_AUDIO");
 				var soundWrap = $("body");
 				if (soundWrap.length == 0) {
-					$(function() {
+					$(function () {
 						self.init();
 					});
 					return;
@@ -46,7 +46,7 @@
 							if (document.addEventListener) {
 								document.addEventListener(
 									"WeixinJSBridgeReady",
-									function() {
+									function () {
 										self.play();
 									},
 									false
@@ -60,14 +60,14 @@
 						try {
 							if (self.audioElement.paused) {
 								self.audioElement.load();
-								
-								self.audioElement.oncanplay = function() {
+
+								self.audioElement.oncanplay = function () {
 									self.play();
 								};
 								$(document).bind("touchstart", touchPlayZhibo);
 								$(document).bind("mousedown", touchPlayZhibo);
 							}
-						} catch (error) {}
+						} catch (error) { }
 					}
 
 					function touchPlayZhibo() {
@@ -80,14 +80,14 @@
 				}
 				self.bind();
 			};
-			self.bind = function() {
+			self.bind = function () {
 				if (!self.audioElement) {
 					return;
 				}
 				if (supportaudio) {
 					self.audioElement.addEventListener(
 						"playing",
-						function() {
+						function () {
 							if (typeof option.onplay == "function") {
 								option.onplay();
 							}
@@ -96,7 +96,7 @@
 					);
 					self.audioElement.addEventListener(
 						"pause",
-						function() {
+						function () {
 							if (typeof option.onpause == "function") {
 								option.onpause();
 							}
@@ -105,7 +105,7 @@
 					);
 					self.audioElement.addEventListener(
 						"ended",
-						function() {
+						function () {
 							if (typeof option.onpause == "function") {
 								option.onpause();
 							}
@@ -115,7 +115,7 @@
 					//self.bindBackRun();
 				}
 			};
-			self.setAudio = function(thisoption) {
+			self.setAudio = function (thisoption) {
 				if (typeof thisoption == "object") {
 					option = $.extend(option, thisoption);
 				}
@@ -150,7 +150,7 @@
 					}
 				}
 			};
-			self.play = function(thisoption) {
+			self.play = function (thisoption) {
 				if (typeof thisoption == "object") {
 					option = $.extend(option, thisoption);
 					self.setAudio();
@@ -166,7 +166,7 @@
 				}
 				curstate = "play";
 			};
-			self.pause = function(huanchun) {
+			self.pause = function (huanchun) {
 				if (!self.audioElement) return;
 				if (DEVICE.isiOS || !supportaudio) {
 					huanchun = false;
@@ -182,7 +182,7 @@
 				//self.audioElement.pause();
 				if (huanchun) {
 					volume = self.audioElement.volume;
-					self.volumeclock = setInterval(function() {
+					self.volumeclock = setInterval(function () {
 						volume -= 0.2;
 						if (volume <= 0) {
 							volume = 0;
@@ -206,11 +206,11 @@
 				}
 				curstate = "pause";
 			};
-			self.stop = function(huanchun) {
+			self.stop = function (huanchun) {
 				self.pause(huanchun);
 				self.audioElement.load();
 			};
-			self.resume = function() {
+			self.resume = function () {
 				if (!self.audioElement) return;
 				if (!DEVICE.isiOS) {
 					if (self.volumeclock) {
@@ -224,7 +224,7 @@
 						// console.log(error);
 					}
 
-					self.volumeclock = setInterval(function() {
+					self.volumeclock = setInterval(function () {
 						volume += 0.2;
 						if (volume >= option.volume) {
 							self.audioElement.volume = option.volume;
@@ -241,7 +241,7 @@
 				}
 				curstate = "play";
 			};
-			self.bindBackRun = function() {
+			self.bindBackRun = function () {
 				if (option.backrun) {
 					return;
 				}
