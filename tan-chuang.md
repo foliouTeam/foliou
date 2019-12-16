@@ -14,10 +14,10 @@ description: foliou/popup
 {% tab title="Html" %}
 ```markup
 <div class="popup popup1">
-        <a class="close" href="javascript:void(0)">close</a>
- </div>
+    <a class="close" href="javascript:void(0)">close</a>
+</div>
 <div class="popup popup2">
-        <a class="confirm" href="javascript:void(0)">confirm</a>
+    <a class="confirm" href="javascript:void(0)">confirm</a>
 </div>
 <a class="show_btn" href="javascript:void(0)">显示</a>
 ```
