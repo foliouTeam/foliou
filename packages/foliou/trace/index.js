@@ -6,7 +6,7 @@
 **/
 "use strict";
 (function () {
-    var apiurl = 'https://gapi.ztgame.com/sapi/';
+    var apiurl = 'https://sapi.ztgame.com/';
     var Factory = function ($) {
         if (!window.console || !window.console.warn) {
             window.console = {};

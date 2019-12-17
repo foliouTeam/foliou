@@ -9,3 +9,5 @@ switch (pathname) {
 	case "popup":
 		require("./popup");
 }
+var gLogin = require("../../../packages/foliou/login");
+var login = new gLogin({ type: "popup" });

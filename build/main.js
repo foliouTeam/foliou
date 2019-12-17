@@ -3,6 +3,7 @@ var json = require("rollup-plugin-json");
 var postcss = require("rollup-plugin-postcss");
 var postimage = require("@timdp/rollup-plugin-image");
 var posthtml = require("rollup-plugin-posthtml-template");
+import commonjs from "rollup-plugin-commonjs";
 var fs = require("fs");
 var path = require("path");
 import Files from "./lib/files";
@@ -19,9 +20,9 @@ class Build {
 				recursive: true
 			},
 			function(eventType, filename) {
-				console.log("文件发生变化");
-				console.log(eventType);
-				console.log(filename);
+				// console.log("文件发生变化");
+				// console.log(eventType);
+				// console.log(filename);
 				if (!filename || filename.indexOf("_temp") > -1 || filename == "index.js") {
 					return;
 				}
@@ -29,7 +30,7 @@ class Build {
 			}
 		);
 	}
-	createTempFile(assetsDir) {
+	createTempFile(assetsDir, cb) {
 		var _self = this;
 		Files.getFiles(assetsDir)
 			.then(function(filelist) {
@@ -58,14 +59,20 @@ class Build {
 						fs.writeFile(tempfile, tempfileData, function(err) {
 							if (!!err) {
 								console.log(err);
+								if (typeof cb == "function") {
+									cb(false);
+								}
 							} else {
 								console.log("写入" + tempfile);
-								_self.build(tempfile, outputfile);
+								//_self.build(tempfile, outputfile, cb);
 							}
 						});
 					});
 				} catch (error) {
 					console.log(error);
+					if (typeof cb == "function") {
+						cb(false);
+					}
 				}
 			})
 			.catch(function(err) {
@@ -74,20 +81,35 @@ class Build {
 	}
 	async getAssets() {
 		var _self = this;
-		Files.getDirs(path.resolve(__dirname, "../packages/"), function(dirs) {
+		var packageFolder = path.resolve(__dirname, "../packages/");
+		Files.getDirs(packageFolder, function(dirs) {
 			dirs.forEach((element, i) => {
 				Files.getDirs(element, function(items) {
 					items.forEach((item, j) => {
+						if (item.indexOf("node_modules") > -1) {
+							return true;
+						}
+						// console.log(j);
+						// console.log(item);
+						let indexFile = path.resolve(item, "index.js");
+						//console.log(path.relative(packageFolder, item).replace(/\\/g, "/"));
+						let outFile = path.resolve(__dirname, "../dist/", path.relative(packageFolder, item), "index.js");
 						var assetsDir = path.resolve(item, "assets");
 						fs.stat(assetsDir, function(err, st) {
 							if (!err) {
 								if (st.isDirectory()) {
-									console.log(assetsDir + "有资源");
+									// console.log(assetsDir + "有资源");
 									_self.watch(assetsDir);
-									_self.createTempFile(assetsDir);
+									_self.createTempFile(assetsDir, function() {
+										// console.log('临时资源');
+										// _self.build(indexFile, outFile);
+									});
 								}
 							} else {
 								//console.log(err);
+								//console.log('没有资源');
+								//_self.build(, , cb);
+								// _self.build(indexFile, outFile);
 							}
 						});
 					});
@@ -95,10 +117,13 @@ class Build {
 			});
 		});
 	}
-	async build(input, output) {
+	async build(input, output, cb) {
 		const bundle = await rollup.rollup({
 			input: input,
 			plugins: [
+				// commonjs({
+				// 	exclude: "node_modules/**"
+				// }),
 				postimage(),
 				json(),
 				postcss(),
@@ -107,13 +132,19 @@ class Build {
 				})
 			]
 		});
+		var format = input.indexOf(".temp") > -1 ? "cjs" : "umd";
+		console.log(format);
 		var outputOptions = {
 			file: output,
-			format: "cjs"
+			name: "index",
+			format: format
 		};
 		const { code, map } = await bundle.generate(outputOptions);
 		// or write the bundle to disk
 		await bundle.write(outputOptions);
+		if (typeof cb == "function") {
+			await cb(true);
+		}
 	}
 }
 var build = new Build();
