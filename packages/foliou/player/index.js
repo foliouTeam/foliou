@@ -771,7 +771,7 @@
 					return result;
 				}
 				this.play = function() {
-					videoElement.load();
+					//videoElement.load();
 					videoElement.play();
 				};
 				this.pause = function() {
