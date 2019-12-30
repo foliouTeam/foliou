@@ -64,7 +64,7 @@ class Build {
 								}
 							} else {
 								console.log("写入" + tempfile);
-								//_self.build(tempfile, outputfile, cb);
+								_self.build(tempfile, outputfile, cb);
 							}
 						});
 					});
