@@ -8,6 +8,7 @@ $(function() {
 		auto: true,
 		height: "auto",
 		pc: {},
+		download: true,
 		mobile: {}
 	});
 	$(".play_btn").click(function() {

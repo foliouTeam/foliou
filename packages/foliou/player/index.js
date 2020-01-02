@@ -102,6 +102,7 @@
 				image: "",
 				version: "v2",
 				volume: 1,
+				download: false,
 				loop: false,
 				toolbar: true,
 				ratio: 0.6, //高宽比例
@@ -228,14 +229,23 @@
 					var body = document.getElementsByTagName("body")[0];
 					body.appendChild(gaplyer_template);
 					$(gaplyer_template).append($(Assets["html/html5.html"]));
+					// $(".Player_download_btn")
 				}
 				var videocontainner = $("#Player_template .Player_container").prop("outerHTML");
 				videocontainner = $(videocontainner);
 				videocontainner.addClass("Player_container_" + videoindex);
 				if (options.toolbar) {
 					controlhtml = $("#Player_template .Player_option_wraper").prop("outerHTML");
-
 					videocontainner.find(".Player_container_inner").append(controlhtml);
+				}
+				if (options.download) {
+					videocontainner
+						.find(".Player_download_btn")
+						.append(Assets["icons/download.png"])
+						.attr("download", "video.mp4")
+						.attr("href", options.file);
+				} else {
+					videocontainner.find(".Player_download_btn").hide();
 				}
 				videocontainner.css({
 					width: options.width,
@@ -645,7 +655,7 @@
 						controlbarclock = null;
 					}
 					controlbarclock = setTimeout(function() {
-						hidecontrolbar();
+						//hidecontrolbar();
 					}, 5000);
 				}
 
