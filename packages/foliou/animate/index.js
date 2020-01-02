@@ -5,8 +5,8 @@
     @github:https://github.com/focusbe/foliou
 **/
 ("use strict");
-(function () {
-	var Factory = function (PREFIX, $, Device) {
+(function() {
+	var Factory = function(PREFIX, $, Device) {
 		// var PREFIX = Prefix();
 		var support_css3 = Device.support_css3;
 
@@ -21,7 +21,7 @@
 		}
 		var css3unit = {
 			deg: ["rotate(.*)", "skew(.*)"],
-			px: ["width", "height", "x", "y", "translate(.+)", 'margin(.*)', 'padding(.+)']
+			px: ["width", "height", "x", "y", "translate(.+)", "margin(.*)", "padding(.+)"]
 		};
 		//var transformStyle = ["scale", "rotate", "translate", "skew", "perspective"];
 		// function istransformstyle(style) {
@@ -49,7 +49,7 @@
 			for (var i in css3unit) {
 				curArr = css3unit[i];
 				for (var j in curArr) {
-					if (new RegExp(curArr[j], 'ig').test(str)) {
+					if (new RegExp(curArr[j], "ig").test(str)) {
 						if (i == "no") {
 							returnUnit = "";
 						} else {
@@ -137,26 +137,29 @@
 			};
 		}
 		function queryEle(str) {
+			//console.log(str);
 			if (typeof str == "string") {
 				str = $(str);
 			}
-
-			if (typeof str == "object" && !!str.selector) {
+			// // console.log((str+''));
+			// console.log(str.selector);
+			if (typeof str == "object" && (!!str.selector || str instanceof $)) {
 				var res = [];
 				if (str.length > 1) {
-					str.each(function () {
+					str.each(function() {
 						res.push(this);
 					});
 				} else {
 					res = str[0];
 				}
+				//console.log(res);
 				return res;
 			}
 			return str;
 		}
 		function getCss3(element) {
-			// element = queryEle(element);
-
+			element = queryEle(element);
+			//console.log(element);
 			var transformstr = element.style[PREFIX.js + "Transform"];
 			if (!transformstr) {
 				return {};
@@ -314,12 +317,12 @@
 			setcss3(element, "animationPlayState", "running");
 			setcss3(element, "animationFillMode", options.fillmode);
 			if (typeof _callback == "undefined") {
-				_callback = function () { };
+				_callback = function() {};
 			} else {
-				_callback = function () {
+				_callback = function() {
 					element.removeEventListener(PREFIX.js + "AnimationEnd", _callback, false);
 					element.removeEventListener("animationend", _callback, false);
-					setTimeout(function () {
+					setTimeout(function() {
 						if (typeof thecallback == "function") {
 							thecallback();
 						}
@@ -402,11 +405,11 @@
 
 			var thecallback = _callback2;
 			if (typeof _callback2 == "undefined") {
-				_callback2 = function callback() { };
+				_callback2 = function callback() {};
 			} else {
 				_callback2 = function callback() {
 					element.removeEventListener("transitionend", _callback2, false);
-					setTimeout(function () {
+					setTimeout(function() {
 						if (typeof thecallback == "function") {
 							thecallback();
 						}
@@ -422,9 +425,10 @@
 			element.addEventListener("transitionend", _callback2, false);
 		}
 		return {
-			set: function (element, styleObj) {
+			set: function(element, styleObj) {
 				setStyle(element, styleObj, false);
 			},
+			getCss3: getCss3,
 			to: css3animate,
 			keyframe: {
 				run: runanimation,
