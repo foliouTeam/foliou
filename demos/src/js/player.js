@@ -14,6 +14,5 @@ $(function() {
 	$(".play_btn").click(function() {
 		mplayer.play();
 	});
-
 	//
 });
