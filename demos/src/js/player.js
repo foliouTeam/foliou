@@ -3,12 +3,12 @@ var player = require("../../../packages/foliou/player");
 // console.log(player);
 $(function() {
 	var mplayer = new player({
-		file: "https://videogame.ztgame.com.cn/public/20191105/xinpv-157294526565.mp4",
+		file: "./videos/xinpv-157294526565.mp4",
 		width: "100%",
 		auto: true,
 		height: "auto",
 		pc: {},
-		download: true,
+		download: "xinpv.mp4",
 		mobile: {}
 	});
 	$(".play_btn").click(function() {

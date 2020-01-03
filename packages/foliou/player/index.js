@@ -239,11 +239,23 @@
 					videocontainner.find(".Player_container_inner").append(controlhtml);
 				}
 				if (options.download) {
-					videocontainner
-						.find(".Player_download_btn")
-						.append(Assets["icons/download.png"])
-						.attr("download", "video.mp4")
-						.attr("href", options.file);
+					var downloadBtn = videocontainner.find(".Player_download_btn");
+					downloadBtn.append(Assets["icons/download.png"]);
+					if (DEVICE.isWeixin) {
+						downloadBtn.click(function() {
+							alert("请使用手机自带浏览器打开");
+						});
+					} else {
+						// try {
+						// 	document.domain = "ztgame.com";
+						// } catch (error) {
+							
+						// }
+						downloadBtn
+							.attr("download", typeof options.download == "string" ? options.download : "video.mp4")
+							.attr("target", "_blank")
+							.attr("href", options.file);
+					}
 				} else {
 					videocontainner.find(".Player_download_btn").hide();
 				}
