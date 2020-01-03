@@ -295,14 +295,6 @@
 								videocontainner.append("<div class='Player_Download_Progress'>" + $("#Player_loading").html() + "</div>");
 								progressBar = videocontainner.find(".Player_Download_Progress");
 								progressBar.append("<img src='" + Assets["icons/download.png"].src + "'/ >");
-								// progressBar.css({
-								// 	width: 50,
-								// 	height: 50,
-								// 	position: "absolute",
-								// 	right: 10,
-								// 	top: "50%",
-								// 	marginTop: -25
-								// });
 							}
 							var svgPath = progressBar.find(".Play_Loading_Progress_path");
 
@@ -311,9 +303,9 @@
 								svgPath.css({
 									strokeDashoffset: dashoffset
 								});
-								//alert(percent);
 								if (percent == 1) {
 									progressBar.remove();
+									isDownloading = false;
 								}
 							});
 						});
