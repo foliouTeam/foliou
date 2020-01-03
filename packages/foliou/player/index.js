@@ -243,6 +243,7 @@
 					function downloadVideo(src, name, progress) {
 						if (!!fileResponse) {
 							startDownload();
+							progress(1);
 							return;
 						}
 						function startDownload() {
@@ -552,13 +553,20 @@
 						var startHandle = function startHandle(e) {
 							handertouched = true;
 							startx = e.originalEvent.pageX ? e.originalEvent.pageX : e.originalEvent.touches[0].clientX;
+							if(!!window.isXuanzhuan){
+								startx = e.originalEvent.pageY ? e.originalEvent.pageY : e.originalEvent.touches[0].clientY;
+							}
 							videoElement.pause();
 							showcontrolbar();
 						};
 
 						var moveHandle = function moveHandle(e) {
 							if (handertouched) {
+								//console.log(e.originalEvent);
 								curtouchx = e.originalEvent.pageX ? e.originalEvent.pageX : e.originalEvent.touches[0].clientX;
+								if(!!window.isXuanzhuan){
+									curtouchx = e.originalEvent.pageY ? e.originalEvent.pageY : e.originalEvent.touches[0].clientY;
+								}
 								movetoucx = curtouchx - startx;
 								startx = curtouchx;
 
@@ -569,7 +577,11 @@
 
 						var endHandle = function endHandle(e) {
 							if (handertouched) {
+								//console.log(e.originalEvent);
 								curtouchx = e.originalEvent.pageX ? e.originalEvent.pageX : e.originalEvent.changedTouches[0].clientX;
+								if(!!window.isXuanzhuan){
+									curtouchx = e.originalEvent.pageY ? e.originalEvent.pageY : e.originalEvent.changedTouches[0].clientY;
+								}
 								movetoucx = curtouchx - startx;
 								startx = curtouchx;
 								// console.log(movetoucx);
@@ -607,7 +619,7 @@
 							isclicked = true;
 							setTimeout(function() {
 								if (!isdbclick) {
-									self.pause();
+									//self.pause();
 									showcontrolbar();
 								}
 								isdbclick = false;
@@ -721,7 +733,7 @@
 						controlbarclock = null;
 					}
 					controlbarclock = setTimeout(function() {
-						//hidecontrolbar();
+						hidecontrolbar();
 					}, 5000);
 				}
 
