@@ -44,7 +44,7 @@
 			</span>
 			<span class="Player_time_panel" style="color:#fff"> <span class="Player_time_panel_current">00:00</span> <span class="Player_time_panel_split">/</span> <span class="Player_time_panel_total">00:00</span> </span>
 		</div>
-		<a class="Player_download_btn" type="button" title="下载"> </a>
+		<a class="Player_download_btn" href="javascript:void(0)" title="下载"> </a>
 		<div class="tvp_button Player_fullscreen_button tvp_fullscreen">
 			<button type="button" title="切换全屏">
 				<svg class="txp_icon txp_icon_fullscreen" viewBox="0 0 24 24">
@@ -56,7 +56,21 @@
 		</div>
 	</div>
 </div>
-
+<div id="Player_loading">
+	<svg viewBox="0 0 100 100">
+		<path d="M 50 50 m -40 0 a 40 40 0 1 0 80 0  a 40 40 0 1 0 -80 0" fill="none" opacity="0.5" stroke="#ccc" stroke-width="4"></path>
+		<path d="M 50 50 m -40 0 a 40 40 0 1 0 80 0  a 40 40 0 1 0 -80 0" fill="none" stroke="#fff" stroke-linecap="round" class="Play_Loading_Progress_path" transform="rotate(90,50,50)" stroke-width="5"></path>
+		<style>
+			.Play_Loading_Progress_path {
+				stroke-dasharray: 252.2px, 252.2px;
+				stroke-dashoffset: 252.2px;
+				transition: stroke-dashoffset 0.6s ease 0s, stroke 0.6s ease 0s;
+				transform: rotateZ(90deg);
+				transform-origin: 50% 50%;
+			}
+		</style>
+	</svg>
+</div>
 <div id="Player_svg">
 	<svg class="txp_svg_sprite" display="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
 		<symbol id="txp_svg_play_lg" viewBox="0 0 100 100">

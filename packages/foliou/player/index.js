@@ -239,6 +239,34 @@
 					videocontainner.find(".Player_container_inner").append(controlhtml);
 				}
 				if (options.download) {
+					var fileResponse = null;
+					function downloadVideo(src, name, progress) {
+						if (!!fileResponse) {
+							startDownload();
+							return;
+						}
+						function startDownload() {
+							var url = window.URL.createObjectURL(fileResponse);
+							var a = document.createElement("a");
+							a.href = url;
+							a.download = name;
+							a.click();
+						}
+						var x = new XMLHttpRequest(); //禁止浏览器缓存；否则会报跨域的错误
+						x.open("GET", src + "?t=" + new Date().getTime(), true);
+						x.responseType = "blob";
+						x.onload = function(e) {
+							fileResponse = x.response;
+							startDownload();
+						};
+						x.onprogress = function(e) {
+							//console.log(e);
+							var percent = parseInt((e.loaded / e.total) * 100) / 100;
+							progress(percent);
+						};
+						x.send();
+					}
+
 					var downloadBtn = videocontainner.find(".Player_download_btn");
 					downloadBtn.append(Assets["icons/download.png"]);
 					if (DEVICE.isWeixin) {
@@ -249,12 +277,46 @@
 						// try {
 						// 	document.domain = "ztgame.com";
 						// } catch (error) {
-							
+
 						// }
-						downloadBtn
-							.attr("download", typeof options.download == "string" ? options.download : "video.mp4")
-							.attr("target", "_blank")
-							.attr("href", options.file);
+						// downloadBtn
+						// 	.attr("download", typeof options.download == "string" ? options.download : "video.mp4")
+						// 	.attr("target", "_blank")
+						// 	.attr("href", options.file);
+						var isDownloading = false;
+
+						downloadBtn.click(function() {
+							if (!!isDownloading) {
+								return;
+							}
+							isDownloading = true;
+							var progressBar = videocontainner.find(".Player_Download_Progress");
+							if (progressBar.length == 0) {
+								videocontainner.append("<div class='Player_Download_Progress'>" + $("#Player_loading").html() + "</div>");
+								progressBar = videocontainner.find(".Player_Download_Progress");
+								progressBar.append("<img src='" + Assets["icons/download.png"].src + "'/ >");
+								// progressBar.css({
+								// 	width: 50,
+								// 	height: 50,
+								// 	position: "absolute",
+								// 	right: 10,
+								// 	top: "50%",
+								// 	marginTop: -25
+								// });
+							}
+							var svgPath = progressBar.find(".Play_Loading_Progress_path");
+
+							downloadVideo(options.file, typeof options.download == "string" ? options.download : "", function(percent) {
+								var dashoffset = 252.2 * (1 - percent);
+								svgPath.css({
+									strokeDashoffset: dashoffset
+								});
+								//alert(percent);
+								if (percent == 1) {
+									progressBar.remove();
+								}
+							});
+						});
 					}
 				} else {
 					videocontainner.find(".Player_download_btn").hide();
