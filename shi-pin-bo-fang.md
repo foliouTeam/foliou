@@ -72,18 +72,7 @@ var mplayer = new Player("#player-wrap",{
 
 #### 内嵌播放函数列表
 
-#### **\#  player.play\(\);**
-
-开始/继续播放视频
-
-#### **\#  player.pause\(\);**
-
-暂停播放视频
-
-#### **\#  player.setVideo\(video,image\);**
-
-**参数：**
-
-* video {url}  视频的地址
-* image {url} 封面图片的地址
+* play： 播放视频，例：myplayer.play\(\)
+* pause： 暂停视频，如果是弹窗形式，将会自动关闭弹窗；例：myplayer.pause\(\)
+* setVideoUrl\(videourl,image\) ：重新设置视频和图片，例：myplayer.setVideoUrl\(videourl,image\)
 

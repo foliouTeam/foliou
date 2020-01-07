@@ -39,45 +39,20 @@ popup.hide(".popup1");
 
 ## API
 
-### **\# new Popup\(element,options\);**
+### **\# new Popup\(popupElement,options\);**
 
 初始化弹窗组件
 
 **参数：**
 
-* **element：** {Jquery\|String\|DomElement} 想要设置成弹窗的容器，可填 jquery对象或者jquery选择器或dom元素
+* **popupElement：** {Jquery\|String\|DomElement} 想要设置成弹窗的容器，可填 jquery对象或者jquery选择器或dom元素
 * **option：** {Object} 初始化对象包含索引：
-  * **animation：**动画模式。例: 'fade'\|'fadeup'\|'fadedown' ,"scale"。默认值："scale"
-  * **time：**执行动画时间。例:400。默认值：300
-  * **replace：**打开新窗口时候是否关闭上一个窗口。例：true\|false。默认值：true
-  * **opacity :** 遮罩的透明度
-  * **scrollObj：**是否容许出现滚动条，如果需要出现请直接传入弹窗中要出现滚动条的元素或者传入'this'，当参数为”this“表示以弹窗的根节点作为出现滚动条的元素。默认值：”this“
-  * **startShow：**开始显示的回调函数,返回正在显示的对象。例: function\(obj\){}。默认值 function\(obj\){}。
-  * **endShow：**完成显示的回调函数,返回正在显示的对象。例: function\(obj\){}。默认值 function\(obj\){}。
-  * **startHide**：开始隐藏的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
-  * **endHide**：完成隐藏的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
-
-
-
-### 方法：
-
-**\# popup.show\(element\);**
-
-显示弹窗。
-
-**参数：**
-
-* element {String \| $}   需要隐藏的弹窗
-
-
-
-**\# popup.hide\(element\);**
-
-隐藏弹窗。
-
-**参数：**
-
-* element {String \| $} 需要隐藏的弹窗
-
-\*\*\*\*
+  * animation：动画模式。例: 'fade'\|'fadeup'\|'fadedown' 。默认值：fade
+  * time：执行动画时间。例:400。默认值：300
+  * replace:：打开新窗口时候是否关闭上一个窗口。例：true\|false。默认值：true
+  * scrollObj：是否容许出现滚动条，如果需要出现请直接传入弹窗中要出现滚动条的元素或者传入'this'，当参数为”this“表示以弹窗的根节点作为出现滚动条的元素。默认值：”this“
+  * startShow：开始显示的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
+  * endShow：完成显示的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
+  * startHide：开始隐藏的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
+  * endHide：完成隐藏的回调函数,返回正在操作的对象。例: function\(obj\){}。默认值 function\(obj\){}。
 
