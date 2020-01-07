@@ -52,7 +52,7 @@ var mplayer = new Player("#player-wrap",{
 
 **参数：**
 
-* container {Jquery\|String\|DomElement} 视频播放的容器，可选参数，如果参数为空，表示视频弹窗显示；  
+* container {Jquery\|String\|DomElement} 视频播放的容器，可选参数，如果参数为空，  
 * option {Object} 初始化对象包含索引：
   * file {String} 视频的url
   * width {Number\|String} 视频宽度,例：200\|”100% “,默认值 “100%”
@@ -70,18 +70,9 @@ var mplayer = new Player("#player-wrap",{
 
 ### 方法：
 
-#### **\#  player.play\(\);**
+#### 内嵌播放函数列表
 
-开始/继续播放视频，如果是弹窗形式会显示弹窗并播放视频。
-
-#### **\#  player.pause\(\);**
-
-暂停播放视频，如果是弹窗形式会暂停并隐藏弹窗。
-
-#### **\#  player.setVideo\(video,image\);**
-
-**参数：**
-
-* video {url}  视频的地址
-* image {url} 封面图片的地址
+* play： 播放视频，例：myplayer.play\(\)
+* pause： 暂停视频，如果是弹窗形式，将会自动关闭弹窗；例：myplayer.pause\(\)
+* setVideoUrl\(videourl,image\) ：重新设置视频和图片，例：myplayer.setVideoUrl\(videourl,image\)
 

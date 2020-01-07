@@ -8,5 +8,6 @@
 * [弹窗](tan-chuang.md)
 * [设备](she-bei.md)
 * [前缀](qian-zhui.md)
+* [工具类](gong-ju-lei.md)
 * [组件开发脚手架](think.md)
 
