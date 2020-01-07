@@ -30,8 +30,14 @@ Github：[https://github.com/focusbe/foliou](https://github.com/focusbe/foliou)
   * 从当前url中获取参数
   * 在低版本浏览器实现Json.pare 和 Json.stringify
 * **foliou/bgm——背景音乐**
+
   * 兼容ie/移动端
   * 支持微信端自动播放
   * 添加音频淡入淡出
   * 添加自动播放降级方案——触摸自动播放
+
+* **foliou/visualizer ——音频可视化组件**
+
+  * 兼容iOS，Android、Chrome、Firefox
+  * 支持微信下自动播放
 
