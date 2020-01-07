@@ -6,5 +6,6 @@
 * [背景音乐](bgm.md)
 * [视频播放](shi-pin-bo-fang.md)
 * [弹窗](tan-chuang.md)
+* [设备](she-bei.md)
 * [组件开发脚手架](think.md)
 
