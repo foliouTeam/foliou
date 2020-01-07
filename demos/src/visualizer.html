@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>音频可视化演示</title>
+        <script src="./js/all.js"></script>
+        <link rel="stylesheet" href="./css/main.css" />
+        <link rel="stylesheet" href="./css/visualizer.css" />
+	</head>
+	<body class="music_body">
+		<div class="bg"></div>
+		<div class="rotate_wrap">
+			<div class="poster">
+				<img class="" src="images/poster.png" alt="" />
+			</div>
+			<div class="audio_info">
+				<span>更远之地</span>
+				<span>巨人30周年主题曲</span>
+				<span id="music_time">00:00</span>
+			</div>
+			<div class="yinxiao"></div>
+			<div class="options">
+				<button class="play_btn loading" type="button" title="播放/暂停" data-status="play">
+					<svg class="txp_icon txp_icon_play" viewBox="0 0 60 60">
+						<use class="txp_svg_play" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_play"></use>
+
+						<use class="txp_svg_pause" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_pause"></use>
+
+						<use class="txp_svg_stop" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_stop"></use>
+
+						<use class="txp_svg_replay" xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#txp_svg_replay"></use>
+					</svg>
+				</button>
+			</div>
+		</div>
+		<div id="Player_svg">
+			<svg class="txp_svg_sprite" display="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+				<symbol id="txp_svg_play" viewBox="0 0 56 56">
+					<path d="M14.569 13.867s-.563 1.42-.563 14.059.563 14.188.563 14.188a1.925 1.925 0 0 0 2.8 1.677s2.938-.442 14.763-6.211 13.8-7.914 13.8-7.914a1.859 1.859 0 0 0 0-3.352s-3.24-2.875-13.8-8.095c-10.444-5.165-14.767-6.029-14.767-6.029a1.924 1.924 0 0 0-2.796 1.677z" style="fill:#fff"></path>
+				</symbol>
+
+				<symbol id="txp_svg_pause" viewBox="0 0 56 56">
+					<path style="fill:#fff" d="M39 49a4 4 0 0 1-4-4V11a4 4 0 0 1 4-4 4 4 0 0 1 4 4v34a4 4 0 0 1-4 4zm-22 0a4 4 0 0 1-4-4V11a4 4 0 0 1 4-4 4 4 0 0 1 4 4v34a4 4 0 0 1-4 4z"></path>
+				</symbol>
+			</svg>
+		</div>
+	</body>
+</html>

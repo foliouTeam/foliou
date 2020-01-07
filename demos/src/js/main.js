@@ -8,6 +8,8 @@ switch (pathname) {
 		require("./player");
 	case "popup":
 		require("./popup");
+	case "visualizer":
+		require("./visualizer");
 }
-var gLogin = require("../../../packages/foliou/login");
-var login = new gLogin({ type: "popup" });
+// var gLogin = require("../../../packages/foliou/login");
+// var login = new gLogin({ type: "popup" });

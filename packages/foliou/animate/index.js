@@ -6,7 +6,7 @@
 **/
 ("use strict");
 (function() {
-	var Factory = function(PREFIX, $, Device) {
+	var Factory = function(PREFIX, $, Device, Utli) {
 		// var PREFIX = Prefix();
 		var support_css3 = Device.support_css3;
 
@@ -136,30 +136,10 @@
 				css2: css2style
 			};
 		}
-		function queryEle(str) {
-			//console.log(str);
-			if (typeof str == "string") {
-				str = $(str);
-			}
-			// // console.log((str+''));
-			// console.log(str.selector);
-			if (typeof str == "object" && (!!str.selector || str instanceof $)) {
-				var res = [];
-				if (str.length > 1) {
-					str.each(function() {
-						res.push(this);
-					});
-				} else {
-					res = str[0];
-				}
-				//console.log(res);
-				return res;
-			}
-			return str;
-		}
+
 		function getCss3(element) {
-			element = queryEle(element);
-			//console.log(element);
+			element = Utli.query(element);
+			// console.log(element);
 			var transformstr = element.style[PREFIX.js + "Transform"];
 			if (!transformstr) {
 				return {};
@@ -183,7 +163,7 @@
 		}
 
 		function setcss3(element, style, value) {
-			element = queryEle(element);
+			element = Utli.query(element);
 			if (!element) {
 				return;
 			}
@@ -198,7 +178,7 @@
 		}
 
 		function setStyle(element, styles, animate, justCss3) {
-			element = queryEle(element);
+			element = Utli.query(element);
 			if (!element) {
 				return;
 			}
@@ -231,7 +211,7 @@
 			if (!support_css3("animation")) {
 				return;
 			}
-			element = queryEle(element);
+			element = Utli.query(element);
 			if (!element) {
 				return;
 			}
@@ -247,7 +227,7 @@
 			if (!support_css3("animation")) {
 				return;
 			}
-			element = queryEle(element);
+			element = Utli.query(element);
 			if (!element) {
 				return;
 			}
@@ -261,7 +241,7 @@
 			setcss3(element, "animationFillMode", "none");
 		}
 		function runanimation(element, keyframe, options, _callback) {
-			element = queryEle(element);
+			element = Utli.query(element);
 			if (!element) {
 				return;
 			}
@@ -356,7 +336,7 @@
 		}
 
 		function css3animate(element, styles, speed, easing, _callback2) {
-			element = queryEle(element);
+			element = Utli.query(element);
 			if (!element || !styles) {
 				return;
 			}
@@ -441,9 +421,9 @@
 
 	if (typeof exports === "object") {
 		// CommonJS
-		module.exports = Factory(require("../prefix/"), require("jquery"), require("../device/"));
+		module.exports = Factory(require("../prefix/"), require("jquery"), require("../device/"), require("../utli/"));
 	} else if (typeof define === "function" && define.amd) {
 		// AMD
-		define(["../prefix/", "jquery", "../device/"], Factory);
+		define(["../prefix/", "jquery", "../device/", "../utli/"], Factory);
 	}
 })();

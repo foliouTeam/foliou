@@ -902,6 +902,7 @@
 					loading.hide();
 					videoplayer.load();
 				};
+				this.setVideo = this.setVideoUrl;
 				init();
 			}
 			//flash播放器

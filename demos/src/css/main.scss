@@ -1,23 +1,24 @@
-@keyframes move1{
-    0%{
-        opacity: 1;
-    }
-    100%{
-        opacity: 0;
-    }
+@keyframes move1 {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
 }
-#div1{
-    background: red;
-    width: 100px;
-    height: 100px;
+#div1 {
+	background: red;
+	width: 100px;
+	height: 100px;
 }
-body{
-    font-size: 40px;
+body {
+	font-size: 40px;
 }
-.popup{
-    color: #000;
-    width: 300px;
-    max-height: 400px;
-    background: #fff;
-    text-align: center;
+.popup {
+	color: #000;
+	width: 300px;
+	max-height: 400px;
+	background: #fff;
+	text-align: center;
 }
+

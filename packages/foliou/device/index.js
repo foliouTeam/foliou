@@ -16,6 +16,33 @@
 					break;
 				}
 			}
+			var supportCss3 = function(prop) {
+				var div = document.createElement("div"),
+					vendors = "ms Ms O Moz Webkit".split(" ");
+				if (prop in div.style) return true;
+
+				prop = prop.replace(/^[a-z]/, function(val) {
+					return val.toUpperCase();
+				});
+				for (var i in vendors) {
+					if (vendors[i] + prop in div.style) {
+						return true;
+					}
+				}
+				return false;
+			};
+			var supportTag = function(tagname, attr) {
+				if (!attr) {
+					return !!document.createElement(tagname);
+				} else {
+					return !!(attr in document.createElement(tagname));
+				}
+			};
+			var ieVersion = function() {
+				var matchers = navigator.userAgent.match(/MSIE (\d+)/);
+				var version = matchers && matchers[1];
+				return version;
+			};
 			return {
 				isAndroid: ua.indexOf("Android") > -1 || ua.indexOf("Adr") > -1,
 				isiOS: !!ua.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
@@ -28,21 +55,10 @@
 				isIe: window.ActiveXObject ? true : false,
 				isIe7: ie7,
 				isIe8: ie8,
-				support_css3: function(prop) {
-					var div = document.createElement("div"),
-						vendors = "ms Ms O Moz Webkit".split(" ");
-					if (prop in div.style) return true;
-
-					prop = prop.replace(/^[a-z]/, function(val) {
-						return val.toUpperCase();
-					});
-					for (var i in vendors) {
-						if (vendors[i] + prop in div.style) {
-							return true;
-						}
-					}
-					return false;
-				}
+				ieVersion: ieVersion(),
+				supportCss3: supportCss3,
+				support_css3: supportCss3,
+				supportTag: supportTag
 			};
 		})();
 		return DEVICE;
