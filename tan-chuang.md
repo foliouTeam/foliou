@@ -67,7 +67,9 @@ popup.hide(".popup1");
 
 **参数：**
 
-* element {String \| $}  jquery选择器，或者jquery对象
+* element {String \| $}   需要隐藏的弹窗
+
+
 
 **\# popup.hide\(element\);**
 
@@ -75,7 +77,7 @@ popup.hide(".popup1");
 
 **参数：**
 
-* element {String \| $}  jquery选择器，或者jquery对象
+* element {String \| $} 需要隐藏的弹窗
 
 \*\*\*\*
 

@@ -86,7 +86,7 @@ Animate.keyframe.stop("#div");
 在IE8以及IE9中 css3特有的属性不会生效，但是css2属性可以正常设置，效果等同于Jquery的css方法
 {% endhint %}
 
-### 
+### \*\*\*\*
 
 ### **\# Animate.to\(element,styles,\[speed\],\[**easing**\],\[callback\]\);**
 
@@ -108,26 +108,6 @@ Animate.keyframe.stop("#div");
 {% hint style="info" %}
 在IE8和IE9中css3特有的属性不会执行，但是css2属性可以照常执行，效果等同于Jquery的animate方法
 {% endhint %}
-
-### 
-
-### **\# Animate.getCss3\(element\);**
-
-获取设置过的Css3属性
-
-**参数：**
-
-* element {String \| $}  jquery选择器，或者jquery对象；
-
-**返回值：**
-
-* cssObj :用js设置过的css3对象
-
-{% hint style="info" %}
-此方法用于获取DOM.style 中的css3属性，无法获取设置在css中的css3属性
-{% endhint %}
-
-### 
 
 ### \# Animate.keyframe.run\(element,keyframe,\[options\],\[callback\]\)
 
