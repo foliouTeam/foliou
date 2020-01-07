@@ -39,7 +39,7 @@ popup.hide(".popup1");
 
 ## API
 
-### **\# new Player\(popupElement,options\);**
+### **\# new Popup\(popupElement,options\);**
 
 初始化弹窗组件
 
