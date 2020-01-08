@@ -29,7 +29,7 @@ $(function() {
 	}
 	var poster = $(".poster");
 	var visualizer = new Visualizer({
-		file: "./audios/music.mp3",
+		file: "./audios/bg.mp3",
 		onReady: function() {
 			$(".play_btn")
 				.removeClass("loading")

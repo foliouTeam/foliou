@@ -1,10 +1,5 @@
-'use strict';
-
-var css = ".swiper-slide {\n  position: relative;\n  width: 100%;\n  top: 0;\n  overflow: hidden; }\n\n.swiper-wrapper {\n  position: relative;\n  overflow: hidden; }\n\n.swiper-container {\n  position: relative; }\n\n.swiper-pagination {\n  position: absolute;\n  width: 100%;\n  bottom: 10px;\n  text-align: center; }\n\n.swiper-pagination span {\n  display: inline-block;\n  width: 12px;\n  height: 12px;\n  border-radius: 6px;\n  background: #000;\n  opacity: 0.5;\n  margin: 0 5px; }\n\n.swiper-pagination span.cur {\n  background: #4390EE;\n  opacity: 1; }\n";
-
 var assets = {};
-var assets = {};
-assets["main.scss"]=css;
+__Assets__;
 function relativeDir(dir1, dir2) {
 	var dir1Arr = dir1.split("/");
 	var dir2Arr = dir2.split("/");
@@ -84,6 +79,4 @@ function styleInject(css, insertAt) {
 	}
 }
 
-var assets$1 = assets;
-
-module.exports = assets$1;
+export default assets;

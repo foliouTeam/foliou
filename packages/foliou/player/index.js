@@ -1,4 +1,9 @@
 "use strict";
+/**
+    @author:pengzai
+    @blog:http://foliou.focusbe.com
+    @github:https://github.com/focusbe/foliou
+**/
 (function() {
 	var _typeof =
 		typeof Symbol === "function" && typeof Symbol.iterator === "symbol"
@@ -269,7 +274,9 @@
 					}
 
 					var downloadBtn = videocontainner.find(".Player_download_btn");
-					downloadBtn.append(Assets["icons/download.png"]);
+					var downimg =  new Image();
+					downimg.src = Assets["icons/download.png"];
+					downloadBtn.append(downimg);
 					if (DEVICE.isWeixin) {
 						downloadBtn.click(function() {
 							alert("请使用手机自带浏览器打开");
@@ -295,7 +302,7 @@
 							if (progressBar.length == 0) {
 								videocontainner.append("<div class='Player_Download_Progress'>" + $("#Player_loading").html() + "</div>");
 								progressBar = videocontainner.find(".Player_Download_Progress");
-								progressBar.append("<img src='" + Assets["icons/download.png"].src + "'/ >");
+								progressBar.append("<img src='" + Assets["icons/download.png"] + "'/ >");
 							}
 							var svgPath = progressBar.find(".Play_Loading_Progress_path");
 
@@ -1219,7 +1226,7 @@
 
 			if ($(".POPUP-Player").length < 1) {
 				var closebtnbg;
-				closebtnbg = Assets["icons/close.jpg"].src;
+				closebtnbg = Assets["icons/close.jpg"];
 				popupobj = '<div class="POPUP-Player" style="display:none;background:#000;"><a style="width:50px;height:50px;background:url(' + closebtnbg + ') no-repeat center;position:absolute;top:0;right:-50px;display:block;" class="POPUP-Player-CLOSE close" href="javascript:void(0)"></a><div id="POPUP-Player-CONTAINER"></div></div>';
 				popupobj = $(popupobj);
 				$("body").append(popupobj);

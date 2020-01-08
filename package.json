@@ -9,7 +9,7 @@
         "pre": "node build/install.js --script install"
     },
     "devDependencies": {
-        "@timdp/rollup-plugin-image": "^1.0.3",
+        "@rollup/plugin-image": "^2.0.1",
         "babel-cli": "^6.26.0",
         "babel-core": "^6.26.0",
         "babel-node": "^0.0.1-security",

@@ -10,6 +10,8 @@ switch (pathname) {
 		require("./popup");
 	case "visualizer":
 		require("./visualizer");
+	case "swiper":
+		require("./swiper");
 }
 // var gLogin = require("../../../packages/foliou/login");
 // var login = new gLogin({ type: "popup" });

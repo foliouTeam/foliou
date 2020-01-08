@@ -1,8 +1,7 @@
 /**
-    @author:liupeng
-    @email:1049047649@qq.com
-    @blog:http://blog.focusbe.com
-    @github:https://github.com/focusbe
+    @author:pengzai
+    @blog:http://foliou.focusbe.com
+    @github:https://github.com/focusbe/foliou
 **/
 (function() {
 	var definFun = function(DEVICE) {
@@ -51,10 +50,6 @@
 				if (typeof callbacks.start == "function") {
 					callbacks.start(startPosition, e);
 				}
-				// startPosition = {x:x,y:y};
-				// if(typeof(callbacks.start)=='function'){
-				//     callbacks.start(startPosition);
-				// }
 			};
 			this._moveHandle = function(e) {
 				if (!_isTouched) {
@@ -97,19 +92,12 @@
 		};
 		return TouchMove;
 	};
-	// if(typeof(define)!='function'){
-	//     window.Touch = definFun(DEVICE);
-	// }
-	// else{
-	//     define(['../device/index'],definFun);
-	// }
-
 	if (typeof exports === "object") {
 		// CommonJS
 		module.exports = definFun(require("../device/"));
 	} else if (typeof define === "function" && define.amd) {
 		// AMD
-		define(["../device/index"], definFun);
+		define(["../device/"], definFun);
 	} else {
 		// Global Variables
 		window.Cookie = definFun();

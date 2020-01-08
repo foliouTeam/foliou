@@ -1,5 +1,10 @@
 //判断环境
 "use strict";
+/**
+    @author:pengzai
+    @blog:http://foliou.focusbe.com
+    @github:https://github.com/focusbe/foliou
+**/
 (function() {
 	var Factory = function($) {
 		if (!window.JSON) {

@@ -1,4 +1,9 @@
 ("use strict");
+/**
+    @author:pengzai
+    @blog:http://foliou.focusbe.com
+    @github:https://github.com/focusbe/foliou
+**/
 (function() {
 	var Factory = function(Device, ztUtil) {
 		//判断环境
@@ -150,17 +155,16 @@
 						}
 					};
 					var draw = function() {
-                        // console.log(self.state);
-						if (self.state == "running"||self.state == "loaded") {
+						// console.log(self.state);
+						if (self.state == "running" || self.state == "loaded") {
 							options.onUpdate(self.getFrequency(), self.getCurrentTime());
 						}
 						window.requestAnimationFrame(draw);
 					};
 					draw();
-                }
-                
-            }
-            
+				}
+			}
+
 			this.getCurrentTime = function() {
 				if (!!self.audioEl) {
 					return audioEl.currentTime;
@@ -202,8 +206,8 @@
 					}
 				}
 				self.resume();
-            }
-            init();
+			}
+			init();
 		}
 		return Visualizer;
 	};

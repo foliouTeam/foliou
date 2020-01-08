@@ -1,9 +1,8 @@
 "use strict";
 /**
     @author:pengzai
-    @email:pengzai.dev@outlook.com
-    @blog:https://www.pengzai.dev/
-    @github:https://github.com/pengzai-dev
+    @blog:http://foliou.focusbe.com
+    @github:https://github.com/focusbe/foliou
 **/
 (function() {
 	var definFun = function definFun($, DEVICE, Touch) {

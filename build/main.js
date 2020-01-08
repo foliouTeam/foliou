@@ -1,7 +1,7 @@
 var rollup = require("rollup");
 var json = require("rollup-plugin-json");
 var postcss = require("rollup-plugin-postcss");
-var postimage = require("@timdp/rollup-plugin-image");
+var postimage = require("@rollup/plugin-image");
 var posthtml = require("rollup-plugin-posthtml-template");
 import commonjs from "rollup-plugin-commonjs";
 var fs = require("fs");
@@ -50,22 +50,31 @@ class Build {
 						tempfileData += "import " + valname + ' from "../' + relname.replace("\\", "/") + '";\nassets["' + relname.replace("\\", "/") + '"]=' + valname + ";\n";
 					}
 				}
-				tempfileData += "export default assets;";
+
+				// tempfileData += "export default assets;";
 				//console.log(tempfileData);
 				try {
-					Files.exists(null, path.resolve(assetsDir, "./.temp/"), function(src, dtc) {
-						var tempfile = path.resolve(assetsDir, "./.temp/rullup_temp.js");
-						var outputfile = path.resolve(assetsDir, "./index.js");
-						fs.writeFile(tempfile, tempfileData, function(err) {
-							if (!!err) {
-								console.log(err);
-								if (typeof cb == "function") {
-									cb(false);
+					fs.readFile(path.resolve(__dirname, "assetstmp.js"), function(err, data) {
+						if (err) {
+							console.log(err);
+							return;
+						}
+						console.log((data = data.toString("utf-8")));
+						tempfileData = data.replace("__Assets__", tempfileData);
+						Files.exists(null, path.resolve(assetsDir, "./.temp/"), function(src, dtc) {
+							var tempfile = path.resolve(assetsDir, "./.temp/rullup_temp.js");
+							var outputfile = path.resolve(assetsDir, "./index.js");
+							fs.writeFile(tempfile, tempfileData, function(err) {
+								if (!!err) {
+									console.log(err);
+									if (typeof cb == "function") {
+										cb(false);
+									}
+								} else {
+									console.log("写入" + tempfile);
+									_self.build(tempfile, outputfile, cb);
 								}
-							} else {
-								console.log("写入" + tempfile);
-								_self.build(tempfile, outputfile, cb);
-							}
+							});
 						});
 					});
 				} catch (error) {
@@ -126,7 +135,9 @@ class Build {
 				// }),
 				postimage(),
 				json(),
-				postcss(),
+				postcss({
+					inject: false
+				}),
 				posthtml({
 					include: "../**/*.{html,sgr}"
 				})

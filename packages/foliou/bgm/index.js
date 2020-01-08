@@ -1,3 +1,8 @@
+/**
+    @author:pengzai
+    @blog:http://foliou.focusbe.com
+    @github:https://github.com/focusbe/foliou
+**/
 (function () {
 	function definFun($, DEVICE, PREFIX) {
 		var BgSound = function (option) {

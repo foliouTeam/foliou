@@ -1,4 +1,9 @@
 //获取js，css3浏览器前缀
+/**
+    @author:pengzai
+    @blog:http://foliou.focusbe.com
+    @github:https://github.com/focusbe/foliou
+**/
 (function() {
 	function Factory() {
 		var Login = function(...params) {
