@@ -59,7 +59,7 @@ class Build {
 							console.log(err);
 							return;
 						}
-						console.log((data = data.toString("utf-8")));
+						// console.log((data = data.toString("utf-8")));
 						tempfileData = data.replace("__Assets__", tempfileData);
 						Files.exists(null, path.resolve(assetsDir, "./.temp/"), function(src, dtc) {
 							var tempfile = path.resolve(assetsDir, "./.temp/rullup_temp.js");
@@ -144,7 +144,6 @@ class Build {
 			]
 		});
 		var format = input.indexOf(".temp") > -1 ? "cjs" : "umd";
-		console.log(format);
 		var outputOptions = {
 			file: output,
 			name: "index",

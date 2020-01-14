@@ -2,16 +2,23 @@ var pathname = window.location.pathname.replace("/", "").replace(".html", "");
 switch (pathname) {
 	case "bgm":
 		require("./bgm");
+		break;
 	case "animate":
 		require("./animate");
+		break;
 	case "player":
 		require("./player");
+		break;
 	case "popup":
 		require("./popup");
+		break;
 	case "visualizer":
 		require("./visualizer");
+		break;
 	case "swiper":
 		require("./swiper");
+		break;
+	case "horizons":
+		require("./horizons");
+		break;
 }
-// var gLogin = require("../../../packages/foliou/login");
-// var login = new gLogin({ type: "popup" });

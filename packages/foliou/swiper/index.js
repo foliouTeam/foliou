@@ -5,7 +5,7 @@
     @github:https://github.com/focusbe/foliou
 **/
 (function() {
-	var definFun = function definFun($, DEVICE, Touch) {
+	var definFun = function definFun($, DEVICE, Touch, Assets) {
 		if (typeof $ == "undefined") {
 			console.warn("请加载jquery");
 			return;
@@ -16,6 +16,7 @@
 		}
 		var Swiper = function Swiper(container, options) {
 			var self = this;
+			container = $(container);
 			var defaultoption = {
 				mode: "auto",
 				className: {
@@ -44,29 +45,21 @@
 			var options = $.extend({}, defaultoption, options);
 			var current = -1;
 			var total = 0;
-			var perwidth = 0;
+			var perDitance = 0;
 			var canslide = true;
 			var clock = null;
 			var docks;
-			var perHeight;
+			var areaWdith;
 			this.init = function() {
 				total = options.item.length;
 				if (total <= 1) {
 					return;
 				}
-				if (options.mode == "auto") {
-					if (options.direction == "vertical") {
-						perHeight = container.height();
-						options.item.css({
-							height: perHeight
-						});
-					} else {
-						perwidth = options.item.outerWidth();
-						options.item.not(options.item.eq(0)).css({
-							position: "absolute",
-							left: "-100%"
-						});
-					}
+
+				if (options.direction == "vertical") {
+					perDitance = options.item.outerHeight();
+				} else {
+					perDitance = options.item.outerWidth();
 				}
 
 				if (options.dock_wrap) {
@@ -84,6 +77,7 @@
 					options.dock_wrap.html(dock_wrap_html);
 					docks = options.dock_wrap.find("span");
 				}
+				self.resize();
 				self.bind();
 				self.autoPlay();
 				self.goto(options.start);
@@ -91,24 +85,26 @@
 			};
 			this.resize = function() {
 				if (options.direction == "vertical") {
-					perHeight = container.height();
-				} else {
-					// options.item.css({ height: 'auto' });
-					perwidth = options.item.outerWidth();
-					perHeight = options.item.outerHeight();
+					perDitance = options.item.outerHeight();
+					areaWdith = options.item.outerWidth();
 					options.item_list.css({
-						height: perHeight
+						height: perDitance
 					});
+
+				} else {
+					perDitance = options.item.outerHeight();
+					areaWdith = options.item.outerWidth();
 				}
-				options.item.css({
+				options.item_list.css({
 					height: perHeight
 				});
-				// options.item.not(options.item.eq(current)).css({left:'-100%'})
+				
 			};
 			this.goToNext = function() {
 				self.goto(current + 1);
 			};
 			this.goto = function(index, auto, direction) {
+				console.log(index);
 				if (!canslide) {
 					return;
 				}
@@ -161,39 +157,24 @@
 								}
 							}
 						}
+						var cssIndex = options.direction != "vertical" ? "left" : "top";
 
-						if (direction < 0) {
-							options.item.eq(index).css({
-								left: perwidth
+						var cssobj = {};
+						cssobj[cssIndex] = (-perDitance * direction) / Math.abs(direction);
+						options.item.eq(index).css(cssobj);
+						var nextLeft = perDitance * direction;
+						var finishLeft = -perDitance * direction;
+						var cssobj2 = {};
+						cssobj2[cssIndex] = 0;
+						options.item.eq(index).animate(cssobj2, options.time);
+						var cssobj3 = {};
+						cssobj3[cssIndex] = nextLeft;
+						options.item.eq(current).animate(cssobj3, options.time, function() {
+							$(this).css({
+								left: finishLeft
 							});
-							var nextLeft = -perwidth;
-							var finishLeft = perwidth;
-						} else {
-							options.item.eq(index).css({
-								left: -perwidth
-							});
-							var nextLeft = perwidth;
-							var finishLeft = -perwidth;
-						}
-
-						options.item.eq(index).animate(
-							{
-								left: 0
-							},
-							options.time
-						);
-						options.item.eq(current).animate(
-							{
-								left: nextLeft
-							},
-							options.time,
-							function() {
-								$(this).css({
-									left: finishLeft
-								});
-								callback();
-							}
-						);
+							callback();
+						});
 					} else if (options.animation == "fade") {
 						options.item.eq(index).css({
 							zIndex: 10,
@@ -333,25 +314,6 @@
 								isstart = false;
 							}
 						}
-						// var offset = {
-						//     x: delta.x - lastdelay.x,
-						//     y: delta.y - lastdelay.y
-						// };
-						// console.log(offset);
-						// if (options.direction == 'vertical') {
-						//     var willY = delta.y + curY;
-						//     var bili = 1 - willY / 300;
-						//     options.item_list.css3animate({
-						//         y: willY
-						//     }, 100, false);
-						// }
-						// else{
-						//     var willX = delta.x + curX;
-						//     options.item_list.css({
-						//         x: willX
-						//     }, 100, false);
-						// }
-						//lastdelay = delta;
 					},
 					end: function end(point) {
 						// curY = point.y + curY;
@@ -377,9 +339,9 @@
 
 	if (typeof exports === "object") {
 		// CommonJS
-		module.exports = definFun(require("jquery"), require("../device/index"), require("../touch/index"), require("./assets"));
+		module.exports = definFun(require("jquery"), require("../device/index"), require("../touch/index"), require("../utli/index"), require("./assets/index"));
 	} else if (typeof define === "function" && define.amd) {
 		// AMD
-		define(["jquery", "../device/index", "../touch/index"], definFun);
+		define(["jquery", "../device/index", "../touch/index", "../utli/index", "./assets/index"], definFun);
 	}
 })();

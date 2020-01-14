@@ -28,6 +28,7 @@ $(function() {
 		});
 	}
 	var poster = $(".poster");
+	// alert(1);
 	var visualizer = new Visualizer({
 		file: "./audios/bg.mp3",
 		onReady: function() {
