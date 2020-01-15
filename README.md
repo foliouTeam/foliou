@@ -24,8 +24,6 @@ Github：[https://github.com/focusbe/foliou](https://github.com/focusbe/foliou)
   * 自代弹窗播放功能
 * **foliou/touch —— 触摸事件组件**
   * 在开发的过程中有时会遇到，用鼠标拖动或者用手指滑动的需求，这个时候需要同时绑定mousedown 或和touchstart或者判断设备绑定相应的事件，为了简化代码，通过这个组件绑定事件，可以无需关心绑定mousedown还是touchstart，只需要关心事件的 start,mover,end;
-* **foliou/swiper —— 轮播**
-  * 同时支持移动端和PC端
 * **foliou/utli —— 常用的一些函数集**
   * 从当前url中获取参数
   * 在低版本浏览器实现Json.pare 和 Json.stringify
