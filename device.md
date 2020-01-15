@@ -2,15 +2,7 @@
 description: 设备与浏览器环境判断库
 ---
 
-# 浏览器判断
-
-
-
-## 演示
-
-{% embed url="http://foliou.focusbe.com/device.html" %}
-
-
+# 设备判断
 
 ## 功能
 
