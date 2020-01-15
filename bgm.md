@@ -34,7 +34,7 @@ bgm的初始化代码不要放在页面onload 触发之后，**不要放在requi
 
 ```javascript
 //这样在ios微信下会偶发自动播放失败
-requirejs(['jquery'],function(){
+requirejs(('jquery'),function(){
     var bgm = new BGM({
         file: "http://www.ztgame.com/act/30th/sound/bg.mp3"
     });

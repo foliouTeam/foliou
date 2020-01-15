@@ -1,4 +1,14 @@
-# 组件开发脚手架
+# 用Foliou开发组件
+
+## 用Foliou开发组件的优势
+
+* 支持在js中require css/scss/less文件
+* 支持js中 require html文件
+* 支持在 html 以相对路径引入图片
+* 支持在css 中以相对路径引入图片
+* 快速开发演示示例
+* 一键打包
+* 一键发布
 
 ## 需求是什么
 

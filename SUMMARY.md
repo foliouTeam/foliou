@@ -10,5 +10,5 @@
 * [设备判断](device.md)
 * [浏览器前缀](prefix.md)
 * [常用函数](utli.md)
-* [组件开发脚手架](think.md)
+* [用Foliou开发组件](think.md)
 
