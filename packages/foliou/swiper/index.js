@@ -73,6 +73,7 @@
 				addLoop();
 				resize();
 				bind();
+				setAuto();
 				// autoPlay();
 				// self.goto(options.start);
 				// judgeBtn(options.start);
@@ -133,12 +134,6 @@
 					}
 				}
 				if (options.dock_wrap) {
-					// options.dock_wrap.css({
-					// 	zIndex: 200,
-					// 	position: "absolute",
-					// 	bottom: 20,
-					// 	width: "100%"
-					// });
 					var dock_wrap_html = "";
 					for (var i = 0; i < total; i++) {
 						if (i == 0) {
@@ -151,6 +146,18 @@
 					docks = options.dock_wrap.find("span");
 				}
 			};
+			var setAuto = function(){
+				if(!options.autoPlay){
+					return;
+				}
+				if(!!clock){
+					clearInterval(clock);
+					clock = null;
+				}
+				clock = setInterval(function(){
+					self.goto(current+1);
+				}, options.autoDelayTime );
+			}
 			var resize = function() {
 				if (isVer) {
 					perDitance = options.item.outerHeight();
@@ -159,8 +166,8 @@
 						height: perDitance
 					});
 				} else {
-					perDitance = options.item.outerHeight();
-					areaWdith = options.item.outerWidth();
+					perDitance = options.item.outerWidth();
+					areaWdith = options.item.outerHeight();
 					options.item_list.css({
 						width: perDitance
 					});
@@ -178,7 +185,7 @@
 					{
 						x: -offset * perDitance
 					},
-					100,
+					200,
 					function() {
 						//console.log(-index * 100 + "%");
 						current = index % total;
@@ -285,6 +292,7 @@
 						// 	y: 0
 						// };
 						//oldVal = parseInt(options.item_list.css("left"));
+						setAuto();
 					},
 					move: function move(delta) {
 						if (!isstart) {
@@ -298,7 +306,7 @@
 							var y = (x - (x * x) / (2 * max)) / 6;
 							offset = y;
 						}
-
+						// setAuto();
 						// console.log(x, y);
 						// if(current==0){
 
@@ -314,6 +322,7 @@
 						}
 					},
 					end: function end(point) {
+						setAuto();
 						// curY = point.y + curY;
 						// curX = point.x + curX;
 						// Animate.to(

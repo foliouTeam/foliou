@@ -48,13 +48,25 @@
 			for (var i in css3unit) {
 				curArr = css3unit[i];
 				for (var j in curArr) {
-					if (new RegExp(curArr[j], "ig").test(str)) {
-						if (i == "no") {
-							returnUnit = "";
-						} else {
-							returnUnit = i;
+					if(curArr[j].indexOf('(')>-1){
+						if (str.match(new RegExp(curArr[j], "ig")) ) {
+							if (i == "no") {
+								returnUnit = "";
+							} else {
+								returnUnit = i;
+							}
+							return returnUnit;
 						}
-						return returnUnit;
+					}
+					else{
+						if(curArr[j]==str){
+							if (i == "no") {
+								returnUnit = "";
+							} else {
+								returnUnit = i;
+							}
+							return returnUnit;
+						}
 					}
 				}
 			}
@@ -336,6 +348,7 @@
 
 		function css3animate(element, styles, speed, easing, _callback2) {
 			element = Utli.query(element);
+	
 			if (!element || !styles) {
 				return;
 			}
