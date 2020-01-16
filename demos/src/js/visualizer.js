@@ -82,7 +82,7 @@ $(function() {
 				.addClass("pause")
 				.removeClass("playing");
 		},
-		onPlay() {
+		onPlay: function() {
 			$(".poster").addClass("mrotate");
 			$(".play_btn")
 				.removeClass("loading")

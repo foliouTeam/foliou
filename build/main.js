@@ -54,12 +54,15 @@ class Build {
 				// tempfileData += "export default assets;";
 				//console.log(tempfileData);
 				try {
-					fs.readFile(path.resolve(__dirname, "assetstmp.js"), function(err, data) {
+					fs.readFile(path.resolve(__dirname, "assetstmp.js"), "utf8", function(err, data) {
 						if (err) {
 							console.log(err);
 							return;
 						}
-						// console.log((data = data.toString("utf-8")));
+						if (!data) {
+							console.error("获取模板文件失败");
+							return;
+						}
 						tempfileData = data.replace("__Assets__", tempfileData);
 						Files.exists(null, path.resolve(assetsDir, "./.temp/"), function(src, dtc) {
 							var tempfile = path.resolve(assetsDir, "./.temp/rullup_temp.js");
@@ -98,10 +101,7 @@ class Build {
 						if (item.indexOf("node_modules") > -1) {
 							return true;
 						}
-						// console.log(j);
-						// console.log(item);
 						let indexFile = path.resolve(item, "index.js");
-						//console.log(path.relative(packageFolder, item).replace(/\\/g, "/"));
 						let outFile = path.resolve(__dirname, "../dist/", path.relative(packageFolder, item), "index.js");
 						var assetsDir = path.resolve(item, "assets");
 						fs.stat(assetsDir, function(err, st) {

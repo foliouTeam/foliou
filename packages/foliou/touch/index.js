@@ -29,13 +29,15 @@
 			};
 			this.bind = function() {
 				element.addEventListener(_startEvent, _self._startHandle, false);
-				element.addEventListener(_moveEvent, _self._moveHandle, false);
+				document.addEventListener(_moveEvent, _self._moveHandle, false);
 				element.addEventListener(_endEvent, _self._endHandle, false);
+				document.addEventListener(_endEvent, _self._endHandle, false);
 			};
 			this.unbind = function() {
 				element.removeEventListener(_startEvent, _self._startHandle, false);
-				element.removeEventListener(_moveEvent, _self._moveHandle, false);
+				document.removeEventListener(_moveEvent, _self._moveHandle, false);
 				element.removeEventListener(_endEvent, _self._endHandle, false);
+				document.removeEventListener(_endEvent, _self._endHandle, false);
 			};
 			this._startHandle = function(e) {
 				_isTouched = true;
@@ -100,6 +102,6 @@
 		define(["../device/"], definFun);
 	} else {
 		// Global Variables
-		window.Cookie = definFun();
+		window.Touch = definFun();
 	}
 })();
