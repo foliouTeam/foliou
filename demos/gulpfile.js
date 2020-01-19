@@ -81,7 +81,7 @@ var ztGulp = {
             });
         },
         buildcss: function() {
-            let filen = "",
+            var filen = "",
                 isless = false;
             //排除文件,排除lib，modules，node_modules,貌似暂时无效啊
             return (
@@ -90,7 +90,7 @@ var ztGulp = {
                     .pipe(
                         through.obj(function(file, enc, cb) {
                             isless = false;
-                            let type = path.extname(file.relative);
+                            var type = path.extname(file.relative);
                             //是单纯的css也经过sass处理
                             if (type == ".less") isless = true;
 
@@ -141,7 +141,7 @@ var ztGulp = {
             /////拷贝当前目录下的
             //let task1 = gulp.src(src + "/*.!(html|shtml)").pipe(gulp.dest(outpath));
             ///二级目录以上的
-            let task2 = gulp
+            var task2 = gulp
                 .src(src + "/**/!(lib|modules|node_modules|js|css|images|icons|api)/*.*")
                 .pipe(
                     through.obj(function(file, enc, cb) {

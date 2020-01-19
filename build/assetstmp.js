@@ -18,19 +18,19 @@ function relativeDir(dir1, dir2) {
 	return dir1Arr.join("/");
 }
 for (var i in assets) {
-	let format = i.split(".")[1];
+	var format = i.split(".")[1];
 	if (!format) {
 		continue;
 	}
 	if (format == "scss" || format == "css" || format == "html") {
-		let reg = /url\((.+)\)/gi;
-		let urlArr = assets[i].match(reg);
+		var reg = /url\((.+)\)/gi;
+		var urlArr = assets[i].match(reg);
 		for (var j in urlArr) {
-			let imgurl = urlArr[j].replace("url(", "").replace(")", "");
+			var imgurl = urlArr[j].replace("url(", "").replace(")", "");
 			if (imgurl.indexOf("//") > -1) {
 				continue;
 			}
-			let relativedir = relativeDir(i, imgurl);
+			var relativedir = relativeDir(i, imgurl);
 			if (!!assets[relativedir]) {
 				assets[i] = assets[i].replace(urlArr[j], "url(" + assets[relativedir] + ")");
 			}
@@ -40,11 +40,11 @@ for (var i in assets) {
 			urlArr = assets[i].match(reg);
 			for (var j in urlArr) {
 				var yinhao = urlArr[j].indexOf("'") > -1 ? "'" : '"';
-				let imgurl = urlArr[j].replace("src=", "").replace(/"|'/g, "");
+				var imgurl = urlArr[j].replace("src=", "").replace(/"|'/g, "");
 				if (imgurl.indexOf("//") > -1) {
 					continue;
 				}
-				let relativedir = relativeDir(i, imgurl);
+				var relativedir = relativeDir(i, imgurl);
 				if (!!assets[relativedir]) {
 					assets[i] = assets[i].replace(urlArr[j], "src=" + yinhao + assets[relativedir] + yinhao);
 				}

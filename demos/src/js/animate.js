@@ -3,7 +3,7 @@ var Animate = require("../../../packages/foliou/animate");
 
 var Visualizer = require("visualizer").default;
 console.log(Visualizer);
-let v = new Visualizer({
+var v = new Visualizer({
 	canvasElement: document.getElementById("myCanvas"),
 	musicElement: document.getElementById("myMusic")
 });

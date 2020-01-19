@@ -19,7 +19,7 @@ function to2Wei(num) {
 }
 $(function() {
 	for (var i = 0; i < 90; i++) {
-		let curjiaodu = $("<div><span></span></div>");
+		var curjiaodu = $("<div><span></span></div>");
 		$(".yinxiao").append(curjiaodu);
 		yuandian.push(curjiaodu[0]);
 		Animate.set(curjiaodu, {

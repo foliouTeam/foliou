@@ -101,8 +101,8 @@ class Build {
 						if (item.indexOf("node_modules") > -1) {
 							return true;
 						}
-						let indexFile = path.resolve(item, "index.js");
-						let outFile = path.resolve(__dirname, "../dist/", path.relative(packageFolder, item), "index.js");
+						var indexFile = path.resolve(item, "index.js");
+						var outFile = path.resolve(__dirname, "../dist/", path.relative(packageFolder, item), "index.js");
 						var assetsDir = path.resolve(item, "assets");
 						fs.stat(assetsDir, function(err, st) {
 							if (!err) {
