@@ -330,7 +330,7 @@
 					obj.stop()
 						.css({
 							zIndex: self.curZindex,
-							opacity: 0,
+							opacity: 1,
 							display: "block",
 							marginLeft: -obj.outerWidth() / 2 + "px",
 							marginTop: -obj.outerHeight() / 2 + "px"
@@ -398,6 +398,7 @@
 						scale: 0.5,
 						display: "block"
 					});
+					//console.log(obj);
 					Animate.to(
 						obj,
 						{
@@ -408,6 +409,7 @@
 						time,
 						"ease-in-out",
 						function() {
+							// alert(1);
 							callback();
 						}
 					);
