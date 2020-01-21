@@ -274,7 +274,7 @@
 					}
 
 					var downloadBtn = videocontainner.find(".Player_download_btn");
-					var downimg =  new Image();
+					var downimg = new Image();
 					downimg.src = Assets["icons/download.png"];
 					downloadBtn.append(downimg);
 					if (DEVICE.isWeixin) {
@@ -292,12 +292,28 @@
 						// 	.attr("target", "_blank")
 						// 	.attr("href", options.file);
 						var isDownloading = false;
-
+						var getDomain = function(url) {
+							var domain = url.split("/"); //以“/”进行分割
+							if (domain[2]) {
+								domain = domain[2];
+							} else {
+								domain = ""; //如果url不正确就取空
+							}
+							return domain;
+						};
 						downloadBtn.click(function() {
 							if (!!isDownloading) {
 								return;
 							}
-							isDownloading = true;
+							if (!!getDomain(options.file) && getDomain(window.location.href)) {
+								var url = options.file;
+								var a = document.createElement("a");
+								a.href = url;
+								a.download = name;
+								a.click();
+								return;
+							}
+							if (options.file) isDownloading = true;
 							var progressBar = videocontainner.find(".Player_Download_Progress");
 							if (progressBar.length == 0) {
 								videocontainner.append("<div class='Player_Download_Progress'>" + $("#Player_loading").html() + "</div>");
@@ -560,7 +576,7 @@
 						var startHandle = function startHandle(e) {
 							handertouched = true;
 							startx = e.originalEvent.pageX ? e.originalEvent.pageX : e.originalEvent.touches[0].clientX;
-							if(!!window.isXuanzhuan){
+							if (!!window.isXuanzhuan) {
 								startx = e.originalEvent.pageY ? e.originalEvent.pageY : e.originalEvent.touches[0].clientY;
 							}
 							videoElement.pause();
@@ -571,7 +587,7 @@
 							if (handertouched) {
 								//console.log(e.originalEvent);
 								curtouchx = e.originalEvent.pageX ? e.originalEvent.pageX : e.originalEvent.touches[0].clientX;
-								if(!!window.isXuanzhuan){
+								if (!!window.isXuanzhuan) {
 									curtouchx = e.originalEvent.pageY ? e.originalEvent.pageY : e.originalEvent.touches[0].clientY;
 								}
 								movetoucx = curtouchx - startx;
@@ -586,7 +602,7 @@
 							if (handertouched) {
 								//console.log(e.originalEvent);
 								curtouchx = e.originalEvent.pageX ? e.originalEvent.pageX : e.originalEvent.changedTouches[0].clientX;
-								if(!!window.isXuanzhuan){
+								if (!!window.isXuanzhuan) {
 									curtouchx = e.originalEvent.pageY ? e.originalEvent.pageY : e.originalEvent.changedTouches[0].clientY;
 								}
 								movetoucx = curtouchx - startx;
