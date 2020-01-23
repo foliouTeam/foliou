@@ -9,27 +9,24 @@
         "pre": "node build/install.js --script install"
     },
     "devDependencies": {
+        "@babel/core": "^7.6.4",
+		"@babel/plugin-transform-runtime": "^7.8.3",
+		"@babel/preset-env": "^7.8.3",
+		"@babel/runtime": "^7.8.3",
+		"@babel/runtime-corejs2": "^7.8.3",
+		"@babel/runtime-corejs3": "^7.8.3",
+        "@babel/register": "^7.8.3",
         "@rollup/plugin-image": "^2.0.1",
-        "babel-cli": "^6.26.0",
-        "babel-core": "^6.26.0",
-        "babel-node": "^0.0.1-security",
-        "babel-plugin-transform-object-assign": "^6.22.0",
-        "babel-plugin-transform-runtime": "^6.23.0",
-        "babel-preset-es2015": "^6.24.1",
-        "babel-preset-stage-0": "^6.24.1",
-        "babelify": "^8.0.0",
         "es6-promise": "^4.1.0",
         "event-stream": "^4.0.1",
         "iconv-lite": "^0.5.0",
         "jshint": "^2.9.5",
         "lerna": "^3.17.0",
         "node-sass": "^4.9.3",
-        "readline-ui": "^2.2.3",
         "rollup": "^1.27.13",
         "rollup-plugin-commonjs": "^10.1.0",
         "rollup-plugin-json": "^4.0.0",
         "rollup-plugin-postcss": "^2.0.3",
-        "rollup-plugin-posthtml-template": "^1.3.0",
-        "visualizer": "^1.0.1"
+        "rollup-plugin-posthtml-template": "^1.3.0"
     }
 }

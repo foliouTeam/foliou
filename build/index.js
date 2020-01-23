@@ -1,4 +1,4 @@
-require("babel-core/register");
+require("@babel/register");
 
 var Util = require("./lib/util");
 //console.log(Util.canshu);
