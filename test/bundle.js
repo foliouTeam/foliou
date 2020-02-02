@@ -1,13 +1,11 @@
 'use strict';
 
-var a = "aaaaa";
-var a_1 = { a };
+var a = require('./a');
+require('jquery');
 
-// import B from "./a";
-console.log(a_1);
-
-var test = {
-
+var B = function (params) {
+    console.log(a.a);
+    return params
 };
 
-module.exports = test;
+module.exports = B;

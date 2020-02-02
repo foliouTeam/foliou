@@ -3,159 +3,211 @@ var json = require("rollup-plugin-json");
 var postcss = require("rollup-plugin-postcss");
 var postimage = require("@rollup/plugin-image");
 var posthtml = require("rollup-plugin-posthtml-template");
-import commonjs from "rollup-plugin-commonjs";
-var fs = require("fs");
+var fs = require("fs-extra");
 var path = require("path");
 import Files from "./lib/files";
 class Build {
 	constructor() {
 		this.packageDir = "packages";
+		this.external = ['jquery'];
+		this.globals = { "jquery": '$' }
 		this.assetsType = ["css", "scss", "html", "json", "gif", "png", "jpg", "jpeg", "svg"];
+		this.clock = [];
+		this.start();
+	}
+	async clear() {
+		var distDidr = path.resolve(__dirname, '../dist');
+		await fs.emptyDir(distDidr);
+		console.log("清理完成");
+	}
+	async start() {
+		await this.clear();
+		let pluginsList = await this.getPlugins();
+		for (var i in pluginsList) {
+			let name = this.getPluginName(pluginsList[i]);
+			let pluginPath = "../" + name + "index.js";
+			this.external.push(pluginPath);
+			this.globals[pluginPath] = name;
+		}
+		for (var i in pluginsList) {
+			await this.buildPlugin(pluginsList[i]);
+			await this.watchPlugin(pluginsList[i]);
+		}
+		console.log("---打包成功---");
+	}
+	getPluginName(pluginDir) {
+		let arr = pluginDir.split(path.sep);
+		let name = arr[arr.length - 1];
+		return name;
 	}
 	watch(dirname, callback) {
-		var _self = this;
+		//监听目录变化
+		// var _self = this;
+		// console.log('watch', dirname);
+
 		fs.watch(
 			dirname,
 			{
 				recursive: true
 			},
-			function(eventType, filename) {
-				// console.log("文件发生变化");
-				// console.log(eventType);
-				// console.log(filename);
-				if (!filename || filename.indexOf("_temp") > -1 || filename == "index.js") {
-					return;
+			(eventType, filename) => {
+				// console.log(eventType, filename);
+
+				if (!!callback) {
+					if (!!this.clock[filename]) {
+						clearTimeout(this.clock[filename]);
+						this.clock[filename] = null;
+					}
+					this.clock[filename] = setTimeout(() => {
+						callback(filename);
+					}, 200);
 				}
-				_self.createTempFile(dirname);
 			}
 		);
-	}
-	createTempFile(assetsDir, cb) {
-		var _self = this;
-		Files.getFiles(assetsDir)
-			.then(function(filelist) {
-				var tempfileData = "var assets = {};\n";
-				var extname;
-				var relname;
-				var valname;
-				for (var fileIndex in filelist) {
-					extname = path.extname(filelist[fileIndex]).replace(".", "");
 
-					relname = path.relative(assetsDir, filelist[fileIndex]);
-					valname = relname
-						.replace(".", "_")
-						.replace("\\", "_")
-						.replace("/", "_");
-					if (relname != "rullup_temp.js" && _self.assetsType.indexOf(extname) > -1) {
-						tempfileData += "import " + valname + ' from "../' + relname.replace("\\", "/") + '";\nassets["' + relname.replace("\\", "/") + '"]=' + valname + ";\n";
-					}
-				}
-
-				// tempfileData += "export default assets;";
-				//console.log(tempfileData);
-				try {
-					fs.readFile(path.resolve(__dirname, "assetstmp.js"), "utf8", function(err, data) {
-						if (err) {
-							console.log(err);
-							return;
-						}
-						if (!data) {
-							console.error("获取模板文件失败");
-							return;
-						}
-						tempfileData = data.replace("__Assets__", tempfileData);
-						Files.exists(null, path.resolve(assetsDir, "./.temp/"), function(src, dtc) {
-							var tempfile = path.resolve(assetsDir, "./.temp/rullup_temp.js");
-							var outputfile = path.resolve(assetsDir, "./index.js");
-							fs.writeFile(tempfile, tempfileData, function(err) {
-								if (!!err) {
-									console.log(err);
-									if (typeof cb == "function") {
-										cb(false);
-									}
-								} else {
-									console.log("写入" + tempfile);
-									_self.build(tempfile, outputfile, cb);
-								}
-							});
-						});
-					});
-				} catch (error) {
-					console.log(error);
-					if (typeof cb == "function") {
-						cb(false);
-					}
-				}
-			})
-			.catch(function(err) {
-				console.log(err);
-			});
 	}
-	async getAssets() {
-		var _self = this;
+	async createAssetsFile(pluginDir) {
+		//生成资源文件js
+		var assetsDir = path.resolve(pluginDir, './assets/');
+		let stat = await fs.stat(pluginDir);
+		if (!stat.isDirectory()) {
+			console.error("组件" + pluginDir + "不存在");
+			return false;
+		}
+		try {
+			let assetStat = await fs.stat(assetsDir);
+		}
+		catch (err) {
+			return true;
+		}
+		let filelist = await Files.getFiles(assetsDir);
+		var tempfileData = "var assets = {};\n";
+		for (var fileIndex in filelist) {
+			let extname = path.extname(filelist[fileIndex]).replace(".", "");
+			let relname = path.relative(assetsDir, filelist[fileIndex]);
+			let valname = relname
+				.replace(".", "_")
+				.replace("\\", "_")
+				.replace("/", "_");
+			if (relname != "rullup_temp.js" && this.assetsType.indexOf(extname) > -1) {
+				tempfileData += "import " + valname + ' from "../' + relname.replace("\\", "/") + '";\nassets["' + relname.replace("\\", "/") + '"]=' + valname + ";\n";
+			}
+		}
+		try {
+			var tplContent = await fs.readFile(path.resolve(__dirname, "assetstpl.js"), "utf8");
+			if (!!tplContent) {
+				tempfileData = tplContent.replace("__Assets__", tempfileData);
+
+				var tempfile = path.resolve(assetsDir, "./.temp/rullup_temp.js");
+				await Files.createDir(tempfile);
+				var err = await fs.writeFile(tempfile, tempfileData);
+				if (!err) {
+					var outputfile = path.resolve(assetsDir, "./index.js");
+					var res = await this.build(tempfile, outputfile, "assets", 'esm');
+					console.log("组件" + pluginDir + "资源打包成功");
+					return res;
+				}
+				else {
+					console.error("写入文件" + tempfile + "失败");
+					return false;
+				}
+			}
+			else {
+				console.error("获取资源文件模板内容为空");
+				return false;
+			}
+
+		} catch (error) {
+			//console.log(error);
+			console.error('获取资源文件模板失败');
+			return false;
+		}
+	}
+	async getPlugins() {
 		var packageFolder = path.resolve(__dirname, "../packages/");
-		Files.getDirs(packageFolder, function(dirs) {
-			dirs.forEach((element, i) => {
-				Files.getDirs(element, function(items) {
-					items.forEach((item, j) => {
-						if (item.indexOf("node_modules") > -1) {
-							return true;
-						}
-						var indexFile = path.resolve(item, "index.js");
-						var outFile = path.resolve(__dirname, "../dist/", path.relative(packageFolder, item), "index.js");
-						var assetsDir = path.resolve(item, "assets");
-						fs.stat(assetsDir, function(err, st) {
-							if (!err) {
-								if (st.isDirectory()) {
-									// console.log(assetsDir + "有资源");
-									_self.watch(assetsDir);
-									_self.createTempFile(assetsDir, function() {
-										// console.log('临时资源');
-										// _self.build(indexFile, outFile);
-									});
-								}
-							} else {
-								//console.log(err);
-								//console.log('没有资源');
-								//_self.build(, , cb);
-								// _self.build(indexFile, outFile);
-							}
-						});
-					});
-				});
-			});
-		});
+		var packageList = await Files.getDirs(packageFolder);
+		var pluginsList = [];
+		for (var i in packageList) {
+			if (packageList[i].indexOf('node_modules') > -1) {
+				continue;
+			}
+			let plugins = await Files.getDirs(packageList[i]);
+			for (var j in plugins) {
+				let pluginPath = path.resolve(packageList[i], plugins[j]);
+				if (pluginPath.indexOf('node_modules') > -1) {
+					continue;
+				}
+				pluginsList.push(pluginPath);
+			}
+		}
+		return pluginsList;
 	}
-	async build(input, output, cb) {
-		const bundle = await rollup.rollup({
-			input: input,
-			plugins: [
-				// commonjs({
-				// 	exclude: "node_modules/**"
-				// }),
-				postimage(),
-				json(),
-				postcss({
-					inject: false
-				}),
-				posthtml({
-					include: "../**/*.{html,sgr}"
-				})
-			]
-		});
-		var format = input.indexOf(".temp") > -1 ? "cjs" : "umd";
-		var outputOptions = {
-			file: output,
-			name: "index",
-			format: format
-		};
-		const { code, map } = await bundle.generate(outputOptions);
-		// or write the bundle to disk
-		await bundle.write(outputOptions);
-		if (typeof cb == "function") {
-			await cb(true);
+	async buildPlugin(pluginDir) {
+		var res = await this.createAssetsFile(pluginDir);
+		if (!!res) {
+			let packageFolder = path.resolve(__dirname, "../packages/");
+			let mainFile = path.resolve(pluginDir, './index.js');
+			let arr = pluginDir.split(path.sep);
+			let name = arr[arr.length - 1];
+			let outFile = path.resolve(__dirname, "../dist/", path.relative(packageFolder, pluginDir), "index.js");
+			res = await this.build(mainFile, outFile, name, "umd");
+			console.log("组件" + pluginDir + '打包成功');
+		}
+		return res;
+	}
+	watchPlugin(pluginDir) {
+		//console.log('watchplugins' + pluginDir);
+		this.watch(pluginDir, (filename) => {
+			//console.log(filename);
+			if (!filename || filename.indexOf("_temp") > -1 || filename == "assets" + path.sep + "index.js") {
+				return;
+			}
+			this.buildPlugin(pluginDir);
+		})
+	}
+
+	async build(input, output, name, format) {
+		try {
+			const bundle = await rollup.rollup({
+				input: input,
+				plugins: [
+					// commonjs({
+					// 	exclude: "node_modules/**"
+					// }),
+					postimage(),
+					json(),
+					postcss({
+						inject: false
+					}),
+
+					posthtml({
+						include: "../**/*.{html,sgr}"
+					})
+				],
+				external: this.external
+			});
+			if (!format) {
+				format = input.indexOf(".temp") > -1 ? "esm" : "umd";
+			}
+			var outputOptions = {
+				file: output,
+				name: name,
+				globals: this.globals,
+				format: format
+			};
+			var res = await bundle.write(outputOptions);
+			if (!res) {
+				console.log("写入文件" + output + "失败");
+				//console.error(err);
+			}
+			return !!res;
+		}
+		catch (err) {
+			console.error("构建文件" + input + "失败");
+			//console.error(err)
+			return false;
 		}
 	}
 }
 var build = new Build();
-build.getAssets();
+// build.getAssets();
