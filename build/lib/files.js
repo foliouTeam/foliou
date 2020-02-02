@@ -42,32 +42,7 @@ class Files {
             }
         }
         return folderList;
-        // fs.readdir(src, function (err, paths) {
-        //     var filestlist = new Array();
-        //     var i = 0;
-        //     paths.forEach(function (curpath, j) {
-        //         // console.log(src);
-        //         // console.log(curpath);
-        //         var _src = path.resolve(src, curpath);
-        //         var readable;
-        //         var writable;
-        //         fs.stat(_src, function (err, st) {
-        //             if (err) {
-        //                 return;
-        //             }
-        //             if (st.isDirectory()) {
-        //                 filestlist.push(_src);
-        //             }
-        //             if (j == paths.length - 1) {
-        //                 callback(filestlist);
-        //             }
-        //         });
-        //     });
-        //     if (paths.length == 0) {
-        //         callback(filestlist);
-        //     }
-        // });
-        // return filestlist;
+        
     }
     static travelSync(dir) {
         var pool = new Map();

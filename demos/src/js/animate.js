@@ -1,15 +1,8 @@
 // var $ = require("jquery");
-var Animate = require("../../../packages/foliou/animate");
-
-var Visualizer = require("visualizer").default;
-console.log(Visualizer);
-var v = new Visualizer({
-	canvasElement: document.getElementById("myCanvas"),
-	musicElement: document.getElementById("myMusic")
+import Animate from "../../../packages/foliou/animate";
+requirejs(['foliou/animate/index'], function (Animate) {
+	console.log(Animate);
 });
-v.draw();
-
-
 Animate.to(
 	".div1",
 	{
@@ -17,7 +10,7 @@ Animate.to(
 		x: 100,
 		marginTop: 100
 	},
-	function() {
+	function () {
 		Animate.set(".div1", {
 			width: 100,
 			x: 0
@@ -27,7 +20,7 @@ Animate.to(
 			{
 				height: "200px"
 			},
-			function() {
+			function () {
 				// Animate.keyframe.run(".div1", "move1", function() {
 				// 	alert("end");
 				// });

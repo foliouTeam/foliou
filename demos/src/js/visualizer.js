@@ -1,4 +1,4 @@
-var Visualizer = require("../../../packages/foliou/visualizer");
+import Visualizer from "../../../packages/foliou/visualizer";
 var $ = require("jquery");
 var Animate = require("../../../packages/foliou/animate");
 var voiceHeight;

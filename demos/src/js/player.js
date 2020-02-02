@@ -1,7 +1,7 @@
 var $ = require("jquery");
-var player = require("../../../packages/foliou/player");
+import player from "../../../packages/foliou/player";
 // console.log(player);
-$(function() {
+$(function () {
 	var mplayer = new player({
 		file: "./videos/xinpv-157294526565.mp4",
 		width: "100%",
@@ -11,7 +11,7 @@ $(function() {
 		download: "xinpv.mp4",
 		mobile: {}
 	});
-	$(".play_btn").click(function() {
+	$(".play_btn").click(function () {
 		mplayer.play();
 	});
 	//

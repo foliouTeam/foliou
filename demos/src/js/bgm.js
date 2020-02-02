@@ -1,22 +1,22 @@
-var BGM = require("../../../packages/foliou/bgm");
+import BGM from "../../../packages/foliou/bgm";
 var $ = require("jquery");
 var bgm = new BGM({
 	file: "http://www.ztgame.com/act/30th/sound/bg.mp3",
-	onpause: function() {
+	onpause: function () {
 		//alert("pause");
 	},
-	onplay: function() {
+	onplay: function () {
 		//alert("play");
 	}
-	
+
 
 });
-$(function() {
-	$(".pause_btn").click(function() {
+$(function () {
+	$(".pause_btn").click(function () {
 		bgm.pause();
 	});
-	$(".resume_btn").click(function() {
+	$(".resume_btn").click(function () {
 		bgm.play();
-    });
-    
+	});
+
 });
