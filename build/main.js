@@ -3,7 +3,8 @@ var json = require("rollup-plugin-json");
 var postcss = require("rollup-plugin-postcss");
 var postimage = require("@rollup/plugin-image");
 var posthtml = require("rollup-plugin-posthtml-template");
-import { uglify } from "rollup-plugin-uglify";
+
+import minify from 'rollup-plugin-babel-minify';
 var fs = require("fs-extra");
 var path = require("path");
 import Files from "./lib/files";
@@ -154,7 +155,7 @@ class Build {
 			res = await this.build(mainFile, outFile, name, "umd");
 			let demosDist = path.resolve(__dirname, "../demos/src/libs/", path.relative(packageFolder, pluginDir), "index.js");
 			await fs.copy(outFile, demosDist);
-			//console.log("组件" + pluginDir + '打包成功');
+			console.log("组件" + pluginDir + '打包成功');
 		}
 		return res;
 	}
@@ -184,7 +185,8 @@ class Build {
 					}),
 					posthtml({
 						include: "../**/*.{html,sgr}"
-					})
+					}),
+					minify()
 				],
 				external: this.external
 			});
