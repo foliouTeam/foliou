@@ -1,4 +1,5 @@
 var pathname = window.location.pathname.replace("/", "").replace(".html", "");
+console.log(pathname);
 switch (pathname) {
 	case "bgm":
 		require("./bgm");

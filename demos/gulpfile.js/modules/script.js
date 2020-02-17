@@ -6,7 +6,7 @@ const fse = require("fs-extra");
 const argv = require("yargs").argv;
 const babelify = require("babelify");
 const tsify = require("tsify");
-const source = require("vinyl-source-stream");
+const rename = require("gulp-rename");
 const reload = require("./server").reload;
 //console.log(browserSync);
 // browserSync.reload();
@@ -38,7 +38,7 @@ function script() {
 			]
 		})
 		.bundle() //合并打包
-		.pipe(source("bundle.js"))
+		.pipe(rename({ extname: '.js' }))
 		.pipe(dest(config.dist + "js/"))
 		.pipe(reload({ stream: true }));
 }

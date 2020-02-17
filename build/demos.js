@@ -4,9 +4,9 @@ const chalk = require("chalk");
 function main() {
     runSh("npm run build", function (event, data) {
         if (event == "close") {
-            console.log(chalk.bgRed("[BUILD]: 退出"));
+            console.log(chalk.bgGreen("[BUILD]: 退出"));
         } else {
-            console.log(chalk.bgRed("[BUILD]:") + data);
+            console.log(chalk.bgGreen("[BUILD]:") + data);
         }
     });
     runSh("npm run dev", './demos', function (event, data) {

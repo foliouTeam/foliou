@@ -8,8 +8,6 @@ var bgm = new BGM({
 	onplay: function () {
 		//alert("play");
 	}
-
-
 });
 $(function () {
 	$(".pause_btn").click(function () {

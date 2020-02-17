@@ -1,7 +1,6 @@
 const config = require("../config");
 const { src, dest, watch } = require("gulp");
 const htmlmin = require("gulp-htmlmin");
-
 const replace = require("gulp-replace");
 const reload = require("./server").reload;
 async function html() {
@@ -12,7 +11,7 @@ async function html() {
 			})
 		)
 		.pipe(
-			replace(/(src|href)=('|")(\S+)('|")/gi, function (...param) {
+			replace(/(src|href)=('|")([^('|")]+)('|")/gi, function (...param) {
 				if (param[1] == "href" && param[3].indexOf(".") == -1) {
 
 					return param[0];
@@ -34,6 +33,7 @@ async function html() {
 				}
 
 				let imgurl = param[0];
+			
 				if (param[3].indexOf("?") == -1) {
 					imgurl = imgurl.replace(param[3], realurl + "?v=" + version);
 				}
