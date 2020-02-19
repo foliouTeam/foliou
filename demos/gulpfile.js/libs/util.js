@@ -14,10 +14,13 @@ var Util = {
             let content = fs.readFileSync(file, 'utf8');
             // console.log(content);
             if (!!content) {
-                let requireReg = new RegExp(/(=\s?require\()|(import\s+(.+?)\s+from\s+(.+))/igs);
-                var res = content.search(requireReg);
+                let requireReg = new RegExp(/([^a-z0-9-_]?require\()|(import\s+(.+?)\s+from\s+(.+))/igs);
+                let definReg = new RegExp(/[^a-z0-9-_]?define\(/);
+                var hasDefine = content.search(definReg) > -1;
+                var hasRequire = content.search(requireReg) > -1;
                 // console.log(res);
-                return res > -1;
+                // console.log(hasRequire);
+                return !hasDefine && hasRequire;
             }
             return false;
         } catch (error) {
