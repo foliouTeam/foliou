@@ -1,10 +1,9 @@
 import Visualizer from "../../../packages/foliou/visualizer";
 var $ = require("jquery");
-var Animate = require("../../../packages/foliou/animate");
+import Animate from "../../../packages/foliou/animate";
 var voiceHeight;
 var count = 600;
 var yuandian = [];
-
 function toSec(seconds) {
 	var time = parseInt(seconds);
 	var min = parseInt(time / 60);

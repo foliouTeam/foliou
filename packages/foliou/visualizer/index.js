@@ -4,7 +4,7 @@
     @blog:http://foliou.focusbe.com
     @github:https://github.com/focusbe/foliou
 **/
-
+import Device from "../device/index";
 function Visualizer(options) {
 	window.AudioContext = window.AudioContext || window.webkitAudioContext;
 	if (!window.AudioContext) {
@@ -207,4 +207,4 @@ function Visualizer(options) {
 	}
 	init();
 }
-export { Visualizer };
+export default Visualizer;

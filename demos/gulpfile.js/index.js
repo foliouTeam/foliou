@@ -10,9 +10,9 @@ var copyglob = [`${config.src}**/*.*`];
 var pkgglob = `!${config.src}**/*.{`;
 for (var i in global.pkgFiles) {
 	for (var j in global.pkgFiles[i]) {
-		if (global.pkgFiles[i][j] == '.js') {
-			continue;
-		}
+		// if (global.pkgFiles[i][j] == '.js') {
+		// 	continue;
+		// }
 		pkgglob += global.pkgFiles[i][j].replace('.', '') + ',';
 	}
 }

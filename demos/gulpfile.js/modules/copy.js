@@ -9,7 +9,6 @@ function copy() {
         if (Utli.isEntrySync(curentry)) {
             copyglob.push(`!${config.src}${global.entries[i]}`);
         }
-
     }
     return src(copyglob)
         .pipe(dest(config.dist));

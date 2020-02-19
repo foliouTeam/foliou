@@ -3,6 +3,7 @@ var pathname = window.location.pathname.replace("/", "").replace(".html", "");
 switch (pathname) {
 	case "bgm":
 		require("./bgm");
+		
 		break;
 	case "animate":
 		require("./animate");

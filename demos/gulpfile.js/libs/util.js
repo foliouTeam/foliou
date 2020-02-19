@@ -35,8 +35,10 @@ var Util = {
             return filePath;
         }
         var allPath = config.src + filePath;
+        if (global.entries.indexOf(filePath) == -1) {
+            global.entries.push(filePath);
+        }
 
-        global.entries.push(filePath);
         filePath = filePath.replace(extname, '.js');
         return filePath;
     },
@@ -47,7 +49,10 @@ var Util = {
             return filePath;
         }
         //var allPath = config.src + filePath;
-        global.cssFiles.push(filePath);
+        if (global.cssFiles.indexOf(filePath) == -1) {
+            global.cssFiles.push(filePath);
+        }
+
         filePath = filePath.replace(extname, ".css");
         return filePath;
     },

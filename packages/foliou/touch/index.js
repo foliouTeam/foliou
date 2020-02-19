@@ -3,7 +3,7 @@
     @blog:http://foliou.focusbe.com
     @github:https://github.com/focusbe/foliou
 **/
-
+import DEVICE from "../device/index";
 var Touch = function (element, callbacks) {
 	var startPosition, delta, endPosition;
 	var _self = this;
