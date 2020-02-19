@@ -2,45 +2,86 @@
 const config = require("../config");
 const { dest } = require("gulp");
 const browserify = require("browserify");
-const fse = require("fs-extra");
+const fs = require("fs-extra");
 const argv = require("yargs").argv;
 const babelify = require("babelify");
 const tsify = require("tsify");
-const rename = require("gulp-rename");
+const source = require("vinyl-source-stream");
 const reload = require("./server").reload;
+const path = require("path");
+const merge = require("merge-stream");
+const Utli = require("../libs/util");
+var uglify = require('gulp-uglify');
+var buffer = require('vinyl-buffer');
+var gulpif = require('gulp-if');
 //console.log(browserSync);
 // browserSync.reload();
 var DEBUG = argv._ == "dev";
-function script() {
-	//以 js/main.js 或 js/main.ts为入口打包 js文件
-	let entry = config.src + "/js/main.ts";
-	let stat = fse.existsSync(entry);
-	if (!stat) {
-		entry = config.src + "/js/main.js";
-	}
-	return browserify({
-		entries: [entry],
-		debug: DEBUG
-	})
-		.plugin(tsify) //添加对typescript的支持
-		.transform(babelify, {
-			//此处babel的各配置项格式与.babelrc文件相同
-			presets: [
-				"@babel/preset-env" //转换es6代码
-			],
-			plugins: [
-				[
-					"@babel/plugin-transform-runtime",
-					{
-						corejs: 2
-					}
+function script(cb) {
+	var entries = global.entries;
+	var tasks = [];
+	//console.log(entries);
+
+	entries.map((entry, key) => {
+		let entryAllPath = config.src + entry;
+		// console.log(entryAllPath);
+		// console.log(fs.existsSync(entryAllPath));
+		if (!Utli.isEntrySync(entryAllPath)) {
+			return true;
+		}
+		let extname = path.extname(entry);
+		let filename = entry.split('/');
+		filename = filename[filename.length - 1];
+		filename = filename.split('.')[0] + '.js';
+		var curTask = browserify({
+			entries: entryAllPath,
+			debug: DEBUG,
+			cache: {},
+			packageCache: {}
+		});
+		if (extname == ".ts") {
+			curTask = curTask.plugin(tsify)
+				.on('file', function (file, id, parent) {
+					var filename = path.basename(file);
+					//console.log("TypeScript:正在加载" + filename);
+				})
+		}
+		curTask = curTask
+			.transform(babelify, {
+				//此处babel的各配置项格式与.babelrc文件相同
+				presets: [
+					"@babel/preset-env" //转换es6代码
+				],
+				plugins: [
+					[
+						"@babel/plugin-transform-runtime",
+						{
+							corejs: 2
+						}
+					]
 				]
-			]
-		})
-		.bundle() //合并打包
-		.pipe(rename({ extname: '.js' }))
-		.pipe(dest(config.dist + "js/"))
-		.pipe(reload({ stream: true }));
+			})
+			.on('bundle', function (bundle) {
+				//console.log(bundle);
+			})
+			.bundle() //合并打包
+			.on('error', function (error) { console.error(error.toString()); })
+			.pipe(source(filename))
+			.pipe(buffer())
+			.pipe(gulpif(!DEBUG, uglify()))
+			.pipe(dest(config.dist + Utli.toVersionUrl(path.dirname(entry.replace(config.src, '')))))
+			.pipe(reload({ stream: true }));
+		//console.log(tasks);
+		tasks.push(curTask);
+	});
+	//console.log(tasks);
+	// console.log(tasks);
+	if (tasks.length == 0) {
+		//console.log('空');
+		cb();
+		return false;
+	}
+	return merge(...tasks);
 }
 
 module.exports = script;

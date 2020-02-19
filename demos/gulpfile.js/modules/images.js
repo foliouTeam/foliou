@@ -8,6 +8,7 @@ const path = require("path");
 const low = require("lowdb");
 const FileSync = require("lowdb/adapters/FileSync");
 const cachePath = path.resolve(__dirname, "../cache");
+const Utli = require("../libs/util");
 if (!fse.existsSync(cachePath)) {
 	fse.mkdirSync(cachePath);
 }
@@ -15,6 +16,9 @@ const adapter = new FileSync(path.resolve(__dirname, "../cache/db.json"));
 const db = low(adapter);
 db.defaults({ images: [] }).write();
 const reload = require("./server").reload;
+// const readline = require("readline");
+const ProgressBar = require("../libs/progress");
+var progressBar = new ProgressBar();
 function images(cb2) {
 	let total = 0;
 	let loaded = 0;
@@ -22,11 +26,16 @@ function images(cb2) {
 		through.obj(function (file, enc, cb) {
 			cb();
 			total++;
-			let outPath = path.resolve(file.base, "../", config.dist, file.relative);
+			let outPath = path.resolve(file.base, "../", config.dist, path.dirname(Utli.toVersionUrl(file.relative)), path.basename(file.relative));
 			function checkLoaded() {
 				function isEnd() {
 					loaded++;
-					//process.stdout.write("#", "utf-8");
+					progressBar.render({
+						description: "图片压缩",
+						completed: loaded,
+						total: total
+					});
+					// console.log(parseInt(loaded / total * 100));
 					if (loaded >= total) {
 						reload();
 						cb2();

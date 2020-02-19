@@ -41,13 +41,29 @@ module.exports = {
 	start: async function () {
 		var issetHost = await setHost();
 		var proxyArr = [];
+		var actGames = ["balls"];
 		if (!!config.actname && !!config.game) {
-			var devLink = "http://" + config.game + ".web.ztgame.com/act/" + config.actname;
+			var devLink;
+			// console.log(actGames.indexOf(config.game));
+			if (actGames.indexOf(config.game) == -1) {
+				devLink = "http://" + config.game + ".web.ztgame.com/act/" + config.actname;
+			}
+			else {
+				devLink = "http://act." + config.game + ".web.ztgame.com/" + config.actname;
+			}
 			var proxyOptions = {
 				target: devLink,
 				changeOrigin: true
 			};
-			proxyArr.push(proxy(["*.php", "api/**"], proxyOptions));
+			proxyArr.push(proxy(["/*.php", "/api/**"], proxyOptions));
+			for (var i in config.proxy) {
+				if (!config.proxy[i]['path'] || config.proxy[i]['target']) {
+					continue;
+				}
+				proxyArr.push(proxy(config.proxy[i]['path'], {
+					target: config.proxy[i]['target']
+				}));
+			}
 		}
 		bs.init({
 			server: "./dist",

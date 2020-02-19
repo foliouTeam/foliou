@@ -12,14 +12,13 @@ async function clearCdn() {
 	} else {
 		acturl = `http://${config.game}.ztgame.com/site/act/${config.actname}`;package
 	}
-	console.log(acturl);
 	return await new Promise((resolve, reject) => {
 		request.post({ url: apiUrl, formData: { type: 0, content: acturl } }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				var res = JSON.parse(body);
 				if (res.ret == 0) {
 					
-					console.log("清除成功");
+					console.log("清除CDN缓存成功");
 					resolve(true);
 				} else {
 					console.log(res.msg);
@@ -27,7 +26,7 @@ async function clearCdn() {
 				}
 			}
 			else{
-				console.log("网络请求失败");
+				console.log("清除CDN缓存失败");
 				resolve(false);
 			}
 		});

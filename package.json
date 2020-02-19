@@ -6,7 +6,7 @@
         "build": "node build/index.js --script main",
         "publish": "lerna publish",
         "demos": "node build/index.js --script demos",
-        "pre": "node build/instmain.js --script install"
+        "pre": "node build/index.js --script install"
     },
     "devDependencies": {
         "@babel/core": "^7.6.4",
