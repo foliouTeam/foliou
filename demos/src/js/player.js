@@ -1,5 +1,5 @@
 var $ = require("jquery");
-import player from "../../../packages/foliou/player";
+import player from "foliou/player";
 // console.log(player);
 $(function () {
 	var mplayer = new player({

@@ -11,8 +11,8 @@ import Files from "./lib/files";
 class Build {
 	constructor() {
 		this.packageDir = "packages";
-		this.external = ['jquery'];
-		this.globals = { "jquery": '$' }
+		// this.external = ['jquery'];
+		// this.globals = { "jquery": '$' }
 		this.assetsType = ["css", "scss", "html", "json", "gif", "png", "jpg", "jpeg", "svg"];
 		this.clock = [];
 		this.start();
@@ -28,8 +28,8 @@ class Build {
 		for (var i in pluginsList) {
 			let name = this.getPluginName(pluginsList[i]);
 			let pluginPath = "../" + name + "index.js";
-			this.external.push(pluginPath);
-			this.globals[pluginPath] = name;
+			// this.external.push(pluginPath);
+			// this.globals[pluginPath] = name;
 		}
 		for (var i in pluginsList) {
 			await this.buildPlugin(pluginsList[i]);
@@ -139,24 +139,32 @@ class Build {
 				if (pluginPath.indexOf('node_modules') > -1) {
 					continue;
 				}
-				pluginsList.push(pluginPath);
+				let entryFile = path.resolve(pluginPath, "index.js");
+				try {
+					if (!!fs.statSync(entryFile)) {
+						pluginsList.push(pluginPath);
+					}
+				} catch (error) {
+					continue
+				}
 			}
 		}
 		return pluginsList;
 	}
 	async buildPlugin(pluginDir) {
-		var res = await this.createAssetsFile(pluginDir);
-		if (!!res) {
-			let packageFolder = path.resolve(__dirname, "../packages/");
-			let mainFile = path.resolve(pluginDir, './index.js');
-			let arr = pluginDir.split(path.sep);
-			let name = arr[arr.length - 1];
-			let outFile = path.resolve(__dirname, "../dist/", path.relative(packageFolder, pluginDir), "index.js");
-			res = await this.build(mainFile, outFile, name, "umd");
-			let demosDist = path.resolve(__dirname, "../demos/src/libs/", path.relative(packageFolder, pluginDir), "index.js");
-			await fs.copy(outFile, demosDist);
-			console.log("组件" + pluginDir + '打包成功');
-		}
+		// var res = await this.createAssetsFile(pluginDir);
+		// if (!!res) {
+		let packageFolder = path.resolve(__dirname, "../packages/");
+		let mainFile = path.resolve(pluginDir, './index.js');
+		let arr = pluginDir.split(path.sep);
+		let name = arr[arr.length - 1];
+		let outFile = path.resolve(pluginDir, "../dist", path.basename(pluginDir), "index.js");
+		// console.log(outFile);
+		let res = await this.build(mainFile, outFile, name, "esm");
+		// let demosDist = path.resolve(__dirname, "../demos/src/libs/", path.relative(packageFolder, pluginDir), "index.js");
+		//await fs.copy(outFile, demosDist);
+		console.log("组件" + pluginDir + '打包成功');
+		// }
 		return res;
 	}
 	watchPlugin(pluginDir) {
@@ -169,7 +177,27 @@ class Build {
 			this.buildPlugin(pluginDir);
 		})
 	}
-
+	isExternal(filename, pluginFile) {
+		let extname = path.extname(filename);
+		if (!filename || !pluginFile) {
+			return false;
+		}
+		// console.log(filename, pluginFile);
+		if (!!extname && extname != '.js') {
+			// console.log(extname);
+			return false;
+		}
+		if (filename.indexOf("/") == -1) {
+			return true;
+		}
+		if (filename[0] == '/' || filename.indexOf(":") > -1) {
+			filename = path.relative(path.dirname(pluginFile), filename)
+		}
+		if (filename.indexOf("../") > -1) {
+			return true;
+		}
+		return false;
+	}
 	async build(input, output, name, format) {
 		try {
 			const bundle = await rollup.rollup({
@@ -188,7 +216,7 @@ class Build {
 					}),
 					minify()
 				],
-				external: this.external
+				external: this.isExternal
 			});
 			if (!format) {
 				format = input.indexOf(".temp") > -1 ? "esm" : "umd";
@@ -196,7 +224,7 @@ class Build {
 			var outputOptions = {
 				file: output,
 				name: name,
-				globals: this.globals,
+
 				format: format
 			};
 			var res = await bundle.write(outputOptions);

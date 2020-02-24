@@ -3,7 +3,9 @@ import $ from "jquery";
 import Popup from "../popup/index";
 import DEVICE from "../device/index";
 import PREFIX from "../prefix/index";
-import Assets from "./assets/index";
+import DownloadPng from "./assets/icons/download.png"
+import html5_tpl from "./assets/html/html5.html";
+import closeIcon from "./assets/icons/close.jpg";
 //Do setup work here
 //获取前缀
 //检测是否支持flash
@@ -198,7 +200,7 @@ function Player(container, options, videoindex) {
 			gaplyer_template.setAttribute("id", "Player_template");
 			var body = document.getElementsByTagName("body")[0];
 			body.appendChild(gaplyer_template);
-			$(gaplyer_template).append($(Assets["html/html5.html"]));
+			$(gaplyer_template).append($(html5_tpl));
 			// $(".Player_download_btn")
 		}
 		var videocontainner = $("#Player_template .Player_container").prop("outerHTML");
@@ -240,7 +242,7 @@ function Player(container, options, videoindex) {
 
 			var downloadBtn = videocontainner.find(".Player_download_btn");
 			var downimg = new Image();
-			downimg.src = Assets["icons/download.png"];
+			downimg.src = DownloadPng;
 			downloadBtn.append(downimg);
 			if (DEVICE.isWeixin) {
 				downloadBtn.click(function () {
@@ -283,7 +285,7 @@ function Player(container, options, videoindex) {
 					if (progressBar.length == 0) {
 						videocontainner.append("<div class='Player_Download_Progress'>" + $("#Player_loading").html() + "</div>");
 						progressBar = videocontainner.find(".Player_Download_Progress");
-						progressBar.append("<img src='" + Assets["icons/download.png"] + "'/ >");
+						progressBar.append("<img src='" + DownloadPng + "'/ >");
 					}
 					var svgPath = progressBar.find(".Play_Loading_Progress_path");
 
@@ -1207,7 +1209,7 @@ function pcPopupVideo(options) {
 
 	if ($(".POPUP-Player").length < 1) {
 		var closebtnbg;
-		closebtnbg = Assets["icons/close.jpg"];
+		closebtnbg = closeIcon;
 		popupobj = '<div class="POPUP-Player" style="display:none;background:#000;"><a style="width:50px;height:50px;background:url(' + closebtnbg + ') no-repeat center;position:absolute;top:0;right:-50px;display:block;" class="POPUP-Player-CLOSE close" href="javascript:void(0)"></a><div id="POPUP-Player-CONTAINER"></div></div>';
 		popupobj = $(popupobj);
 		$("body").append(popupobj);

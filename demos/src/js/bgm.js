@@ -1,4 +1,4 @@
-import BGM from "../../../packages/foliou/bgm";
+import BGM from "foliou/bgm/index";
 var $ = require("jquery");
 var bgm = new BGM({
 	file: "http://www.ztgame.com/act/30th/sound/bg.mp3",

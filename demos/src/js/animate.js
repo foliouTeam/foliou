@@ -1,5 +1,5 @@
 // var $ = require("jquery");
-import Animate from "../../../packages/foliou/animate";
+import Animate from "foliou/animate/index";
 requirejs(['foliou/animate/index'], function (Animate) {
 	Animate.to(
 		".div1",

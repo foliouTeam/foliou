@@ -14,9 +14,16 @@ const Utli = require("../libs/util");
 var uglify = require('gulp-uglify');
 var buffer = require('vinyl-buffer');
 var gulpif = require('gulp-if');
+const aliasify = require("aliasify");
 //console.log(browserSync);
 // browserSync.reload();
 var DEBUG = argv._ == "dev";
+aliasifyConfig = {
+	replacements: {
+		"foliou/(.*)": "../packages/foliou/_dist/$1"
+	},
+	verbose: false
+}
 function script(cb) {
 	var entries = global.entries;
 	var tasks = [];
@@ -47,6 +54,7 @@ function script(cb) {
 				})
 		}
 		curTask = curTask
+
 			.transform(babelify, {
 				//此处babel的各配置项格式与.babelrc文件相同
 				presets: [
@@ -61,6 +69,7 @@ function script(cb) {
 					]
 				]
 			})
+			.transform(aliasify, aliasifyConfig)
 			.on('bundle', function (bundle) {
 				//console.log(bundle);
 			})

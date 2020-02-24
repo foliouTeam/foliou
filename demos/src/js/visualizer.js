@@ -1,6 +1,6 @@
-import Visualizer from "../../../packages/foliou/visualizer";
+import Visualizer from "foliou/visualizer";
 var $ = require("jquery");
-import Animate from "../../../packages/foliou/animate";
+import Animate from "foliou/animate";
 var voiceHeight;
 var count = 600;
 var yuandian = [];
