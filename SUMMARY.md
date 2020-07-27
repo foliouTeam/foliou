@@ -11,4 +11,5 @@
 * [浏览器前缀](prefix.md)
 * [常用函数](utli.md)
 * [用Foliou开发组件](think.md)
+* [Touch](touch.md)
 
